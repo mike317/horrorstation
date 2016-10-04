@@ -297,38 +297,56 @@ obj/structure/ex_act(severity)
 				message_addendum = "You have no idea of how to scale the [src]. It is very complex to your tiny brain."
 
 
-
 		if (isitem(m))
+			m.anchored = 1
 			visible_message("<span style = \"color:red\">[override_msg]</span>")
 			sleep(user_scale_time)
 			if (prob(fail_chance))
 				visible_message("<span style = \"color:red\">The [m] hits the wall and falls off.</span>")
+				m.anchored = 0
 				return
 			else
 				m.set_loc(src.loc)
+				switch (m.dir)
+					if (NORTH)
+						m.y++
+					if (SOUTH)
+						m.y--
+					if (EAST)
+						m.x++
+					if (WEST)
+						m.x--
+				m.anchored = 0
 				return
 
 		if (m == user)
 			user.visible_message("<span style = \"color:red\">[user] starts to scale [src].</span>", "<span style = \"color:red\">You start to scale the [src]. [message_addendum]</span>")
+			user.anchored = 1
 			sleep (user_scale_time)
 			if (locate(user) in range(1, src))
 				if (prob(fail_chance))
 					user.visible_message("<span style = \"color:red\">[user] falls off of the [src]!</span>", "<span style = \"color:red\">You fall off of the [src]!</span>")
+					user.anchored = 0
 					if (ishuman(user))
 						var/mob/living/carbon/human/H = user
 						H.TakeDamage("All", rand(1,3))
 						H.weakened += 5
 						H.stunned += 5
 						return
+				user.anchored = 0
 				user.set_loc(src.loc)
 				user.visible_message("<span style = \"color:red\">[user] scales [src].</span>", "<span style = \"color:red\">You scale [src].</span>")
 				scaled |= user
+			else
+				user.anchored = 0
 		else
+			m.anchored = 1
 			user.visible_message("<span style = \"color:red\">[user] starts to push [m] over [src]!</span>", "<span style = \"color:red\">You start to push [m] over [src]!</span>")
 			sleep (user_scale_time/rand(2,3))
 			user.visible_message("<span style = \"color:red\">[user] pushes [m] over [src]!</span>", "<span style = \"color:red\">You push [m] over [src]!</span>")
 			m.set_loc(src.loc)
 			scaled |= m
+			m.anchored = 0
 
 	proc/checkhealth()
 		if(src.health <= 30)

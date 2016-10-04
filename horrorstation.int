@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475545830
-DIR: code code\datums code\datums\abilities code\datums\buildmodes code\datums\chemistry code\datums\gamemodes icons icons\Testing icons\Testing\newicons 
+LAST_COMPILE_TIME: 1475554466
+DIR: code code\datums code\datums\abilities code\datums\buildmodes code\datums\chemistry code\datums\critter_mobs code\datums\critter_mobs\health code\datums\gamemodes code\obj icons icons\Testing icons\Testing\newicons 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\datums\chemistry\Reagents-FoodDrink.dm;code\turf.dm
-FILE: code\turf.dm
+WINDOW: code\datums\chemistry\Reagents-FoodDrink.dm;code\turf.dm;code\datums\critter_mobs\health\structure.dm;code\obj\structure.dm
+FILE: code\obj\structure.dm
 */
 // END_INTERNALS
