@@ -126,9 +126,14 @@ datum
 					if (H.will_starve_in_deciseconds == -1)
 						H.will_starve_in_deciseconds = rand(3000,6000)
 
+					var/was_starve_in_deciseconds = H.will_starve_in_deciseconds
+
 					H.will_starve_in_deciseconds += rand(14, 24)
 
 					H.will_starve_in_deciseconds = min(H.will_starve_in_deciseconds, 6000)
+
+					if (H.will_starve_in_deciseconds >= 3000 && was_starve_in_deciseconds < 3000)
+						boutput(H, "<span style = \"color:green\">You feel full now.</span>")
 
 					H.starve()
 
