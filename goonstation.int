@@ -1,0 +1,19 @@
+// BEGIN_INTERNALS
+/*
+LAST_COMPILE_TIME: 1475544745
+DIR: browserassets browserassets\css browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\images\chui browserassets\images\chui\themes browserassets\images\genetics code code\datums code\datums\abilities code\datums\abilities\xenomorph code\datums\buildmodes code\datums\buildmodes\adventure code\datums\buildmodes\adventure\elements code\datums\chemistry code\datums\chemistry\tools code\datums\critter_mobs code\datums\critter_mobs\health code\datums\diseases code\datums\gamemodes code\mob code\mob\dead code\obj code\obj\item code\obj\item\food code\obj\item\storage code\obj\machinery code\obj\machinery\door code\obj\submachine code\procs code\WorkInProgress data data\player_saves data\player_saves\x icons icons\Dizor icons\mob icons\obj icons\obj\foodNdrink icons\tg-goon-xenos sound sound\vox 
+PACKAGE_RSC_NAME: C:\Users\krisc\Desktop\My stuff\My Projects\newxenos\goonstation\goonstation_rsc.zip
+AUTO_FILE_DIR: OFF
+PACKAGE_DMB_INFO: 
+MAP_ICON_TYPE: 0
+PACKAGE_DME_NAME: C:\Users\krisc\Desktop\My stuff\My Projects\newxenos\goonstation\goonstation_src.zip
+LAST_COMPILE_VERSION: 510.1347
+PACKAGE_TYPE: 0
+PACKAGE_DME_START: 
+WINDOW: code\datums\chemistry\Reagents-FoodDrink.dm;code\datums\disease.dm;code\mob\suicide.dm;code\datums\diseases\parasites.dm;code\obj\window.dm;code\obj\structure.dm;code\mob.dm;code\mob\dead\observer.dm;code\datums\gamemodes\xeno.dm;code\procs\jobprocs.dm;code\obj\item\food\ingredients.dm
+PACKAGE_DME_INFO: 
+FILE: code\datums\chemistry\Reagents-FoodDrink.dm
+PACKAGE_DMB_NAME: C:\Users\krisc\Desktop\My stuff\My Projects\newxenos\goonstation\goonstation.zip
+PACKAGE_DME_DEMO: 
+*/
+// END_INTERNALS

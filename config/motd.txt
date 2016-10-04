@@ -1,0 +1,10 @@
+<h1>This is a modified Gooncode server, based on the <b>Alien</b> gamemode. The goal is to survive an entire round. We are currently in early alpha, and a public github will be up soon.</h1>
+<br><br>
+The discord channel for this server is <b>https://discord.gg/xAjJtPW</b>
+<br>
+If no admins are online and you need assistance, please send a message
+on #adminhelp
+<br><br>
+Please send any donations to <b>https://www.paypal.me/KrisCherven</b>
+<br>
+I can promise you that the server will be up whenever possible, but only if we receive <b>at least</b> $18 a month in donations. Every dollar is helpful, so please consider supporting the server.

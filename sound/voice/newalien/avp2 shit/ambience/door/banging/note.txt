@@ -1,0 +1,2 @@
+These could play if an alien tries to open a welded/bolted
+door. Or human in the case of metknock

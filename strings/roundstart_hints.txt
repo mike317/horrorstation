@@ -1,0 +1,8 @@
+You can suplex most aliens. Not Queens or Praetorians, though. Do this by grabbing them and emoting *flip.
+Aliens have the following emotes: *roar, *snarl, and *hiss.
+Aliens can eat monkeys or other critters for an extra plasma boost, plus faster healing for a bit.
+If you scream on the station, chances are that someone, or something, heard it.
+Attacking a monkey in a group of monkeys is a generally a bad idea.
+Items that involve fire are good for driving away Xenomorphs.
+All aliens except Queens and Praetorians can ventcrawl.
+Aliens can eat the remains of their host(gibs and organs) for extra plasma. This transfers to their next evolution as well.

@@ -1,0 +1,10 @@
+BANADDRESS 104.156.224.84
+BANCHECK somenumber
+BANADD somenumber
+BANEDIT somenumber
+BANDEL somenumber
+BANADDEXCEPTION somenumber
+BANDEBUG somenumber
+BANUPDATELOCAL somenumber
+BANUPDATEREMOTE somenumber
+BANPARITY somenumber

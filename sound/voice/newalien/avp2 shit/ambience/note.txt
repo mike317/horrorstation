@@ -1,0 +1,2 @@
+Most of these are loopable. You might have to edit them
+in audacity if you want them to cut off quietly though.
