@@ -196,13 +196,13 @@ var/global/client/ff_debugger = null
 
 /turf/space/Enter(mob/m)
 
-	if (ishuman(m))
+	if (ishuman(m) && !isAlien(m))
 		var/mob/living/carbon/human/H = m
 		for (var/datum/ailment_data/am in H.ailments)
 			if (istype(am.master, /datum/ailment/parasite/alien_larva))
 				boutput(H, "You can't muster the willpower to go there. Something is preventing you from doing it.")
-				return
-	..(m)
+				return 0
+	return 1
 	/*
 /turf/seafloor
 	icon = 'ocean.dmi'
