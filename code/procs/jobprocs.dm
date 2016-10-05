@@ -321,6 +321,7 @@
 
 					src.equip_if_possible(new X(src), slot_in_backpack)
 				else
+					src.equip_if_possible(new/obj/item/crowbar/survivor_crowbar, slot_in_backpack)
 
 	if (JOB.slot_jump)
 		src.equip_if_possible(new JOB.slot_jump(src), slot_w_uniform)
