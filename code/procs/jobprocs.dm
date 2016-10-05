@@ -317,7 +317,10 @@
 		src.equip_if_possible(new JOB.slot_back(src), slot_back)
 		if (JOB.items_in_backpack.len && istype(src.back, /obj/item/storage))
 			for (var/X in JOB.items_in_backpack)
-				src.equip_if_possible(new X(src), slot_in_backpack)
+				if (ALIENMODE && !istype(X, /obj/item/crowbar))
+
+					src.equip_if_possible(new X(src), slot_in_backpack)
+				else
 
 	if (JOB.slot_jump)
 		src.equip_if_possible(new JOB.slot_jump(src), slot_w_uniform)

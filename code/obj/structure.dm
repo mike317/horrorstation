@@ -244,8 +244,6 @@ obj/structure/ex_act(severity)
 		var/user_climb_time = 100
 		var/fail_chance = 50
 		var/override_msg = ""
-		var/span_style = "<span style = \"color:red\"><b>"
-		var/span_end = "</span></b>"
 
 		if (!isitem(m) && !ismob(m))
 			return
