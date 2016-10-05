@@ -1,4 +1,4 @@
-<h1>This is a modified Gooncode server, based on the <b>Alien</b> gamemode. The goal is to survive an entire round. We are currently in early alpha, and a public github will be up soon.</h1>
+<h1>Welcome to Horror Station 13. This is a server centered around the Alien game mode.</h1>
 <br><br>
 The discord channel for this server is <b>https://discord.gg/xAjJtPW</b>
 <br>
@@ -8,3 +8,7 @@ on #adminhelp
 Please send any donations to <b>https://www.paypal.me/KrisCherven</b>
 <br>
 I can promise you that the server will be up whenever possible, but only if we receive <b>at least</b> $18 a month in donations. Every dollar is helpful, so please consider supporting the server.
+<br><br>
+If you wish to contribute to the server's code/map/icons, check out our Github: https://github.com/Cherkir/horrorstation
+<br>
+All commits will be accepted so long as they are a: well made and b: fit with the HS13 theme. No tajarans, please.

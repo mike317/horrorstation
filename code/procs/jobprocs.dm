@@ -424,6 +424,7 @@
 
 /mob/living/carbon/human/proc/warehouse_spawn()
 
+	var/initial_spawn = 0
 
 	if (istype(ticker.mode, /datum/game_mode/xeno) && !ticker.mode:handled_warehouse_culling)
 
@@ -449,6 +450,7 @@
 
 		ticker.mode:handled_warehouse_culling = 1
 
+		initial_spawn = 1
 //	for (var/mob/m in readied_players or something)
 //
 //	if (mobcount < 10)
@@ -500,9 +502,9 @@
 		goto back
 
 
-	alien_mode_spawn_stuff(central_spawn_loc)
+	alien_mode_spawn_stuff(central_spawn_loc, initial_spawn)
 
-/mob/living/carbon/human/proc/alien_mode_spawn_stuff(var/group = 0)
+/mob/living/carbon/human/proc/alien_mode_spawn_stuff(var/group = 0, var/init_spawn = 0)
 	if (isAlien(src))
 		return 0//no
 	var/next_turf = null
@@ -598,23 +600,32 @@
 	if (prob(35))
 		new/obj/item/kitchen/utensil/knife(next_turf)
 
-	var/max_v = rand(20, 30)
+	if (init_spawn)
+		var/max_v = rand(20, 30)
 
-	for (var/v = 1, v <= max_v, v++)
-		if (prob(80))
-			var/wherethewoodat = pick("clutter", "plank")
-			if (wherethewoodat == "clutter")
-				var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-				if (!istype(o.loc, /turf/floor/simulated))
-					qdel(o)
-			else
-				var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-				if (!istype(o.loc, /turf/floor/simulated))
-					qdel(o)
+		for (var/v = 1, v <= max_v, v++)
+			if (prob(80))
+				var/wherethewoodat = pick("clutter", "plank")
+				if (wherethewoodat == "clutter")
+					var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+					if (!istype(o.loc, /turf/floor/simulated))
+						qdel(o)
+				else
+					var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+					if (!istype(o.loc, /turf/floor/simulated))
+						qdel(o)
 
 	for (var/v = 1, v <= 10, v++)
 		if (prob(80))
 			new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(next_turf)
+
+	for (var/v = 1, v <= 10, v++)
+		if (prob(80))
+			new/obj/item/reagent_containers/patch/synthflesh(next_turf)
+		if (prob(60))
+			new/obj/item/reagent_containers/patch/mini/bruise(next_turf)
+		if (prob(40))
+			new/obj/item/reagent_containers/patch/mini/burn(next_turf)
 
 	if (!group)
 		if (another_turf && !welding_tank_or_barrel)

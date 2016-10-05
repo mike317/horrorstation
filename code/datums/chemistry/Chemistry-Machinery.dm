@@ -273,6 +273,11 @@
 
 	New()
 		UnsubscribeProcess()
+		if (noticker() && prob(70) && ALIENMODE)
+			if (prob(50))
+				stat |= BROKEN
+			else
+				stat |= NOPOWER
 
 	attackby(var/obj/item/reagent_containers/glass/B as obj, var/mob/user as mob)
 		if (!istype(B, glass_path) || B.incompatible_with_chem_dispensers == 1)

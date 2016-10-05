@@ -3149,6 +3149,8 @@
 	if (!M || !src) //Apparently M could be a meatcube and this causes HELLA runtimes.
 		return
 
+
+
 	if (isAlien(M) && isAlien(src))//fukkin teamkillers
 		return 0
 
@@ -3163,6 +3165,11 @@
 	if (!ticker)
 		boutput(M, "You cannot interact with other people before the game has started.")
 		return
+
+	if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
+		if (prob(15))
+			src.death()
+			return
 
 	actions.interrupt(src, INTERRUPT_ATTACKED)
 
@@ -6708,8 +6715,6 @@
 	..()
 
 	if (M.a_intent in list(INTENT_HARM,INTENT_DISARM,INTENT_GRAB))
-		if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
-			src.death()
 		src.was_harmed(M)
 
 /mob/living/carbon/human/attackby(obj/item/W, mob/M)
@@ -6790,6 +6795,10 @@
 					return 0
 			return src.attack_hand(M)
 
+	if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
+		if (prob(W.force * 5))
+			src.death()
+			return
 
 	var/tmp/oldbloss = get_brute_damage()
 	var/tmp/oldfloss = get_burn_damage()
@@ -6800,8 +6809,6 @@
 		reagents.physical_shock((newbloss - oldbloss) * 0.15)
 	if ((damage > 0) || W.force)
 		src.was_harmed(M, W)
-		if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
-			src.death()
 
 /mob/living/carbon/human/understands_language(var/langname)
 	if (mutantrace)

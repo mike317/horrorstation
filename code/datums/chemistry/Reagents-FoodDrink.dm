@@ -43,6 +43,8 @@ proc/spawn_edible_critters()
 			if (death_chance < 50)
 				death_chance = 50
 
+		death_chance += health/5
+
 		for (var/datum/ailment_data/am in src.ailments)
 			if (istype(am.master, /datum/ailment/parasite/alien_larva))
 				if (prob(death_chance))
@@ -126,14 +128,9 @@ datum
 					if (H.will_starve_in_deciseconds == -1)
 						H.will_starve_in_deciseconds = rand(3000,6000)
 
-					var/was_starve_in_deciseconds = H.will_starve_in_deciseconds
-
 					H.will_starve_in_deciseconds += rand(14, 24)
 
 					H.will_starve_in_deciseconds = min(H.will_starve_in_deciseconds, 6000)
-
-					if (H.will_starve_in_deciseconds >= 3000 && was_starve_in_deciseconds < 3000)
-						boutput(H, "<span style = \"color:green\">You feel full now.</span>")
 
 					H.starve()
 

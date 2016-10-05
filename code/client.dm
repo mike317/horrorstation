@@ -739,9 +739,9 @@ var/global/curr_day = null
 			*/
 
 			if (ishuman(src.mob) && !isAlien(src.mob) && src.weed_delay)
-				if (prob(5))
+				if (prob(30))
 					boutput(src.mob, "<span style = \"color:red\"><b>You get stuck in the weeds!</span></b>")
-					src.mob.paralysis += rand(5,10)
+					return 0
 
 			if(istype (src.mob, /mob/living/carbon/human/))
 				var/mob/living/carbon/human/H = src.mob

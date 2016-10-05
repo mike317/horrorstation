@@ -1,14 +1,14 @@
 
 
-Starting up. 17:29.34
+Starting up. 05:41.49
 ---------------------
 
-[17:29:38] ADMIN: Loading jobban_rank
-[17:29:38] ADMIN: Jobban_keylist was empty
-[17:29:38] ADMIN: Updating jobbanfile!
-[17:29:38] ADMIN: Loading oocban_rank
-[17:29:38] ADMIN: oocban_keylist was empty
-[17:29:38] ADMIN: Updating jobbanfile!
+[05:41:54] ADMIN: Loading jobban_rank
+[05:41:54] ADMIN: Jobban_keylist was empty
+[05:41:54] ADMIN: Updating jobbanfile!
+[05:41:54] ADMIN: Loading oocban_rank
+[05:41:54] ADMIN: oocban_keylist was empty
+[05:41:54] ADMIN: Updating jobbanfile!
 ADMIN: furrychicken = Host
 ADMIN: cherkir = Host
 ADMIN: jasonvorheese = Primary Administrator
@@ -16,80 +16,72 @@ ADMIN: minimeatwad = Primary Administrator
 ADMIN: xenosandboxthesecond = Primary Administrator
 ADMIN: exbod = Secondary Administrator
 ADMIN: zenek123 = Secondary Administrator
-[17:29:53] ACCESS: Login: Furry Chicken from 
-[17:51:27] ACCESS: Login: Furry Chicken from 
-[17:54:16] ACCESS: Login: space bear (Furry Chicken) from 
-[17:54:20] ADMIN: space bear (Furry Chicken) has made space bear (Furry Chicken) a human.
-[17:54:27] ADMIN: space bear (Furry Chicken) has made space bear (Furry Chicken) a human.
-[17:54:30] ADMIN: space bear (Furry Chicken) has made space bear (Furry Chicken) a human.
-[17:54:31] ADMIN: space bear (Furry Chicken) has made space bear (Furry Chicken) a human.
-[17:54:37] ACCESS: Login: Txmdouky the Destroyer (Furry Chicken) from 
-[17:54:39] ADMIN: Txmdouky the Destroyer (Furry Chicken) [TRAITOR] removed the antagonist status of Txmdouky the Destroyer (Furry Chicken) [TRAITOR].
-
-
-Starting up. 19:52.21
----------------------
-
-[19:52:26] ADMIN: Loading jobban_rank
-[19:52:26] ADMIN: Jobban_keylist was empty
-[19:52:26] ADMIN: Updating jobbanfile!
-[19:52:26] ADMIN: Loading oocban_rank
-[19:52:26] ADMIN: oocban_keylist was empty
-[19:52:26] ADMIN: Updating jobbanfile!
-ADMIN: furrychicken = Host
-ADMIN: cherkir = Host
-ADMIN: jasonvorheese = Primary Administrator
-ADMIN: minimeatwad = Primary Administrator
-ADMIN: xenosandboxthesecond = Primary Administrator
-ADMIN: exbod = Secondary Administrator
-ADMIN: zenek123 = Secondary Administrator
-[19:52:49] ACCESS: Login: Furry Chicken from 
-[19:53:51] ACCESS: Login: Furry Chicken from 
-[19:53:56] ADMIN: Pavel Havel (Furry Chicken) [DEAD] has started the game.
-[19:54:10] ACCESS: Login: Mxolrru the Tyrant (Furry Chicken) from 
-[19:54:12] ADMIN: Mxolrru the Tyrant (Furry Chicken) [TRAITOR] removed the antagonist status of Mxolrru the Tyrant (Furry Chicken) [TRAITOR].
-[19:54:37] ACCESS: Login: Furry Chicken from 
-[19:54:39] SAY: maetzo Maenn (Furry Chicken) : *scream
-[19:55:34] ADMIN: maetzo Maenn (Furry Chicken) opened the create_object panel
-[19:55:42] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/workbench
-[19:56:33] ADMIN: maetzo Maenn (Furry Chicken) opened the create_object panel
-[19:56:39] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/item/crowbar
-[19:56:47] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/item/raw_material/shard/glass
-[19:57:08] SAY: maetzo Maenn (Furry Chicken) : *scream
-[19:58:34] ADMIN: maetzo Maenn (Furry Chicken) opened the create_object panel
-[19:58:41] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/item/cable_coil
-[19:59:11] SAY: maetzo Maenn (Furry Chicken) : *scream
-[19:59:12] SAY: maetzo Maenn (Furry Chicken) : *scream
-[19:59:50] SAY: maetzo Maenn (Furry Chicken) : *scream
-[20:03:08] ADMIN: maetzo Maenn (Furry Chicken) opened the create_object panel
-[20:03:13] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/item/wirecutters
-[20:03:19] ADMIN: maetzo Maenn (Furry Chicken) created a /obj/item/electronics/battery
-
-
-Starting up. 20:16.05
----------------------
-
-[20:16:10] ADMIN: Loading jobban_rank
-[20:16:10] ADMIN: Jobban_keylist was empty
-[20:16:10] ADMIN: Updating jobbanfile!
-[20:16:10] ADMIN: Loading oocban_rank
-[20:16:10] ADMIN: oocban_keylist was empty
-[20:16:10] ADMIN: Updating jobbanfile!
-ADMIN: furrychicken = Host
-ADMIN: cherkir = Host
-ADMIN: jasonvorheese = Primary Administrator
-ADMIN: minimeatwad = Primary Administrator
-ADMIN: xenosandboxthesecond = Primary Administrator
-ADMIN: exbod = Secondary Administrator
-ADMIN: zenek123 = Secondary Administrator
-[20:16:30] ACCESS: Login: Furry Chicken from 
-[20:19:13] ACCESS: Login: Furry Chicken from 
-[20:19:27] ADMIN: Pavel Havel (Furry Chicken) [DEAD] has started the game.
-[20:19:29] ACCESS: Login: Furry Chicken from 
-[20:19:31] SAY: maecho men (Furry Chicken) : *scream
-[20:19:35] ADMIN: maecho men (Furry Chicken) opened the create_object panel
-[20:19:43] ADMIN: maecho men (Furry Chicken) created a /obj/workbench
-[20:19:54] ADMIN: maecho men (Furry Chicken) opened the create_object panel
-[20:20:05] ADMIN: maecho men (Furry Chicken) created a /obj/item/electronics/batteryassembly
-[20:20:11] ADMIN: maecho men (Furry Chicken) created a /obj/item/crowbar
-[20:20:29] SAY: maecho men (Furry Chicken) : *scream
+[05:42:13] ACCESS: Login: WarlordToby from 188.238.67.115
+[06:02:45] ACCESS: Login: KpeMeHb123 from 37.21.152.8
+[06:03:27] ACCESS: Login: KpeMeHb123 from 37.21.152.8
+[06:14:53] ACCESS: Login: Keofox from 176.115.150.109
+[06:15:17] ACCESS: Login: Keofox from 176.115.150.109
+[06:17:29] ACCESS: Login: Snek99 from 79.174.48.238
+[06:21:45] ACCESS: Login: Mcgriggles from 100.2.165.19
+[06:25:51] ACCESS: Login: Mcgriggles from 100.2.165.19
+[06:26:50] ACCESS: Login: Narciss_f from 91.79.134.246
+[06:27:27] ACCESS: Login: Narciss_f from 91.79.134.246
+[06:28:42] ADMIN: Clement Kiefer (Narciss_f) used adminwho and saw 0 admins.
+[06:28:42] ADMIN: Clement Kiefer (Narciss_f) used adminwho and saw 0 admins.
+[06:39:44] ACCESS: Login: Moggilazz from 185.54.179.99
+[06:40:30] ACCESS: Login: Moggilazz from 185.54.179.99
+[07:33:18] ACCESS: Login: Masina from 5.165.233.182
+[07:52:27] ACCESS: Login: Ghost_Stalin from 93.78.199.141
+[07:52:50] ACCESS: Login: Ghost_Stalin from 93.78.199.141
+[08:02:59] ACCESS: Login: November13 from 95.52.170.156
+[08:03:48] ACCESS: Login: November13 from 95.52.170.156
+[08:25:13] ACCESS: Login: Brunoeusoloco from 143.0.212.80
+[08:36:19] ACCESS: Login: Serg_0369 from 31.10.78.249
+[08:36:20] ACCESS: Login: UglyAbyss9 from 50.90.97.173
+[08:43:14] ACCESS: Login: Peramaca from 201.76.124.5
+[08:47:10] ACCESS: Login: Peramaca from 201.76.124.5
+[08:48:49] OOC: Peramaca : eae
+[08:52:45] ACCESS: Login: Rainbow Slave from 188.232.184.80
+[08:54:49] ACCESS: Login: Lezus_Konrad from 86.18.159.239
+[08:55:13] ACCESS: Login: Liparelli21 from 186.204.58.48
+[08:56:45] OOC: Liparelli21 : hello?
+[09:04:06] ACCESS: Login: Colm11 from 86.40.244.214
+[09:15:30] ACCESS: Login: Brunoeusoloco from 143.0.212.80
+[09:15:40] ACCESS: Login: ArthurEpicoBR from 179.125.51.102
+[09:19:05] ACCESS: Login: C3guern from 201.25.2.66
+[09:19:22] OOC: ArthurEpicoBR : be ready
+[09:19:51] OOC: ArthurEpicoBR : please
+[09:20:23] OOC: ArthurEpicoBR : please press ready
+[09:20:53] OOC: ArthurEpicoBR : BE READY YOUR FUCKER
+[09:21:03] OOC: ArthurEpicoBR : C3GUERN FICAP RONTO!
+[09:21:09] OOC: ArthurEpicoBR : get ready!
+[09:22:32] OOC: ArthurEpicoBR : declare ready
+[09:22:49] OOC: ArthurEpicoBR : pizzajailson
+[09:23:19] OOC: ArthurEpicoBR : get fucking ready bitch
+[09:23:56] OOC: ArthurEpicoBR : be READY!
+[09:24:01] OOC: ArthurEpicoBR : C3GUENR
+[09:24:15] AHELP: ArthurEpicoBR HELP: admins that guy dont be ready to me play !
+[09:27:04] ACCESS: Login: ArthurEpicoBR from 179.125.51.102
+[09:28:01] ACCESS: Login: Bike Stealer64 from 201.86.78.64
+[09:51:45] ACCESS: Login: Skyrull from 2.132.235.248
+[09:54:20] ACCESS: Login: Skyrull from 2.132.235.248
+[09:55:33] ADMIN: Finn Sommer (Skyrull) used adminwho and saw 0 admins.
+[10:20:59] ACCESS: Login: Serg_0369 from 31.10.78.249
+[11:03:24] ACCESS: Login: Masina from 5.165.233.182
+[12:52:43] ACCESS: Login: Carl Eberle from 93.188.40.251
+[12:53:02] ACCESS: Login: Carl Eberle from 93.188.40.251
+[12:53:33] ACCESS: Login: Johan Slaughter (Carl Eberle) from 93.188.40.251
+[12:57:58] ACCESS: Login: Vallat from 2.95.183.204
+[13:05:18] ACCESS: Login: Vallat from 2.95.183.204
+[14:05:44] ACCESS: Login: Michael Larson (ArthurEpicoBR) from 179.125.51.102
+[14:06:27] ACCESS: Login: Brunoeusoloco from 143.0.212.80
+[14:06:41] OOC: Michael Larson (ArthurEpicoBR) : hello
+[15:06:33] ACCESS: Login: W.D Gaster3456 from 179.183.34.213
+[15:09:05] ACCESS: Login: W.D Gaster3456 from 179.183.34.213
+[15:12:10] ACCESS: Login: InsanelyOp from 75.64.137.158
+[15:31:26] ACCESS: Login: Yobob from 75.80.99.188
+[15:42:55] ACCESS: Login: Yobob [TRAITOR] from 75.80.99.188
+[15:43:41] SAY: Alien Queen (Yobob) [TRAITOR] : wwwwwwwwwaaw
+[15:43:52] SAY: Shitty Bill (NPC) : Dag, it's Donald "Don" Glabs.
+[16:00:17] SAY: Shitty Bill (NPC) : The hell're you lookin' at, flyboy?
+[16:00:41] ACCESS: Login: CaptinPicard1166 [DEAD] from 99.160.4.91

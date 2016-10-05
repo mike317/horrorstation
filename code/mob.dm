@@ -400,7 +400,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 		var/size_of_mob = 2//facehugger = 0, larva = 1, human = 2, normal xeno = 3, big xeno = 4, queen/empress = 5
 		if (isAlienHugger(tmob))
 			size_of_mob = 0
-		if (isAlienLarva(tmob))
+		if (isAlienLarva(tmob) && !isAlienHugger(tmob))
 			size_of_mob = 1
 		if (isTrueAlien(tmob) && !isAlienLarva(tmob))
 			size_of_mob = 3
@@ -412,7 +412,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 		var/size_of_src = 2//facehugger = 0, larva = 1, human = 2, normal xeno = 3, big xeno = 4, queen/empress = 5
 		if (isAlienHugger(src))
 			size_of_src = 0
-		if (isAlienLarva(src))
+		if (isAlienLarva(src) && !isAlienHugger(src))
 			size_of_src = 1
 		if (isTrueAlien(src) && !isAlienLarva(src))
 			size_of_src = 3
@@ -421,7 +421,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 		if (isAlienQueen(src) || isAlienEmpress(src))
 			size_of_src = 5
 
-		if (size_of_mob > size_of_src)
+		if (size_of_mob >= size_of_src)
 			deliver_move_trigger("bump")
 			tmob.deliver_move_trigger("bump")
 

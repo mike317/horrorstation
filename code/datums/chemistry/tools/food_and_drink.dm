@@ -150,7 +150,22 @@
 
 				if (ishuman(M))
 					var/mob/living/carbon/human/H = M
-					H.will_starve_in_deciseconds += rand(src.hunger_heal * 10, src.hunger_heal * 20)
+					var/was_starve_in_deciseconds = H.will_starve_in_deciseconds
+					H.will_starve_in_deciseconds += rand(src.hunger_heal * 7, src.hunger_heal * 14)
+					//this means ~1000 on average for meat
+
+					if (H.will_starve_in_deciseconds >= 7000 && was_starve_in_deciseconds < 6000)//very difficult jump
+					//to achieve
+						boutput(H, "<span style = \"color:red\"><b>You feel way too full!</span></b>")
+						H.weakened += 5
+						H.stunned += 5
+
+					else if (H.will_starve_in_deciseconds >= 5000 && was_starve_in_deciseconds < 5000)
+						boutput(H, "<span style = \"color:green\">You feel very full.</span>")
+					else if (H.will_starve_in_deciseconds >= 4000 && was_starve_in_deciseconds < 4000)
+						boutput(H, "<span style = \"color:green\">You feel quite full.</span>")
+					else if (H.will_starve_in_deciseconds >= 3000 && was_starve_in_deciseconds < 3000)
+						boutput(H, "<span style = \"color:green\">You feel full.</span>")
 
 				src.heal(M)
 				playsound(M.loc,"sound/items/eatfood.ogg", rand(10,50), 1)

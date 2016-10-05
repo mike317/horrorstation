@@ -225,7 +225,7 @@ obj/structure/ex_act(severity)
 	var/builtby = null
 
 	var/list/sawbuilt = list()
-	var/list/scaled = list()
+	var/list/climbed = list()
 
 	virtual
 		icon = 'icons/effects/VR.dmi'
@@ -234,23 +234,24 @@ obj/structure/ex_act(severity)
 		..()
 		health = rand(100,200)
 
-	Del()
+	proc/beforeDel()
 		if (prob(50))
 			new/obj/item/woodstuff/plank(src.loc)
 		else
 			new/obj/item/woodstuff/woodclutter(src.loc)
-		..()
 
 	MouseDrop_T(var/mob/m, var/mob/user)
-		var/user_scale_time = 100
+		var/user_climb_time = 100
 		var/fail_chance = 50
 		var/override_msg = ""
+		var/span_style = "<span style = \"color:red\"><b>"
+		var/span_end = "</span></b>"
 
 		if (!isitem(m) && !ismob(m))
 			return
 
 		if (isitem(m))
-			user_scale_time = 0
+			user_climb_time = 0
 			fail_chance = 5
 			override_msg = "[user] throws [m] over [src]."
 
@@ -262,29 +263,29 @@ obj/structure/ex_act(severity)
 
 		if (builtby == user.real_name)
 			fail_chance = 0
-			user_scale_time = 20
+			user_climb_time = 20
 			message_addendum = "You find it very easy, since you made it."
 
 		else if (sawbuilt && sawbuilt.len && sawbuilt.Find(user))
 			fail_chance = 15
-			user_scale_time = 75
+			user_climb_time = 75
 			message_addendum = "You find it easy, since you saw it built."
 
-			if (scaled && scaled.len && scaled.Find(user))
+			if (climbed && climbed.len && climbed.Find(user))
 				fail_chance = 10
-				user_scale_time = 35
+				user_climb_time = 35
 				message_addendum = "You find it very easy to climb."
 
 		else
 
-			if (scaled && scaled.len && scaled.Find(user))
+			if (climbed && climbed.len && climbed.Find(user))
 				fail_chance = 20
-				user_scale_time = 50
-				message_addendum = "You find it relatively easy to scale the [src]."
+				user_climb_time = 50
+				message_addendum = "You find it relatively easy to climb the [src]."
 			else
 				fail_chance = 40
-				user_scale_time = 150
-				message_addendum = "You have no idea of how to scale the [src]. This may take a while."
+				user_climb_time = 150
+				message_addendum = "You have no idea of how to climb it. This may take a while."
 
 
 		if (ishuman(user))
@@ -293,19 +294,20 @@ obj/structure/ex_act(severity)
 				if (m != user)
 					return
 				fail_chance = 60
-				user_scale_time = rand(500,700)
-				message_addendum = "You have no idea of how to scale the [src]. It is very complex to your tiny brain."
+				user_climb_time = rand(500,700)
+				message_addendum = "You have no idea of how to climb it. It is very complex to your tiny brain."
 
 
 		if (isitem(m))
 			m.anchored = 1
 			visible_message("<span style = \"color:red\">[override_msg]</span>")
-			sleep(user_scale_time)
+			sleep(user_climb_time)
 			if (prob(fail_chance))
 				visible_message("<span style = \"color:red\">The [m] hits the wall and falls off.</span>")
 				m.anchored = 0
 				return
 			else
+				m.anchored = 0
 				m.set_loc(src.loc)
 				switch (m.dir)
 					if (NORTH)
@@ -316,16 +318,15 @@ obj/structure/ex_act(severity)
 						m.x++
 					if (WEST)
 						m.x--
-				m.anchored = 0
 				return
 
 		if (m == user)
-			user.visible_message("<span style = \"color:red\">[user] starts to scale [src].</span>", "<span style = \"color:red\">You start to scale the [src]. [message_addendum]</span>")
+			user.visible_message("<span style = \"color:red\"><b>[user] starts to climb [src].</span></b>", "<span style = \"color:blue\"><b>You start to climb the [src]. [message_addendum]</span></b>")
 			user.anchored = 1
-			sleep (user_scale_time)
+			sleep (user_climb_time)
 			if (locate(user) in range(1, src))
 				if (prob(fail_chance))
-					user.visible_message("<span style = \"color:red\">[user] falls off of the [src]!</span>", "<span style = \"color:red\">You fall off of the [src]!</span>")
+					user.visible_message("<span style = \"color:red\"><b>[user] falls off of the [src]!</span>", "<span style = \"color:red\">You fall off of the [src]!</span></b>")
 					user.anchored = 0
 					if (ishuman(user))
 						var/mob/living/carbon/human/H = user
@@ -335,17 +336,17 @@ obj/structure/ex_act(severity)
 						return
 				user.anchored = 0
 				user.set_loc(src.loc)
-				user.visible_message("<span style = \"color:red\">[user] scales [src].</span>", "<span style = \"color:red\">You scale [src].</span>")
-				scaled |= user
+				user.visible_message("<span style = \"color:red\"><b>[user] climbs [src].</span></b>", "<span style = \"color:blue\"><b>You climb [src].</b></span>")
+				climbed |= user
 			else
 				user.anchored = 0
 		else
 			m.anchored = 1
-			user.visible_message("<span style = \"color:red\">[user] starts to push [m] over [src]!</span>", "<span style = \"color:red\">You start to push [m] over [src]!</span>")
-			sleep (user_scale_time/rand(2,3))
-			user.visible_message("<span style = \"color:red\">[user] pushes [m] over [src]!</span>", "<span style = \"color:red\">You push [m] over [src]!</span>")
+			user.visible_message("<span style = \"color:red\"><b>[user] starts to push [m] over [src]!</span></b>", "<span style = \"color:blue\"><b>You start to push [m] over [src]!</span></b>")
+			sleep (user_climb_time/rand(2,3))
+			user.visible_message("<span style = \"color:red\"><b>[user] pushes [m] over [src]!</span></b>", "<span style = \"color:blue\"><b>You push [m] over [src]!</span></b>")
 			m.set_loc(src.loc)
-			scaled |= m
+			climbed |= m
 			m.anchored = 0
 
 	proc/checkhealth()
@@ -361,6 +362,7 @@ obj/structure/ex_act(severity)
 		if(src.health <= 0)
 			src.visible_message("<span style=\"color:red\"><b>[src] collapses!</b></span>")
 			playsound(src.loc, "sound/effects/wbreak.wav", 100, 1)
+			beforeDel()
 			qdel(src)
 
 	attack_hand(mob/user as mob)
@@ -373,6 +375,7 @@ obj/structure/ex_act(severity)
 				if (prob(1) && prob(20))
 					src.visible_message("<span style = \"color:red\"><b>[src] suddenly collapses!</span>")
 					playsound(src.loc, "sound/effects/wbreak.wav", 100, 1)
+					beforeDel()
 					qdel(src)
 					return
 
@@ -389,6 +392,7 @@ obj/structure/ex_act(severity)
 				if (prob(1) && prob(20))
 					src.visible_message("<span style = \"color:red\"><b>[src] suddenly collapses!</span>")
 					playsound(src.loc, "sound/effects/wbreak.wav", 100, 1)
+					beforeDel()
 					qdel(src)
 					return
 
@@ -406,11 +410,11 @@ obj/structure/ex_act(severity)
 			if (humie.reinforcing_structure)
 				return
 			var/user_loc = user.loc
-			user.visible_message("<span style = \"color:red\">[user] starts to reinforce [src] with [W].</span>", "<span style = \"color:red\">You start to reinforce the [src] with [W].</span>")
+			user.visible_message("<span style = \"color:red\"><b>[user]</b> starts to reinforce [src] with [W].</span>", "<span style = \"color:blue\">You start to reinforce the [src] with [W].</span>")
 			humie.reinforcing_structure = 1
 			sleep(rand(40,50))
 			if (user.loc == user_loc)
-				user.visible_message("<span style = \"color:red\">[user] reinforces [src] with [W].</span>", "<span style = \"color:red\">You reinforce [src] with [W].</span>")
+				user.visible_message("<span style = \"color:red\"><b>[user]</b> reinforces [src] with [W].</span>", "<span style = \"color:blue\">You reinforce [src] with [W].</span>")
 				humie.reinforcing_structure = 0
 				health += rand(20,30)
 				checkhealth()
