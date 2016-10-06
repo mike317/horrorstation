@@ -38,12 +38,18 @@
 			return
 
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat))
-			new/obj/item/reagent_containers/food/snacks/steak_m(T)
+			var/obj/item/reagent_containers/food/snacks/steak_m/s = new/obj/item/reagent_containers/food/snacks/steak_m(T)
+			s.name = "cooked meat"
 		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat))
-			var/v = new/obj/item/reagent_containers/food/snacks/steak_h(T)
-			v:name = "Human Meat"
+			var/obj/item/reagent_containers/food/snacks/steak_h/s = new/obj/item/reagent_containers/food/snacks/steak_h(T)
+			//actually fuck it how would you be able to tell that this is human meat
+			s.name = "cooked meat"
+
+		//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat
+			//	v:name = "Human Meat"
 		else
-			new/obj/item/reagent_containers/food/snacks/steak_generic(T)
+			var/obj/item/reagent_containers/food/snacks/steak_generic/s = new/obj/item/reagent_containers/food/snacks/steak_generic(T)
+			s.name = "cooked meat"
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat
 	name = "-meat"
