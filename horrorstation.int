@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475629220
-DIR: browserassets browserassets\css browserassets\html browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\chui code\chui\example code\datums code\datums\abilities code\datums\buildmodes code\datums\buildmodes\adventure code\datums\buildmodes\adventure\elements code\datums\chemistry code\obj code\obj\item code\procs code\WorkInProgress code\WorkInProgress\construction 
+LAST_COMPILE_TIME: 1475703204
+DIR: browserassets browserassets\css browserassets\html browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\chui code\chui\example code\datums code\datums\abilities code\datums\buildmodes code\datums\chemistry code\datums\chemistry\tools code\datums\gamemodes code\mob code\mob\living code\mob\living\carbon code\mob\living\critter code\mob\living\critter\ai code\obj code\obj\item code\obj\machinery code\procs icons icons\mob sound sound\vox 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\procs\jobprocs.dm;code\obj\item\tools.dm;code\obj\structure.dm
-FILE: code\obj\structure.dm
+WINDOW: code\procs\jobprocs.dm;code\obj\item\tools.dm;code\obj\structure.dm;code\datums\sims.dm;code\obj\machinery\sleeper.dm;code\datums\chemistry\Reagents-FoodDrink.dm;code\datums\chemistry\Reagents-Medical.dm;code\mob.dm;code\mob\living.dm;code\mob\living\carbon.dm;code\mob\living\carbon\human.dm;code\mob\living\critter\ai\sleeping.dm;code\obj\stool.dm
+FILE: code\obj\stool.dm
 */
 // END_INTERNALS

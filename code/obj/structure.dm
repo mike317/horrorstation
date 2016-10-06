@@ -404,9 +404,59 @@ obj/structure/ex_act(severity)
 		if (ishuman(user))
 			humie = user
 
-		if (istype(W, /obj/item/woodstuff))
-			if (humie.reinforcing_structure)
-				return
+		if (humie.reinforcing_structure || ishuman(user) && user:reinforcing_structure)
+			return
+
+		if (istype(W, /obj/item/crowbar))
+			var/user_loc = user.loc
+			user.visible_message("<span style = \"color:red\"><b>[user]</b> starts to pry some wood off of [src] with the [W]!</span>", "<span style = \"color:blue\">You start to pry some wood off of [src] with the [W].</span>")
+			humie.reinforcing_structure = 1//they aren't but this has the same purpose
+			sleep(rand(15,50))//logically this would depend on the size/shape/nailedness of the piece of wood, right
+			if (user.loc == user_loc)
+				user.visible_message("<span style = \"color:red\"><b>[user]</b> pries some wood off of [src] with the [W].</span>", "<span style = \"color:blue\">You pry some wood off of the [src] with the [W].</span>")
+				var/h_loss = rand(10,20)
+				if (prob(10))
+					h_loss *= 5
+
+				health -= h_loss
+
+				if (prob(4))//it will take about 10 tries to kill the barricade, so I'm making it slightly
+				//less than likely to generate wood of of thin air
+					if (prob(50))
+						new/obj/item/woodstuff/woodclutter(loc)
+					else
+						new/obj/item/woodstuff/woodplank(loc)
+
+				checkhealth()
+				humie.reinforcing_structure = 0
+			else
+				humie.reinforcing_structure = 0
+
+		if (istype(W, /obj/item/weldingtool))
+			var/user_loc = user.loc
+			user.visible_message("<span style = \"color:red\"><b>[user]</b> starts to weld the nails off of [src] with the [W]!</span>", "<span style = \"color:blue\">You start to weld the nails off of [src] with the [W].</span>")
+			humie.reinforcing_structure = 1//they aren't but this has the same purpose
+			sleep(rand(15,50))//logically this would depend on the size/shape/nailedness of the piece of wood, right
+			if (user.loc == user_loc)
+				user.visible_message("<span style = \"color:red\"><b>[user]</b> welds the nails off of [src] with the [W].</span>", "<span style = \"color:blue\">You weld the nails off of the [src] with the [W].</span>")
+				var/h_loss = rand(5,10)
+
+				if (prob(10))
+					h_loss = health
+
+				health -= h_loss
+
+				checkhealth()
+
+				if (src && health > 0)
+					src.visible_message("<span style = \"color:red\"><b>[src] looks damage, but doesn't fall apart yet.</span>")
+
+				humie.reinforcing_structure = 0
+			else
+				humie.reinforcing_structure = 0
+
+		else if (istype(W, /obj/item/woodstuff))
+
 			var/user_loc = user.loc
 			user.visible_message("<span style = \"color:red\"><b>[user]</b> starts to reinforce [src] with [W].</span>", "<span style = \"color:blue\">You start to reinforce the [src] with [W].</span>")
 			humie.reinforcing_structure = 1
