@@ -1465,6 +1465,7 @@
 		..()
 		reagents.add_reagent("cholesterol",1)
 
+
 /obj/item/reagent_containers/food/snacks/omelette/bee
 	name = "deep-space hell omelette"
 	desc = "<tt>BEE EGGS</tt> make this a delightful breakfast food."
@@ -1541,6 +1542,7 @@
 	New()
 		..()
 		reagents.add_reagent("cholesterol",2)
+
 
 /obj/item/reagent_containers/food/snacks/tortilla_chip_spawner
 	name = "INVISIBLE GHOST OF PANCHO VILLA'S BAKER BROTHER, GARY VILLA"

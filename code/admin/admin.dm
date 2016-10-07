@@ -49,6 +49,8 @@ var/global/noir = 0
 		if("Coder")
 			level = LEVEL_CODER
 			*/
+		if ("Codermin")
+			level = LEVEL_CODER
 		if("Shit Person")
 			level = LEVEL_SHITGUY
 		if("Primary Administrator")
@@ -67,6 +69,10 @@ var/global/noir = 0
 			level = LEVEL_NOPOWER
 		if ("Mapper")
 			level = LEVEL_NOPOWER
+		//GIMMICK RANKS
+		if ("Cool Killer")
+			level = LEVEL_NOPOWER
+
 	return level
 
 /datum/admins/Topic(href, href_list)

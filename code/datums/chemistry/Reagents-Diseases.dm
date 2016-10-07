@@ -193,6 +193,18 @@ datum
 			transparency = 30
 			disease = /datum/ailment/disease/berserker
 
+		disease/dysentery
+			name = "salmonella bacteria"
+			id = "salmonella"
+			description = "A nasty bacteria found in spoiled food."
+			reagent_state = LIQUID
+			minimum_to_infect = 0
+			fluid_r = 30
+			fluid_g = 70
+			fluid_b = 0
+			transparency = 255
+			disease = /datum/ailment/disease/food_poisoning
+
 		disease/salmonella // Food Poisoning
 			name = "salmonella bacteria"
 			id = "salmonella"

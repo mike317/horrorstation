@@ -363,23 +363,38 @@
 
 	MouseDrop_T(mob/m as mob, mob/living/carbon/user as mob)
 		if (m != user)
-			return
-		if (prob(80))
-			user.visible_message("<span style = \"color:red\">[user] climbs over the barrel.</span>", "<span style = \"color:red\">You climb over the barrel.</span>")
-			spawn(2)
-				if (!src)
+			var/m_loc = m.loc
+			var/user_loc = user.loc
+
+			user.visible_message("<span style = \"color:red\">[user] starts to put [m] on the barrel.</span>", "<span style = \"color:red\">You start to put [m] on the barrel.</span>")
+			spawn(5)
+				if (m.loc == m_loc && user.loc == user_loc)
+					if (src)
+						m.set_loc(src.loc)
+						m.emote("scream")
+						m.TakeDamage("ALL", 0, 20, 0)
+						return
+		else
+
+			if (prob(80) || isTrueAlien(user))
+				user.visible_message("<span style = \"color:red\">[user] climbs over the barrel.</span>", "<span style = \"color:red\">You climb over the barrel.</span>")
+				var/user_loc = user.loc
+				spawn(2)
+					if (!src || user_loc != user.loc)
+						return
+					user.set_loc(src.loc)
+
+			else
+				if (!src || user_loc != user.loc)
 					return
 				user.set_loc(src.loc)
-
-		else
-			if (!src)
-				return
-			user.set_loc(src.loc)
-			user.visible_message("<span style = \"color:red\">You try to climb over the barrel, but burn yourself!</span>", "<span style = \"color:red\">[user] tries to climb over the barrel, but burns [his_or_her(user)]self!</span>")
-			if (ishuman(user))
-				user.TakeDamage("ALL", 0, 10, 0)
-			user.weakened += 5
-			user.stunned += 5
+				user.visible_message("<span style = \"color:red\">You try to climb over the barrel, but burn yourself!</span>", "<span style = \"color:red\">[user] tries to climb over the barrel, but burns [his_or_her(user)]self!</span>")
+				if (ishuman(user) && !isAlien(user))
+					user.TakeDamage("ALL", 0, 10, 0)
+				else if (isAlienHugger(user) || isAlienLarva(user))
+					user.death()//kek
+				user.weakened += 5
+				user.stunned += 5
 
 	attackby(obj/item/edible as obj, mob/living/carbon/user as mob)
 		if (istype(edible, /obj/item/reagent_containers/food/snacks/ingredient/meat) && edible.edible)

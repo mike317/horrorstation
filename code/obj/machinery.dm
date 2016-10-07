@@ -23,19 +23,38 @@
 	// This list is used to call the process() proc for all machines ~1 per second during a round
 
 /obj/machinery/MouseDrop_T(mob/m as mob, mob/user as mob)
+	var/start_loc_user = user.loc
+	var/start_loc_m = m.loc
+
 	if (!ismob(user))
-		return
-	if (m != user)
 		return
 	if (istype(src, /obj/machinery/door))
 		return
-	if (density)
-		user.visible_message("<span style = \"color:red\">[user] starts to climb on to the [src].</span>", "<span style = \"color:red\">You start to climb on to the [src].</span>")
-		sleep(rand(10,20))
-		if (!src)
+
+	if (m != user)
+
+		if (ismob(m) && ismob(user) && density)
+			user.visible_message("<span style = \"color:red\">[user] starts to put [m] on to the [src].</span>", "<span style = \"color:red\">You start to put [m] on to the [src].</span>")
+			sleep(rand(10,20))
+			if (!src || start_loc_user != user.loc || start_loc_m != m.loc)
+				return
+			user.visible_message("<span style = \"color:red\">[user] puts [m] on to the [src].</span>", "<span style = \"color:red\">You put [m] on to the [src].</span>")
+			m.set_loc(src.loc)
+		else
 			return
-		user.visible_message("<span style = \"color:red\">[user] climbs on to the [src].</span>", "<span style = \"color:red\">You climb on to the [src].</span>")
-		user.set_loc(src.loc)
+
+
+
+	else
+
+		if (ismob(user) && ismob(m) && density)
+
+			user.visible_message("<span style = \"color:red\">[user] starts to climb on to the [src].</span>", "<span style = \"color:red\">You start to climb on to the [src].</span>")
+			sleep(rand(10,20))
+			if (!src || start_loc_user != user.loc)
+				return
+			user.visible_message("<span style = \"color:red\">[user] climbs on to the [src].</span>", "<span style = \"color:red\">You climb on to the [src].</span>")
+			user.set_loc(src.loc)
 
 /obj/machinery/New()
 	..()

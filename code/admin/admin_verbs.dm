@@ -417,6 +417,8 @@ var/list/special_pa_observing_verbs = list(\
 			src.holder.level = LEVEL_HOST
 	//	if ("Coder")
 	//		src.holder.level = LEVEL_CODER
+		if ("Codermin")
+			src.holder.level = LEVEL_CODER
 		if ("Shit Person")
 			src.holder.level = LEVEL_SHITGUY
 		if ("Primary Administrator")
@@ -434,6 +436,9 @@ var/list/special_pa_observing_verbs = list(\
 		if ("Iconner")
 			src.holder.level = LEVEL_NOPOWER
 		if ("Mapper")
+			src.holder.level = LEVEL_NOPOWER
+		//GIMMICK RANKS
+		if ("Cool Killer")
 			src.holder.level = LEVEL_NOPOWER
 
 		if ("Inactive")

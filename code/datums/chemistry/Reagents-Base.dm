@@ -618,6 +618,9 @@ datum
 			thirst_value = 3
 			hygiene_value = 1.33
 			taste = "bland"
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil()
 
 			on_mob_life(var/mob/living/carbon/human/H)
 				..()

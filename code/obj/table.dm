@@ -344,6 +344,7 @@
 
 	if (ismob(O) && locate(src) in range(1, user))
 		var/mob/m = O
+
 		if (m == user)
 			user.visible_message("<span style=\"color:red\">[user] starts climbing on to the table.</span>", "<span style = \"color:red\">You start climbing on to the table.</span>")
 
@@ -359,8 +360,8 @@
 				if (locate(src) in range(1, user))
 					user.set_loc(src.loc)
 					user.visible_message("<span style=\"color:red\">[user] climbs on to the table.</span>", "<span style=\"color:red\">You climb on to the table.</span>")
-	/*
-		else
+
+		else if (ismob(m) && m != user)
 			if (locate(src) in range(1, user) && locate(src) in range(1, m))
 				user.visible_message("<span style=\"color:red\">[user] starts putting [m] on to the table!</span>")
 				spawn (10)
@@ -372,7 +373,7 @@
 					else
 						m.visible_message("<span style=\"color:red\">[user] fails to push [m] on to the table!</span>")
 		return
-		*/
+
 
 	if (istype(O,/obj/item/satchel/))
 		if (O.contents.len < 1)

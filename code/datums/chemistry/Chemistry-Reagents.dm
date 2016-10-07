@@ -16,6 +16,7 @@ datum
 		var/list/pathogen_nutrition = null
 		var/reagent_state = SOLID
 		var/data = null
+		var/spoiled = 0
 		var/volume = 0
 		///Fluids now have colors
 		var/transparency = 150
@@ -132,6 +133,43 @@ datum
 				T.material.triggerChem(T, src, volume)
 			return
 
+		proc/spoil(var/obj/O)
+
+			if (!O || !O.reagents)
+				return
+
+			if (!holder)
+				holder = O.reagents
+
+			if (!holder || !holder.my_atom)
+				return 0
+
+		//	if (istype(holder.my_atom.loc, /turf))
+			//	boutput(world, "aaaa")
+
+			var/spoil_prob_per_100_ticks = 40
+
+
+			for (var/datum/reagent/r in holder.reagent_list)
+				if (istype(r, /datum/reagent/fooddrink/alcoholic))
+					spoil_prob_per_100_ticks /= rand(9,10)
+				else if (istype(r, /datum/reagent/fooddrink/salt))
+					spoil_prob_per_100_ticks /= rand(7,8)
+				else if (istype(r, /datum/reagent/fooddrink/pepper))
+					spoil_prob_per_100_ticks /= rand(3,4)
+
+			if (!istype(src, /datum/reagent/fooddrink/meat))//too lazy to add other meat
+				//paths
+				spoil_prob_per_100_ticks /= 5
+
+
+			if (prob(spoil_prob_per_100_ticks) && prob(1))
+
+				if (istype(holder.my_atom, /obj/item/reagent_containers/food/))
+					var/obj/item/reagent_containers/food/f = holder.my_atom
+					f.spoilf()
+
+
 		proc/on_mob_life(var/mob/M)
 			if (!M || !M.reagents)
 				return
@@ -147,6 +185,15 @@ datum
 			if(M && overdose > 0) check_overdose(M)
 			//if(M && M.stat == 2 && src.id != "montaguone" && src.id != "montaguone_extra") M.reagents.del_reagent(src.id) // no more puking corpses and such
 			return
+
+		proc/on_obj_life(var/obj/O)
+			if (!O || !O.reagents)
+				return
+			if (!holder)
+				holder = O.reagents
+			//no depletion
+			return
+
 
 		proc/on_plant_life(var/obj/machinery/plantpot/P)
 			if (!P) return

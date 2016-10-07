@@ -98,6 +98,8 @@
 
 	var/image/health_mon = null
 
+	var/dysentery = 0
+
 	var/pin = null
 	var/obj/item/clothing/suit/wear_suit = null
 	var/obj/item/clothing/under/w_uniform = null

@@ -4,7 +4,7 @@ var/prohibited_strings = list("<", ">", "href", "</a>", "proc/", "verb/", "<html
 //the above list doesn't need to be case-sensitive since we only use it with findtext, not findtextEx
 
 mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/recipient, var/remove_image = 0)
-	return//remove this when this is fixed
+	return 1//remove this when this is fixed
 	if (isAlien(src))
 		return
 	var/state

@@ -1,7 +1,7 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475703204
-DIR: browserassets browserassets\css browserassets\html browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\chui code\chui\example code\datums code\datums\abilities 
+LAST_COMPILE_TIME: 1475813312
+DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347

@@ -18,11 +18,20 @@
 	var/cook_time = 50
 	var/cooking = 0
 
+	New()
+		..()
+		reagents.add_reagent("meat", 50)
+		reagents.metabolize(src)
+
 	heal(var/mob/living/M)
+		boutput(M, "<span style=\"color:red\">Eating raw meat probably wasn't a good idea.</span>")
+		if (prob(66))
+			M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1)
+		/*
 		if (prob(33))
 			boutput(M, "<span style=\"color:red\">You briefly think you probably shouldn't be eating raw meat.</span>")
 			M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1) // path, name, strain, bypass resist
-
+	*/
 	throw_impact(var/turf/T)
 		playsound(src.loc, "sound/effects/splat.ogg", 100, 1)
 		if (istype(T))

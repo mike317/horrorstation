@@ -74,6 +74,24 @@
 	user << browse(dat, "window=dispenser")
 	onclose(user, "dispenser")
 	return
+/*
+/obj/machinery/dispenser/MouseDrop_T(mob/m as mob, mob/user as mob)
+	if (m == user)
+		var/user_loc = user.loc
+		user.visible_message("<span style = \"color:red\">[user] starts to climb over the [src].</span>", "<span style = \"color:blue\">You start to climb over the [src].</span>")
+		spawn(rand(20,30))
+			if (user.loc == user_loc)
+				user.visible_message("<span style = \"color:red\">[user] climbs over the [src].</span>", "<span style = \"color:blue\">You climb over the [src].</span>")
+				user.loc = loc
+	else
+		var/m_loc = m.loc
+		user.visible_message("<span style = \"color:red\">[user] starts to put [m] on the [src].</span>", "<span style = \"color:blue\">You start to put [m] on the [src].</span>")
+		spawn(rand(20,30))
+			if (m.loc == m_loc)
+				user.visible_message("<span style = \"color:red\">[user] puts [m] on the [src].</span>", "<span style = \"color:blue\">You put [m] on the [src].</span>")
+				user.loc = loc
+
+*/
 
 /obj/machinery/dispenser/Topic(href, href_list)
 	if(stat & BROKEN)

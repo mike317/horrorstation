@@ -238,11 +238,14 @@ datum
 			return ret
 
 
-		proc/metabolize(var/mob/target)
+		proc/metabolize(var/atom/movable/target)
 			for(var/current_id in reagent_list)
 				var/datum/reagent/current_reagent = reagent_list[current_id]
 				if(current_reagent)
-					current_reagent.on_mob_life(target)
+					if (ismob(target))
+						current_reagent.on_mob_life(target)
+					else if (isobj(target))
+						current_reagent.on_obj_life(target)
 
 			update_total()
 

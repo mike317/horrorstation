@@ -20,9 +20,8 @@ proc/spawn_edible_critters()
 		return
 
 	for (var/obj/item/reagent_containers/food/snacks/ingredient/meat/m in src)
-		if (m.cooking)
-			if (prob(90))
-				return//don't constantly drop shit when you're cooking
+		if (m.cooking && prob(92))
+			return//don't constantly drop shit when you're cooking
 
 	if (mutantrace && !istype(mutantrace, /datum/mutantrace/dwarf))
 		return
@@ -45,10 +44,16 @@ proc/spawn_edible_critters()
 
 		death_chance += health/5
 
+		var/adapt_chance = 1//you can never get infected again
+
+		if (src.reagents.has_reagent("tapeworm"))
+			death_chance = 150//why not
+			adapt_chance = 0
+
 		for (var/datum/ailment_data/am in src.ailments)
 			if (istype(am.master, /datum/ailment/parasite/alien_larva))
 				if (prob(death_chance))
-					src.cure_disease(am, 1)//so, a 1 in 200 chance per tick to cure this. Larvae generally burst before this,
+					src.cure_disease(am, adapt_chance)//so, a 1 in 200 chance per tick to cure this. Larvae generally burst before this,
 					//so they'll still burst most of the time. Guaranteed to resist it next time
 
 
@@ -56,44 +61,49 @@ proc/spawn_edible_critters()
 
 	if (will_starve_in_deciseconds < 3000)//5 minutes
 		starve_msg = "<span style = \"color:red\">You feel a bit hungry.</span>"
-		if (will_starve_in_deciseconds < 2500)
-			starve_msg = "<span style = \"color:red\">You feel quite hungry.</span>"
-			if (will_starve_in_deciseconds < 2000)
-				starve_msg = "<span style = \"color:red\">You feel very hungry.</span>"
-				if (will_starve_in_deciseconds < 1000)
-					starve_msg = "<span style = \"color:red\"><b>You feel extremely hungry!</b></span>"
-					if (will_starve_in_deciseconds < 600)//less than a minute left
-						starve_msg = "<span style = \"color:red\"><b>You feel like you'll die if you don't eat something soon!</b></span>"
-						if (will_starve_in_deciseconds < 300)//less than half a minute left!
-							if (prob(95))
-								starve_msg = "<span style = \"color:red\"><b>You fall to the ground, weakened by hunger!</span></b>"
-								output_msg = "<span style = \"color:red\"><b>[src] falls to the ground!</b></span>"
-								weakened += 3
-								stunned += 3
-								if (prob(10))
-									paralysis += 3
+	else if (will_starve_in_deciseconds < 2500)
+		starve_msg = "<span style = \"color:red\">You feel quite hungry.</span>"
+	else if (will_starve_in_deciseconds < 2000)
+		starve_msg = "<span style = \"color:red\">You feel very hungry.</span>"
+	else if (will_starve_in_deciseconds < 1000)
+		starve_msg = "<span style = \"color:red\"><b>You feel extremely hungry!</b></span>"
+	else if (will_starve_in_deciseconds < 600)//less than a minute left
+		starve_msg = "<span style = \"color:red\"><b>You feel like you'll die if you don't eat something soon!</b></span>"
+	else if (will_starve_in_deciseconds < 300)//less than half a minute left!
 
-								src.take_toxin_damage(5)
+		if (prob(95))
+			starve_msg = "<span style = \"color:red\"><b>You fall to the ground, weakened by hunger!</span></b>"
+			output_msg = "<span style = \"color:red\"><b>[src] falls to the ground!</b></span>"
+			weakened += 3
+			stunned += 3
+			if (prob(10))
+				paralysis += 3
 
-								updatehealth()
-							else
-								starve_msg = "<span style = \"color:red\"><b>You fall to the ground, severely weakened by hunger! It's like your body is starting to digest itself.</span></b>"
-								output_msg = "<span style = \"color:red\"><b>[src] falls to the ground! They don't look very good.</b></span>"
-								weakened += 7
-								stunned += 7
-								if (prob(50))
-									paralysis += 5
+			src.take_toxin_damage(5)
 
-								src.take_toxin_damage(20)
+			updatehealth()
+		else
+			starve_msg = "<span style = \"color:red\"><b>You fall to the ground, severely weakened by hunger! It's like your body is starting to digest itself.</span></b>"
+			output_msg = "<span style = \"color:red\"><b>[src] falls to the ground! They don't look very good.</b></span>"
+			weakened += 7
+			stunned += 7
+			if (prob(50))
+				paralysis += 5
 
-								updatehealth()
+			src.take_toxin_damage(20)
 
-								if (prob(10))
-									src.death()
+			updatehealth()
 
-	if (will_starve_in_deciseconds < 2000 && prob(10))
+			if (prob(10))
+				src.death()
+
+	if (will_starve_in_deciseconds < 2000 && will_starve_in_deciseconds >= 1000 && prob(10))
 		TakeDamage("All", 0, 0, 1)
-		starve_msg = "<span stsyle = \"color:red\"><b>Your stomach hurts.</span></b>"
+		starve_msg = "<span style = \"color:red\"><b>Your stomach hurts.</span></b>"
+
+	else if (will_starve_in_deciseconds < 1000 && prob(10))
+		TakeDamage("All", 0, 0, 2)
+		starve_msg = "<span style =\"color:red\"><b>Your stomach <i>really</i> hurts.</span></b>"
 
 	if (will_starve_in_deciseconds < 1500)
 		slowed = 1
@@ -160,6 +170,27 @@ datum
 
 				..(M)
 
+		fooddrink/tapeworm//like starve but leaves the body
+			name = "tapeworm"
+			id = "tapeworm"
+
+			on_mob_life(var/mob/M)
+				if (ishuman(M) && !isAlien(M))
+
+					var/mob/living/carbon/human/H = M
+
+					if (H.will_starve_in_deciseconds == -1)
+						H.will_starve_in_deciseconds = rand(3000,6000)
+
+					H.will_starve_in_deciseconds -= rand(7,12)
+
+					H.will_starve_in_deciseconds = max(H.will_starve_in_deciseconds, 0)
+					//if the average mob starts out with 4500 of this, and this is called every second,
+					//and we take away ~9 every second, it will take 500 seconds/8 minutes for them to starve
+					H.starve()
+
+				..(M)
+
 
 		fooddrink/bilk
 			name = "bilk"
@@ -200,6 +231,10 @@ datum
 			fluid_g = 255
 			transparency = 255
 			thirst_value = 1.5
+
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil(O)
 
 			on_mob_life(var/mob/M)
 				..(M)
@@ -1658,6 +1693,10 @@ datum
 						playsound(T, "sound/effects/splat.ogg", 50, 1)
 						new /obj/decal/cleanable/blood/gibs(T)
 
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil(O)
+
 			on_mob_life(var/mob/M)
 				..(M) // call your parents  :(
 				if(prob(4))
@@ -2020,6 +2059,10 @@ datum
 			transparency = 155
 			depletion_rate = 0.2
 
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil(O)
+
 			on_mob_life(var/mob/M)
 				..(M)
 				if(!M) M = holder.my_atom
@@ -2239,6 +2282,20 @@ datum
 					M.reagents.add_reagent("cholesterol", rand(1,2))
 				..(M)
 
+		fooddrink/meat
+			name = "meat"
+			id = "meat"
+			description = "A substance found in all meats."
+			reagent_state = SOLID
+			fluid_r = 172
+			fluid_g = 126
+			fluid_b = 103
+			transparency = 100
+
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil(O)
+
 		fooddrink/beff
 			name = "beff"
 			id = "beff"
@@ -2248,6 +2305,10 @@ datum
 			fluid_g = 126
 			fluid_b = 103
 			transparency = 255
+
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil(O)
 
 			on_mob_life(var/mob/M)
 				..(M)

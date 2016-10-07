@@ -425,7 +425,7 @@ obj/structure/ex_act(severity)
 					if (prob(50))
 						new/obj/item/woodstuff/woodclutter(loc)
 					else
-						new/obj/item/woodstuff/woodplank(loc)
+						new/obj/item/woodstuff/plank(loc)
 
 				checkhealth()
 				humie.reinforcing_structure = 0

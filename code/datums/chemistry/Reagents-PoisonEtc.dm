@@ -683,6 +683,10 @@ datum
 						holder.my_atom:remove_stam_mod_max("consumable_bad")
 				return
 
+			on_obj_life(var/obj/O)
+				..(O)
+				spoil()
+
 			on_mob_life(var/mob/living/M)
 
 				if (!M) M = holder.my_atom

@@ -1,4 +1,19 @@
+/*
+/obj/item/reagent_containers/food/proc/refine(var/what_do, var/obj/item/weapon, var/obj/target, var/mob/living/carbon/human/user)
+	if (what_do == "slice" && !istype(weapon, /obj/item/kitchen/utensil) && weapon.hit_type != "CUT")
+		return
 
+	var/action_name = "do something that should not be possible to see, contact a coder"
+	var/action_addendum = ""
+
+	switch (ghetto_refine_stage)
+
+		if (STAGE_START)
+			action_name = "start preparing the [src] for manipulation"
+		if (STAGE_SLICE)
+			action_name = "start slicing the [src] into thin slices"
+
+*/
 /obj/item/raw_material/proc/refine(var/obj/item/weapon, var/mob/living/carbon/human/user)//weapon == null when they use hands
 	var/melt_time = 0
 	var/action_name = "do something that should not be possible to see, please contact a coder"
