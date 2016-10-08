@@ -2222,7 +2222,7 @@ datum
 			on_mob_life(var/mob/M)
 				if (prob(10))
 					M.take_toxin_damage(1)
-				if (prob(5)
+				if (prob(5))
 					M.reagents.add_reagent("salmonella", 1)
 				..(M)
 				return

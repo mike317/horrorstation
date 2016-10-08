@@ -244,8 +244,6 @@ datum
 				if(current_reagent)
 					if (ismob(target))
 						current_reagent.on_mob_life(target)
-					else if (isobj(target))
-						current_reagent.on_obj_life(target)
 
 			update_total()
 

@@ -6,7 +6,6 @@
 	icon_state = "breadloaf"
 	amount = 1
 	heal_amt = 1
-	hunger_heal = 35
 	food_color = "#FFFFCC"
 	real_name = "bread"
 	var/slicetype = /obj/item/reagent_containers/food/snacks/breadslice

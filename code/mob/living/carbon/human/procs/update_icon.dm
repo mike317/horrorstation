@@ -540,15 +540,19 @@
 		image_cust_three.color = aH.customization_third_color
 
 /mob/living/carbon/human/proc/update_alien_light()
-	return//temporary
-	if (isAlien(src))
 
-		if (!istype(src.mutantrace, /datum/mutantrace/xenomorph/sentinel))
-			xeno_light.set_brightness(1.6)
+	if (isAlien(src) && src.mutantrace:xeno_light_on)
+
+		if (istype(src.mutantrace, /datum/mutantrace/xenomorph/sentinel))
+			xeno_light.set_brightness(2.4)
 			xeno_light.enable()
 		else
-			xeno_light.set_brightness(2.0)
+			xeno_light.set_brightness(1.6)
 			xeno_light.enable()
+
+	else
+		if (isAlien(src))
+			xeno_light.disable()
 
 /mob/living/carbon/human/proc/update_infrared_light()
 	return//temporary

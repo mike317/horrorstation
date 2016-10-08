@@ -21,6 +21,8 @@
 	density = 0
 	var/obj/xeno/hive/weeds/my_node = null
 	var/is_node = 0
+	var/expediated = 0//this, from pheromones, will reach ~60 per minute. Therefore, every 100 gives a minor health boost,
+	//and(if it's still growing) a range boost
 
 	examine()
 		if (isAlien(usr))
@@ -88,47 +90,48 @@
 
 		..()
 
-	proc/SurroundSpreadAll()
+	proc/SurroundSpreadAll(var/extra_spread = 0)
+
 		spawn(rand(30,60))
-			SurroundSpread(1)
+			SurroundSpread(1,extra_spread)
 		spawn(rand(60,90))
-			SurroundSpread(2)
+			SurroundSpread(2,extra_spread)
 		spawn(rand(90,120))
-			SurroundSpread(3)
+			SurroundSpread(3,extra_spread)
 		spawn(rand(120,150))
-			SurroundSpread(4)
+			SurroundSpread(4,extra_spread)
 		spawn(rand(150,180))
-			SurroundSpread(5)
+			SurroundSpread(5,extra_spread)
 		spawn(rand(180,210))
-			SurroundSpread(6)
+			SurroundSpread(6,extra_spread)
 		spawn(rand(210,240))
-			SurroundSpread(7)
+			SurroundSpread(7,extra_spread)
 		spawn(rand(240,270))
-			SurroundSpread(8)
+			SurroundSpread(8,extra_spread)
 
 		spawn(rand(270,300))
-			SurroundSpread(9)
+			SurroundSpread(9,extra_spread)
 		spawn(rand(300,330))
-			SurroundSpread(9)
+			SurroundSpread(9,extra_spread)
 		spawn(rand(330,360))
-			SurroundSpread(9)
+			SurroundSpread(9,extra_spread)
 		spawn(rand(360,390))
-			SurroundSpread(9)
+			SurroundSpread(9,extra_spread)
 		spawn(rand(390,420))
-			SurroundSpread(9)
+			SurroundSpread(9,extra_spread)
 
 		spawn(rand(2700,3000))
-			SurroundSpread(10)
+			SurroundSpread(10,extra_spread)
 		spawn(rand(3000,3300))
-			SurroundSpread(10)
+			SurroundSpread(10,extra_spread)
 		spawn(rand(3300,3600))
-			SurroundSpread(10)
+			SurroundSpread(10,extra_spread)
 		spawn(rand(3600,3900))
-			SurroundSpread(10)
+			SurroundSpread(10,extra_spread)
 		spawn(rand(3900,4200))
-			SurroundSpread(10)
+			SurroundSpread(10,extra_spread)
 
-	proc/SurroundSpread(var/dir = 0)//n = 1, w = 2, e = 3, s = 4, nw = 5, sw = 6, ne = 7
+	proc/SurroundSpread(var/dir = 0, var/extra_spread)//n = 1, w = 2, e = 3, s = 4, nw = 5, sw = 6, ne = 7
 	//se = 8, 9 = random
 
 		if (!src) return
@@ -152,9 +155,10 @@
 			if (8)
 				Vspread = locate(src.x+1, src.y-1, src.z)
 			if (9)
-				Vspread = locate(src.x+rand(-2,2), src.y+rand(-2,2), src.z)
+				Vspread = locate(src.x+rand(-2-extra_spread,2+extra_spread), src.y+rand(-2-extra_spread,2+extra_spread), src.z)
 			if (10)
-				Vspread = locate(src.x+rand(-3,3), src.y+rand(-3,3), src.z)
+				Vspread = locate(src.x+rand(-3-extra_spread,3+extra_spread), src.y+rand(-3-extra_spread,3+extra_spread), src.z)
+
 
 		var/dogrowth = 1
 		if (!istype(Vspread, /turf/simulated/floor)) dogrowth = 0

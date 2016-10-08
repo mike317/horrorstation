@@ -362,9 +362,10 @@
 		..()
 
 	MouseDrop_T(mob/m as mob, mob/living/carbon/user as mob)
+		var/m_loc = m.loc
+		var/user_loc = user.loc
+
 		if (m != user)
-			var/m_loc = m.loc
-			var/user_loc = user.loc
 
 			user.visible_message("<span style = \"color:red\">[user] starts to put [m] on the barrel.</span>", "<span style = \"color:red\">You start to put [m] on the barrel.</span>")
 			spawn(5)
@@ -378,7 +379,6 @@
 
 			if (prob(80) || isTrueAlien(user))
 				user.visible_message("<span style = \"color:red\">[user] climbs over the barrel.</span>", "<span style = \"color:red\">You climb over the barrel.</span>")
-				var/user_loc = user.loc
 				spawn(2)
 					if (!src || user_loc != user.loc)
 						return
@@ -396,15 +396,124 @@
 				user.weakened += 5
 				user.stunned += 5
 
-	attackby(obj/item/edible as obj, mob/living/carbon/user as mob)
-		if (istype(edible, /obj/item/reagent_containers/food/snacks/ingredient/meat) && edible.edible)
+	attackby(obj/item/reagent_containers/food/edible as obj, mob/living/carbon/user as mob)//HEATING DRINKS
+
+		if (!istype(edible))
+			return
+
+		if (istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked)//this is to prevent people
+		//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
+			user.visible_message("<span style = \"color:red\"><b>[user] holds [edible] over [src]'s flame, but it is already hot and dissolves!</span>")
+			edible.reagents = new/datum/reagents()
+			return
+
+
+		if (istype(edible, /obj/item/reagent_containers/food) && !istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked)//this is to prevent people
+		//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
+			user.visible_message("<span style = \"color:red\"><b>[user] holds [edible] over [src]'s flame, but it is already cooked and burns up!</span>")
+			new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
+			qdel(edible)
+			return
+
+		if (istype(edible, /obj/item/reagent_containers/food/drinks))//HEATING WATER
+			if (edible.reagents && edible.reagents.total_volume > 0)
+				var/obj/item/reagent_containers/food/drinks/drink = edible
+				if (drink.heating)
+					return
+
+				var/heat_time = drink.heat_time
+				drink.heating = 1
+				user.visible_message("<span style = \"color:blue\">[user] holds [drink] over [src]'s flame, starting to heat its contents.</span>", "<span style = \"color:blue\">You hold the [edible] over [src]'s flame, starting to heat its contents.</span>")
+
+				var/random_decimal = rand(75,125)
+				random_decimal/=100
+				spawn (heat_time * random_decimal)
+					if (src && locate(user) in range(1, src))
+						drink.heating = 0
+						user.visible_message("<span style = \"color:blue\">[user] finishes heating [drink].</span>", "<span style = \"color:blue\">You finish heating [drink].</span>")
+						drink.cook()
+
+
+		else if (istype(edible, /obj/item/reagent_containers/food/snacks/plant))//COOKING VEGGIES
+			var/obj/item/reagent_containers/food/snacks/plant = edible
+
+			if (!istype(plant) || !plant)
+				return
+
+			if (istype(plant, /obj/item/reagent_containers/food) && plant.edible && plant.cooked)//this is to prevent people
+			//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
+				user.visible_message("<span style = \"color:red\"><b>[user] holds [plant] over [src]'s flame, but it is already cooked and burns up!</span>")
+				new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
+				qdel(plant)
+				return
+
+			if (plant.cooking)
+				return
+
+			var/cook_time = plant.cook_time
+			plant.cooking = 1
+
+
+			user.visible_message("<span style = \"color:blue\">[user] holds [plant] over [src]'s flame, starting to roast it.", "<span style = \"color:red\">You hold [plant] over [src]'s flame, starting to roast it.</span>")
+
+			sleep (rand(cook_time,cook_time*2))
+			if (plant && plant.loc == user && locate(src) in range(1, user))
+				visible_message("<span style = \"color:blue\">[plant] starts to brown.</span>")
+			else
+				if (plant)
+					plant.cooking = 0
+				return
+
+			sleep (rand(cook_time,cook_time*1.5))
+			if (plant && plant.loc == user && locate(src) in range(1, user))
+				visible_message("<span style = \"color:blue\">[plant] smells pretty good. It must be cooking nicely.</span>")
+			else
+				if (plant)
+					plant.cooking = 0
+				return
+
+			sleep (rand(cook_time,cook_time*1.3))
+			if (plant && plant.loc == user && locate(src) in range(1, user))
+				visible_message("<span style = \"color:blue\">[plant] starts to get crispier.</span>")
+			else
+				if (plant)
+					plant.cooking = 0
+				return
+
+			sleep (rand(cook_time,cook_time*1.1))
+			if (plant && plant.loc == user && locate(src) in range(1, user))
+				visible_message("<span style = \"color:blue\">[plant] appears to be done cooking.</span>")
+			else
+				if (plant)
+					plant.cooking = 0
+				return
+
+			if (plant)
+				plant.cook(src ? src.loc : user ? user:loc : "FUCK")
+			else
+				return
+
+
+		else if (istype(edible, /obj/item/reagent_containers/food/snacks/ingredient/meat) && edible.edible)//COOKING MEAT
 			var/obj/item/reagent_containers/food/snacks/ingredient/meat/food = edible
+
+			if (!istype(food) || !food)
+				return
+
 			if (food.cooking)
 				return
+
+			if (istype(food, /obj/item/reagent_containers/food) && food.edible && food.cooked)//this is to prevent people
+			//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
+				user.visible_message("<span style = \"color:red\"><b>[user] holds [food] over [src]'s flame, but it is already cooked and burns up!</span>")
+				new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
+				qdel(food)
+				return
+
 			var/cook_time = food.cook_time
 			food.cooking = 1
 
-			user.visible_message("<span style = \"color:blue\">[user] holds the [food] over [src]'s flame, starting to cook it.", "<span style = \"color:red\">You hold the [food] over [src]'s flame, starting to cook it.</span>")
+			user.visible_message("<span style = \"color:blue\">[user] holds [food] over [src]'s flame, starting to cook it.", "<span style = \"color:red\">You hold [food] over [src]'s flame, starting to cook it.</span>")
 
 			sleep (rand(cook_time,cook_time*2))
 			if (food && food.loc == user && locate(src) in range(1, user))
@@ -416,7 +525,7 @@
 
 			sleep (rand(cook_time,cook_time*1.5))
 			if (food && food.loc == user && locate(src) in range(1, user))
-				visible_message("<span style = \"color:blue\">[food] is smelling pretty good. It must be cooking nicely.</span>")
+				visible_message("<span style = \"color:blue\">[food] smells pretty good. It must be cooking nicely.</span>")
 			else
 				if (food)
 					food.cooking = 0

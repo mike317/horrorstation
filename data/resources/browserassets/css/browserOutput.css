@@ -212,7 +212,7 @@ a.popt {text-decoration: none;}
 .motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover {color: #638500;}
 
 /* ADD HERE FOR BOLD */
-.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal {font-weight: bold;}
+.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc {font-weight: bold;}
 
 /* ADD HERE FOR ITALIC */
 .italic, .ghostdronesay.broadcast {font-style: italic;}
@@ -230,6 +230,15 @@ a.popt {text-decoration: none;}
 .gfartadmin {color: #996600;}
 .mentorooc {color: #7b00ff;}
 .mentorlooc {color: #a24cff;}
+.coder {color: #4A235A;}
+.coderooc {color: #4A235A;}
+.coderlooc {color:#5B2C6F;}
+.codermin {color:#1A5276;}
+.cooderminooc {color:#1A5276;}
+.coderminlooc {color:#1F618D;}
+.donor1 {color:#B7950B;}
+.donor1ooc {color:#B7950B;}
+.donor1looc {color:#D4AC0D;}
 .medal {color: #808000;}
 .combat {color: #ff0000;}
 .say {}

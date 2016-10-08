@@ -4,7 +4,6 @@
 	icon = 'icons/obj/foodNdrink/food_dessert.dmi'
 	desc = "A null pie. You shouldn't be able to see this!"
 	needspoon = 1
-	hunger_heal = 55
 	var/splat = 0 // for thrown pies
 
 	throw_impact(atom/hit_atom)

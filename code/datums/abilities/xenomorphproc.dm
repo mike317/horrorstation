@@ -302,19 +302,36 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		X.addAbility(/datum/targetable/xenomorph/build_with_resin)
 
 		X.addAbility(/datum/targetable/xenomorph/devour)
+
+		X.addAbility(/datum/targetable/xenomorph/rend)
+
+		X.addAbility(/datum/targetable/xenomorph/bioflashlight)
 		//if (H.mutantrace:bigXeno == 0)
 		//	X.addAbility(/datum/targetable/xenomorph/leap_toggle)
 
 		if (isAlienDrone(H))
 			X.addAbility(/datum/targetable/xenomorph/weed)
-
-		if (isAlienDrone(H))
 			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
+			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
+
 		if (isAlienQueen(H))
 			X.addAbility(/datum/targetable/xenomorph/build_egg)
 
 		if (H.mind)
 			H.mind.is_xenomorph = X
+
+	if (lowertext(caste) == "warrior")
+		X.addAbility(/datum/targetable/xenomorph/penetrate)
+	if (lowertext(caste) == "sentinel" || lowertext(caste) == "praetorian")
+		X.addAbility(/datum/targetable/xenomorph/spit)
+		X.addAbility(/datum/targetable/xenomorph/kamikaze)
+		X.addAbility(/datum/targetable/xenomorph/secrete_acid_cloud)
+		X.addAbility(/datum/targetable/xenomorph/secrete_acid)
+		if (lowertext(caste) == "praetorian")
+			X.addAbility(/datum/targetable/xenomorph/rip_apart)
+			X.addAbility(/datum/targetable/xenomorph/slam)
+			X.addAbility(/datum/targetable/xenomorph/crush)
+			X.addAbility(/datum/targetable/xenomorph/tailwhip)
 
 	H.name = H.get_new_xenomorph_name()
 	H.real_name = H.name
@@ -446,6 +463,18 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 	X.removeAbility(/datum/targetable/xenomorph/hide)
 	X.removeAbility(/datum/targetable/xenomorph/squeeze)
 
+	X.removeAbility(/datum/targetable/xenomorph/rend)
+	X.removeAbility(/datum/targetable/xenomorph/penetrate)
+	X.removeAbility(/datum/targetable/xenomorph/rip_apart)
+	X.removeAbility(/datum/targetable/xenomorph/spit)
+	X.removeAbility(/datum/targetable/xenomorph/slam)
+	X.removeAbility(/datum/targetable/xenomorph/crush)
+	X.removeAbility(/datum/targetable/xenomorph/tailwhip)
+	X.removeAbility(/datum/targetable/xenomorph/bioflashlight)
+	X.removeAbility(/datum/targetable/xenomorph/kamikaze)
+	X.removeAbility(/datum/targetable/xenomorph/release_pheromones)
+	X.removeAbility(/datum/targetable/xenomorph/secrete_acid_cloud)
+	X.removeAbility(/datum/targetable/xenomorph/secrete_acid)
 
 	if (!isAlienHugger(src))
 		X.addAbility(/datum/targetable/xenomorph/build_with_resin)
@@ -453,6 +482,12 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 	//	if (src.mutantrace:bigXeno == 0)
 	//		X.addAbility(/datum/targetable/xenomorph/leap_toggle)
 		X.addAbility(/datum/targetable/xenomorph/evolve)
+
+		X.addAbility(/datum/targetable/xenomorph/rend)
+
+		X.addAbility(/datum/targetable/xenomorph/bioflashlight)
+
+
 	else
 		X.addAbility(/datum/targetable/xenomorph/hide)
 		X.addAbility(/datum/targetable/xenomorph/squeeze)
@@ -468,8 +503,24 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		if (isAlienDrone(src))
 			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
 			X.addAbility(/datum/targetable/xenomorph/weed)
+			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
 		if (isAlienQueen(src))
 			X.addAbility(/datum/targetable/xenomorph/build_egg)
+
+	if (isAlienWarrior(src))
+		X.addAbility(/datum/targetable/xenomorph/penetrate)
+
+	if (isAlienSentinel(src) || isAlienPraetorian(src))
+		X.addAbility(/datum/targetable/xenomorph/spit)
+		X.addAbility(/datum/targetable/xenomorph/kamikaze)
+		X.addAbility(/datum/targetable/xenomorph/secrete_acid)
+		X.addAbility(/datum/targetable/xenomorph/secrete_acid_cloud)
+
+	if (isAlienPraetorian(src))
+		X.addAbility(/datum/targetable/xenomorph/rip_apart)
+		X.addAbility(/datum/targetable/xenomorph/slam)
+		X.addAbility(/datum/targetable/xenomorph/crush)
+		X.addAbility(/datum/targetable/xenomorph/tailwhip)
 
 /mob/living/carbon/human/proc/xSetMobEvolution(var/e, var/devolution = 0, var/admintransed = 0)//the code below is almost pure copypaste from transform_procs, xenomorphize()
 														//devolution being set to -1 causes the icon to be a leaping one.

@@ -8,6 +8,10 @@
 	heal_amt = 0
 	custom_food = 0
 
+	cook_time = 30
+	cooking = 0
+	cooked = 0
+
 /obj/item/reagent_containers/food/snacks/ingredient/meat/
 	name = "raw meat"
 	desc = "you shouldnt be able to see this either!!"
@@ -15,8 +19,33 @@
 	amount = 1
 	heal_amt = 0
 	custom_food = 1
-	var/cook_time = 50
-	var/cooking = 0
+
+	cook_time = 75
+	cooking = 0
+	cooked = 0
+
+	attackby(var/obj/item/o as obj, var/mob/user as mob)
+		if (o.hit_type == DAMAGE_CUT)
+			if (istype(o, /obj/item/kitchen/utensil))
+				slice(user)
+			else
+				if (prob(70))
+					slice(user)
+				else
+					user.visible_message("<span style = \"color:red\">[user] accidentally cuts themselves!</span>", "<span style = \"color:red\">You accidentally cut yourself!</span>")
+					user.TakeDamage("All", rand(5,10), 0, 0, DAMAGE_CUT)
+		else
+			boutput(user, "<span style = \"color:red\">You can't make bacon with this! You need a knife.</span>")
+
+	proc/slice(var/mob/user)
+		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat) || istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
+			boutput(src, "<span style = \"color:red\">You can't make bacon with this!</span>")
+		else
+			user.visible_message("<span style = \"color:blue\">[user] slices the [src] into some pieces of bacon.</span>", "<span style = \"color:blue\">You slice the [src] into some pieces of bacon.</span>")
+			var/max = rand(3,6)
+			for (var/v = 1, v <= max, v++)
+				new/obj/item/reagent_containers/food/snacks/ingredient/meat/bacon(src.loc)
+			qdel(src)
 
 	New()
 		..()
@@ -24,9 +53,10 @@
 		reagents.metabolize(src)
 
 	heal(var/mob/living/M)
-		boutput(M, "<span style=\"color:red\">Eating raw meat probably wasn't a good idea.</span>")
-		if (prob(66))
-			M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1)
+		if (!cooked)
+			boutput(M, "<span style=\"color:red\">Eating raw meat probably wasn't a good idea.</span>")
+			if (prob(66))
+				M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1)
 		/*
 		if (prob(33))
 			boutput(M, "<span style=\"color:red\">You briefly think you probably shouldn't be eating raw meat.</span>")
@@ -38,27 +68,73 @@
 			new /obj/decal/cleanable/blood(T)
 		..()
 
-	proc/cook(var/turf/T)
+	cook(var/turf/T)
+		..()
+
 		if (T == "FUCK")
 			return 0
+
+		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
+
+			src.cooked = 1
+			src.name = "cooked bacon"
+			var/overlay = icon(src.icon, "cooked")
+			var/icon/i = src.icon
+			i.Blend(overlay, ICON_MULTIPLY)
+			src.icon = i
+			src.spoiled -= rand(1,3)
+			src.dysentery -= rand(10,20)
+
+		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat))
+			var/obj/item/reagent_containers/food/snacks/steak_m/s = new/obj/item/reagent_containers/food/snacks/steak_m(T)
+			src.reagents.trans_to_direct(s)
+
+			s.spoiled = src.spoiled
+			s.dysentery = src.dysentery
+
+			s.name = "cooked meat"
+			s.cooked = 1
+			s.spoiled -= rand(1,3)
+			s.dysentery -= rand(10,20)
+
+		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat))
+			var/obj/item/reagent_containers/food/snacks/steak_h/s = new/obj/item/reagent_containers/food/snacks/steak_h(T)
+			//actually fuck it how would you be able to tell that this is human meat
+			src.reagents.trans_to_direct(s)
+
+			s.spoiled = src.spoiled
+			s.dysentery = src.dysentery
+
+			s.name = "cooked meat"
+			s.cooked = 1
+			s.spoiled -= rand(1,3)
+			s.dysentery -= rand(10,20)
+		//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat
+			//	v:name = "Human Meat"
+		else
+			var/obj/item/reagent_containers/food/snacks/steak_generic/s = new/obj/item/reagent_containers/food/snacks/steak_generic(T)
+			src.reagents.trans_to_direct(s)
+
+			s.spoiled = src.spoiled
+			s.dysentery = src.dysentery
+
+			s.name = "cooked meat"
+			s.cooked = 1
+			s.spoiled -= rand(1,3)
+			s.dysentery -= rand(10,20)
+
+
 		if (src)
 			qdel(src)
 		else
 			return
 
-		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat))
-			var/obj/item/reagent_containers/food/snacks/steak_m/s = new/obj/item/reagent_containers/food/snacks/steak_m(T)
-			s.name = "cooked meat"
-		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat))
-			var/obj/item/reagent_containers/food/snacks/steak_h/s = new/obj/item/reagent_containers/food/snacks/steak_h(T)
-			//actually fuck it how would you be able to tell that this is human meat
-			s.name = "cooked meat"
+/obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat
+	name = "??? meat"
+	desc = "A slab of meat."
+	amount = 1
 
-		//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat
-			//	v:name = "Human Meat"
-		else
-			var/obj/item/reagent_containers/food/snacks/steak_generic/s = new/obj/item/reagent_containers/food/snacks/steak_generic(T)
-			s.name = "cooked meat"
+	cook_time = 75//very tender
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat
 	name = "-meat"
@@ -83,7 +159,7 @@
 	amount = 1
 	food_color = "#FF6699"
 	real_name = "fish"
-	cook_time = 40
+	cook_time = 70
 
 	salmon
 		name = "salmon fillet"
@@ -101,7 +177,7 @@
 	desc = "Synthetic meat grown in hydroponics."
 	amount = 1
 
-	cook_time = 30
+	cook_time = 60
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat
 	name = "mystery meat"
@@ -109,7 +185,12 @@
 	icon_state = "mysterymeat"
 	amount = 1
 
-	cook_time = 20
+	cook_time = 50
+
+	New()
+		..()
+		if (prob(30))
+			reagents.add_reagent("rancidity", 10)
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon
 	name = "bacon"

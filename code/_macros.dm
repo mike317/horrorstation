@@ -26,7 +26,15 @@
 #define COLD 0
 #define REALLY_COLD -1
 #define SUPER_COLD -2
+//reagents
+#define SPOIL_STATE_ZERO 0
+#define SPOIL_STATE_ONE 1
+#define SPOIL_STATE_TWO 2
+#define SPOIL_STATE_THREE 3
 
+#define HEATED_TRUE 1
+#define HEATED_FALSE 0
+//end reagents
 #define isclient(x) istype(x, /client)
 #define ismob(x) istype(x, /mob)
 #define isobserver(x) istype(x, /mob/dead)

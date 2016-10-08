@@ -12,7 +12,7 @@ datum/controller/process/items
 			object.initialize()
 
 		detailed_count = new
-		
+
 		src.processing_items = global.processing_items
 
 	doWork()

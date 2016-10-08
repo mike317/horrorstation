@@ -3,12 +3,12 @@
 	icon = 'icons/obj/foodNdrink/food_bread.dmi'
 	amount = 4
 	heal_amt = 2
-	hunger_heal = 60
 	var/hname = null
 	var/job = null
 	food_color = "#FFFFCC"
 	custom_food = 0
 	initial_volume = 30
+
 
 	meat_h
 		name = "manwich"

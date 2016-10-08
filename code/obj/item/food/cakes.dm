@@ -7,7 +7,6 @@
 	w_class = 1
 	amount = 1
 	heal_amt = 2
-	hunger_heal = 50
 	initial_volume = 5
 
 	New()

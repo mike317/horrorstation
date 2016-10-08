@@ -1242,6 +1242,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
 			logTheThing("say", src, null, "attempted to access Topic() through add_memory()")
+			message_admins("[key_name(src)] has attempted to access Topic() through add_memory()")
 			return
 
 	if (mind.last_memory_time + 10 <= world.time)
@@ -2242,6 +2243,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
 			logTheThing("say", src, null, "attempted to access Topic() through say")
+			message_admins("[key_name(src)] has attempted to access Topic() through say")
 			return
 
 	if (src.client && url_regex && url_regex.Find(message))
@@ -2265,7 +2267,8 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	var/message_check = lowertext(message)
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
-			logTheThing("say", src, null, "attempted to access Topic() through say")
+			logTheThing("say", src, null, "attempted to access Topic() through me_verb()")
+			message_admins("[key_name(src)] has attempted to access Topic() through me_verb()")
 			return
 
 	if (src.client && !src.client.holder && url_regex && url_regex.Find(message))
@@ -2285,7 +2288,8 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	var/message_check = lowertext(message)
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
-			logTheThing("say", src, null, "attempted to access Topic() through say")
+			logTheThing("say", src, null, "attempted to access Topic() through say_dead()")
+			message_admins("[key_name(src)] has attempted to access Topic() through say_dead()")
 			return
 
 	var/name = src.real_name
@@ -2366,7 +2370,8 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	var/message_check = lowertext(text)
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
-			logTheThing("say", src, null, "attempted to access Topic() through say")
+			logTheThing("say", src, null, "attempted to access Topic() through say_quote()")
+			message_admins("[key_name(src)] has attempted to access Topic() through say_quote()")
 			return
 
 	var/ending = copytext(text, length(text))
@@ -2597,6 +2602,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
 			logTheThing("say", src, null, "attempted to access Topic() through OOC")
+			message_admins("[key_name(src)] has attempted to access Topic() through OOC")
 			return
 
 	msg = trim(copytext(html_encode(sanitize(msg)), 1, MAX_MESSAGE_LEN))
@@ -2643,13 +2649,21 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 			else
 				display_name += " (as [src.client.fakekey])"
 
+		if (src.client.isDonor())
+			ooc_class = "donor1"
+
 		if (src.client.holder && (!src.client.stealth || C.holder))
 			if (src.client.holder.level == LEVEL_BABBY)
 				ooc_class = "gfartooc"
 			else
-				ooc_class = "adminooc"
+				if (src.client.holder.rank == "Coder" || src.client.holder.rank == "Iconner" || src.client.holder.rank == "Mapper" || src.client.holder.level == LEVEL_NOPOWER)
+					ooc_class = "coderooc"
+				else
+					ooc_class = "adminooc"
+
 		else if (src.client.mentor)
 			ooc_class = "mentorooc"
+
 
 		var/rendered = "<span class=\"ooc [ooc_class]\"><span class=\"prefix\">OOC:</span> <span class=\"name\" data-ctx='\ref[src.mind]'>[display_name]:</span> <span class=\"message\">[msg]</span></span>"
 
@@ -2682,6 +2696,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
 			logTheThing("say", src, null, "attempted to access Topic() through LOOC")
+			message_admins("[key_name(src)] has attempted to access Topic() through LOOC")
 			return
 
 	msg = trim(copytext(html_encode(sanitize(msg)), 1, MAX_MESSAGE_LEN))
@@ -2745,11 +2760,17 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 			else
 				display_name += " (as [src.client.fakekey])"
 
+		if (src.client.isDonor())
+			looc_class = "donor1"
+
 		if (src.client.holder && (!src.client.stealth || C.holder))
 			if (src.client.holder.level == LEVEL_BABBY)
 				looc_class = "gfartlooc"
 			else
-				looc_class = "adminlooc"
+				if (src.client.holder.rank == "Coder" || src.client.holder.rank == "Iconner" || src.client.holder.rank == "Mapper" || src.client.holder.level == LEVEL_NOPOWER)
+					looc_class = "coderlooc"
+				else
+					looc_class = "adminlooc"
 		else if (src.client.mentor)
 			looc_class = "mentorlooc"
 
@@ -3154,6 +3175,7 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 			for (var/v in prohibited_strings)
 				if (findtext(message_check, v))
 					logTheThing("say", src, null, "attempted to access Topic() through choose_name()")
+					message_admins("[key_name(src)] has attempted to access Topic() through choose_name()")
 					return
 			newname = strip_html(newname, 32, 1)
 			if (!length(newname) || length(newname <= 3) || copytext(newname,1,2) == " ")

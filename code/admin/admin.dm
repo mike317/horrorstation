@@ -43,7 +43,7 @@ var/global/noir = 0
 /proc/rank_to_level(var/rank)
 	var/level = 0
 	switch(rank)
-		if("Host")
+		if("Headmin")
 			level = LEVEL_HOST
 			/*
 		if("Coder")
@@ -51,8 +51,8 @@ var/global/noir = 0
 			*/
 		if ("Codermin")
 			level = LEVEL_CODER
-		if("Shit Person")
-			level = LEVEL_SHITGUY
+	//	if("Shit Person")
+	//		level = LEVEL_SHITGUY
 		if("Primary Administrator")
 			level = LEVEL_PA
 		if("Administrator")
@@ -61,17 +61,16 @@ var/global/noir = 0
 			level = LEVEL_SA
 		if("Moderator")
 			level = LEVEL_MOD
-		if("Goat Fart", "Ayn Rand's Armpit")
-			level = LEVEL_BABBY
+	//	if("Goat Fart", "Ayn Rand's Armpit")
+	//		level = LEVEL_BABBY
 		if ("Coder")
 			level = LEVEL_NOPOWER
 		if ("Iconner")
 			level = LEVEL_NOPOWER
 		if ("Mapper")
 			level = LEVEL_NOPOWER
-		//GIMMICK RANKS
-		if ("Cool Killer")
-			level = LEVEL_NOPOWER
+
+
 
 	return level
 

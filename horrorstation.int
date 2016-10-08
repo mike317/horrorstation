@@ -1,9 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475813312
-DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui 
+LAST_COMPILE_TIME: 1475899535
+DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\xenomorph code\datums\chemistry code\obj code\obj\item code\obj\item\food code\WorkInProgress 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
+WINDOW: code\datums\abilities\xenomorph\s-acid.dm;code\datums\abilities\xenomorphproc.dm;code\WorkInProgress\actuallyKeelinsStuff.dm
+FILE: code\datums\abilities\xenomorph\s-acid.dm
 */
 // END_INTERNALS

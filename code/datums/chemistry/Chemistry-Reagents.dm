@@ -2,6 +2,7 @@
 #define LIQUID 2
 #define GAS 3
 
+
 //The reaction procs must ALWAYS set src = null, this detaches the proc from the object (the reagent)
 //so that it can continue working when the reagent is deleted while the proc is still active.
 
@@ -16,7 +17,11 @@ datum
 		var/list/pathogen_nutrition = null
 		var/reagent_state = SOLID
 		var/data = null
-		var/spoiled = 0
+
+		var/spoiled = SPOIL_STATE_ONE
+		var/dysentery = SPOIL_STATE_ONE
+		var/heated = HEATED_FALSE
+
 		var/volume = 0
 		///Fluids now have colors
 		var/transparency = 150
@@ -132,6 +137,7 @@ datum
 			if(T.material)
 				T.material.triggerChem(T, src, volume)
 			return
+			/*
 
 		proc/spoil(var/obj/O)
 
@@ -168,7 +174,7 @@ datum
 				if (istype(holder.my_atom, /obj/item/reagent_containers/food/))
 					var/obj/item/reagent_containers/food/f = holder.my_atom
 					f.spoilf()
-
+*/
 
 		proc/on_mob_life(var/mob/M)
 			if (!M || !M.reagents)
@@ -186,13 +192,6 @@ datum
 			//if(M && M.stat == 2 && src.id != "montaguone" && src.id != "montaguone_extra") M.reagents.del_reagent(src.id) // no more puking corpses and such
 			return
 
-		proc/on_obj_life(var/obj/O)
-			if (!O || !O.reagents)
-				return
-			if (!holder)
-				holder = O.reagents
-			//no depletion
-			return
 
 
 		proc/on_plant_life(var/obj/machinery/plantpot/P)

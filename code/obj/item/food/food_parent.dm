@@ -12,7 +12,7 @@
 	var/heal_amt = 0
 	var/spoiled = 0
 	var/spoiled_icon = 'icons/obj/foodNdrink/food_spoiled.dmi'
-	var/hunger_heal = 10
+//	var/hunger_heal = 10
 	var/needfork = 0
 	var/needspoon = 0
 	var/food_color = "#FF0000" //Color for various food items
@@ -25,21 +25,121 @@
 	var/unlock_medal_when_eaten = null // Add medal name here in the format of e.g. "That tasted funny".
 	rc_flags = 0
 
+	var/cook_time = 10
+	var/cooking = 0
+	var/cooked = 0
+
+	var/dysentery = 0
+
 	New()
 		..()
+		if (!reagents)
+			reagents = new/datum/reagents()
+		if (prob(1))
+			reagents.add_reagent("vampire_serum", 1)
+		if (prob(1))
+			reagents.add_reagent("werewolf_serum", 1)
+		if (prob(5))
+			reagents.add_reagent("green mucus", 5)
+		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
+			if (prob(80))
+				reagents.add_reagent("salmonella", 10)
+			if (prob(60))
+				reagents.add_reagent("e.coli", 20)
+		if (prob(7))
+			reagents.add_reagent("rancidity", 15)
+
+		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
+			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat))
+				reagents.add_reagent("nutriment", rand(30,40))
+			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
+				reagents.add_reagent("nutriment", rand(15,25))//with an average of 4.5 slices of bacon per meat, that's 90 nutriment!
+			else
+				reagents.add_reagent("nutriment", rand(40,50))
+		else
+			if (istype(src, /obj/item/reagent_containers/food/snacks/plant))
+				reagents.add_reagent("nutriment", rand(5,10))
+
+			else
+				if (istype(src, /obj/item/reagent_containers/food/snacks))
+					reagents.add_reagent("nutriment", heal_amt * rand(2,3))
+
 		spawn(50)
 			antcheck()
+			spoilage_loop()
 
-	proc/spoilf()
-//		if (!istype(src, /obj/item/reagent_containers/food/snacks/ingredient))
-		//	return 0
+	proc/spoilage_loop()
+		spawn while (1)
+			if (!reagents)
+				break
+
+			var/bad_reagents_amt = reagents.get_reagent_amount("salmonella") + reagents.get_reagent_amount("e. coli") + reagents.get_reagent_amount("rancidity")
+
+			var/good_reagents_amt = reagents.get_reagent_amount("salt")
+
+			var/less_good_reagents_amt = reagents.get_reagent_amount("pepper")
+
+			var/alcohol_amt = 0
+
+			var/ids_to_find[0]
+
+			for (var/datum/reagent/r in reagents.reagent_list)
+				if (istype(r, /datum/reagent/fooddrink/alcoholic))
+					ids_to_find += r.id
+
+			for (var/v in ids_to_find)
+				alcohol_amt += reagents.get_reagent_amount("[v]")
+
+			var/base_probability_one = 1
+			var/base_probability_two = 20
+			//spoils after 500 ticks on average
+
+			if (bad_reagents_amt > good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))
+				base_probability_two *= (2 + (bad_reagents_amt/(good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))))
+
+			else if (good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2) > bad_reagents_amt)
+				base_probability_two /= (2 + ((good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))/bad_reagents_amt))
+
+			if (prob(base_probability_one) && prob(alcohol_amt))
+				remove_bad_reagents()
+
+			if (prob(base_probability_one) && prob(base_probability_two))
+				spoil()
+				if (prob(80) && good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2) < 10)
+					spoil()
+
+			sleep(10)
+
+	proc/remove_bad_reagents()
+		reagents.remove_reagent("salmonella", 50)
+		reagents.remove_reagent("e. coli", 50)
+		if (prob(90))
+			reagents.remove_reagent("rancidity", 50)
+
+	proc/cook(var/turf/T = null)
+		reagents.remove_reagent("salmonella", 50)
+		reagents.remove_reagent("e. coli", 50)
+		if (prob(90))
+			reagents.remove_reagent("rancidity", 50)
+
+		if (prob(66))
+			reagents.clear_reagents()
+
+		cooked = 1
+		cooking = 0
+
+
+	proc/spoil()//happens every seconds
+
+
+
 		spoiled++
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 			if (spoiled > 1)
 				icon = spoiled_icon
 		else if (istype(src, /obj/item/reagent_containers/food/drinks) || istype(src, /obj/item/reagent_containers/food/drinks/drinkingglass))
 			if (src.reagents.total_volume > 0)
-				src:dysentery += max(src.reagents.total_volume/10, 1)//between 1 and 10
+				src:dysentery += max(src.reagents.total_volume/5, 1)//between 1 and 20
 		return 1
 
 	proc/on_table()
@@ -85,7 +185,7 @@
 				var/mob/living/carbon/human/H = M
 				H.take_toxin_damage(20)
 				H.updatehealth()
-				if (prob(30))
+				if (prob(30) || spoiled_fuck > 2)
 					boutput(H, "<span style = \"color:red\"><b>You think you're going to be sick!</span></b>")
 					H.take_toxin_damage(15)
 					H.emote("vomit")
@@ -129,6 +229,8 @@
 			score_foodeaten++
 			M.updatehealth()
 
+
+
 /* ================================================ */
 /* -------------------- Snacks -------------------- */
 /* ================================================ */
@@ -147,6 +249,10 @@
 	module_research = list("cuisine" = 6)
 	module_research_type = /obj/item/reagent_containers/food/snacks
 	rand_pos = 1
+
+	cook_time = 10
+	cooking = 0
+	cooked = 1
 
 /*	attackby(obj/item/W as obj, mob/user as mob)
 		if (istype(W, /obj/item/shaker))
@@ -193,7 +299,14 @@
 				if (ishuman(M))
 					var/mob/living/carbon/human/H = M
 					var/was_starve_in_deciseconds = H.will_starve_in_deciseconds
-					H.will_starve_in_deciseconds += rand(src.hunger_heal * 7, src.hunger_heal * 14)
+
+					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")/2
+
+					H.will_starve_in_deciseconds += rand(hunger_heal * 7, hunger_heal * 14)
+
+					src.reagents.remove_reagent("nutriment", hunger_heal)
+
+
 					//this means ~1000 on average for meat
 
 					if (H.will_starve_in_deciseconds >= 7000 && was_starve_in_deciseconds < 6000)//very difficult jump
@@ -269,7 +382,12 @@
 
 				if (ishuman(M))
 					var/mob/living/carbon/human/H = M
-					H.will_starve_in_deciseconds += rand(src.hunger_heal * 10, src.hunger_heal * 20)
+
+					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")/2
+
+					H.will_starve_in_deciseconds += rand(hunger_heal * 7, hunger_heal * 14)
+
+					src.reagents.remove_reagent("nutriment", hunger_heal)
 
 				src.heal(M)
 				playsound(M.loc, "sound/items/eatfood.ogg", rand(10,50), 1)
@@ -308,8 +426,11 @@
 	flags = FPRINT | TABLEPASS | OPENCONTAINER | SUPPRESSATTACK
 	rc_flags = RC_FULLNESS | RC_VISIBLE | RC_SPECTRO
 	var/gulp_size = 5 //This is now officially broken ... need to think of a nice way to fix it.
-	var/dysentery = 0
 	doants = 0
+
+	var/heating = 0
+	var/heat_time = 200
+	var/heated = 0
 
 	New()
 		..()
@@ -319,6 +440,18 @@
 		//gulp_size = round(reagents.total_volume / 5)
 		//if (gulp_size < 5) gulp_size = 5
 		return
+
+	cook(var/turf/T)
+		..()
+
+		if (T == "FUCK")
+			return 0
+
+		name = "warm [src]"
+		spoiled -= rand(1,5)
+		dysentery -= rand(10,20)
+		cooked = 1
+
 
 	on_reagent_change()
 		update_gulp_size()
@@ -386,76 +519,16 @@
 						src.reagents.trans_to(M, min(reagents.total_volume, gulp_size))
 
 			playsound(M.loc,"sound/items/drink.ogg", rand(10,50), 1)
-			M.urine += 0.1
+		//	M.urine += 0.1 //no more
 
 			if (ishuman(M))
 				var/mob/living/carbon/human/H = M
+				H.dysentery = max(H.dysentery + dysentery/gulp_size, dysentery/gulp_size)
+				H.dysentery = min(H.dysentery, 100)
 
-				H.dysentery += dysentery
+				if (prob(H.dysentery * 2))
+					H.contract_disease(/datum/ailment/disease/food_poisoning/med)
 
-				moredysentery
-
-				switch (H.dysentery)//minimum of 1 to 10 from a single gulp
-					if (1 to 5)
-						spawn(rand(400,600))
-							boutput(M, "<span style = \"color:red\">You feel slightly sick, but it's probably nothing to worry about.</span>")
-							M.slowed = 1
-							spawn (rand(5,15))
-								M.slowed = 0
-							if (prob(10))
-								H.dysentery += 5
-								goto moredysentery
-							else if (prob(5))
-								H.dysentery += rand(10, 100)
-								goto moredysentery
-					if (6 to 9)
-						spawn(rand(500,700))
-							boutput(M, "<span style = \"color:red\">You feel a bit sick.</span>")
-							M.slowed = 1
-							spawn (rand(10,30))
-								M.slowed = 0
-
-							if (prob(10))
-								spawn (rand(1000, 10000))
-									boutput(M, "<span style = \"color:red\"><big>You feel really sick!</span></big>")
-									M.take_toxin_damage(10)
-									if (prob(20))
-										spawn (rand(1000, 5000))
-											boutput(M, "<span style = \"color:red\"><big>You feel really, really sick.</span></big>")
-											M.take_toxin_damage(25)
-					if (10 to 100)
-						var/likelihood = 1
-						if (H.dysentery >= 10 && H.dysentery <= 20)
-							likelihood = 1
-						else if (H.dysentery > 20 && H.dysentery < 50)
-							likelihood = 2
-						else
-							likelihood = 3
-
-						spawn(rand(500,700))
-							boutput(M, "<span style = \"color:red\">You feel a bit sick.</span>")
-							M.weakened += 3
-							M.stunned += 3
-
-							if (prob(30 * likelihood))
-								spawn (rand(1000, 10000))
-									boutput(M, "<span style = \"color:red\"><big>You feel really sick!</span></big>")
-									M.take_toxin_damage(10)
-									if (prob(30 * likelihood))
-										spawn (rand(1000, 5000))
-											boutput(M, "<span style = \"color:red\"><big>You feel really, really sick.</span></big>")
-											M.take_toxin_damage(25)
-											if (prob(30 * likelihood))
-												spawn (rand(2000, 3000))
-													boutput(M, "<span style = \"color:red\"><big>You fall to the ground, severely weakened!</span></big>")
-													M.take_toxin_damage(50)
-													M.weakened += 10
-													M.stunned += 10
-													if (prob(30 * likelihood))
-														for (var/v = 1, v <= 10, v++)
-															spawn (v * 100)
-																if (M.get_toxin_damage() > 40)
-																	M.take_toxin_damage(30)
 
 			return 1
 
@@ -490,67 +563,6 @@
 			boutput(user, "<span style=\"color:blue\">You transfer [trans] units of the solution to [target].</span>")
 
 		return
-
-/* =============================================== */
-/* -------------------- Bowls -------------------- */
-/* =============================================== */
-
-/obj/item/reagent_containers/food/drinks/bowl
-	name = "bowl"
-	desc = "A bowl is a common open-top container used in many cultures to serve food, and is also used for drinking and storing other items."
-	icon = 'icons/obj/kitchen.dmi'
-	icon_state = "bowl"
-	item_state = "zippo"
-	initial_volume = 50
-	rc_flags = RC_FULLNESS | RC_VISIBLE | RC_SPECTRO
-
-	var/image/fluid_image = null
-
-	New()
-		..()
-		fluid_image = image('icons/obj/kitchen.dmi', "fluid")
-
-	on_reagent_change()
-		src.overlays = null
-		if (reagents.total_volume)
-			var/datum/color/average = reagents.get_average_color()
-			fluid_image.color = average.to_rgba()
-			src.overlays += src.fluid_image
-
-	attackby(obj/item/W as obj, mob/user as mob)
-		if (istype(W, /obj/item/reagent_containers/food/snacks/cereal_box))
-			var/obj/item/reagent_containers/food/snacks/cereal_box/cbox = W
-
-			var/obj/newcereal = new /obj/item/reagent_containers/food/snacks/soup/cereal(get_turf(src), cbox.prize)
-			cbox.prize = 0
-			newcereal.reagents = src.reagents
-
-			if (newcereal.reagents)
-				newcereal.reagents.my_atom = newcereal
-				src.reagents = null
-			else
-				newcereal.reagents = new /datum/reagents(50)
-				newcereal.reagents.my_atom = newcereal
-
-			newcereal.on_reagent_change()
-
-			user.visible_message("<b>[user]</b> pours [cbox] into [src].", "You pour [cbox] into [src].")
-			cbox.amount--
-			if (cbox.amount < 1)
-				boutput(user, "<span style=\"color:red\">You finish off the box!</span>")
-				qdel(cbox)
-
-			qdel(src)
-
-		else if (istype(W, /obj/item/reagent_containers/food/snacks/tortilla_chip))
-			if (reagents.total_volume)
-				boutput(user, "You dip [W] into the bowl.")
-				reagents.trans_to(W, 10)
-			else
-				boutput(user, "<span style=\"color:red\">There's nothing in the bowl to dip!</span>")
-
-		else
-			..()
 
 /* ======================================================= */
 /* -------------------- Drink Bottles -------------------- */
@@ -1049,3 +1061,65 @@
 				fluid_image = image(src.icon, "fluid-pitcher")
 			fluid_image.color = average.to_rgba()
 			src.overlays += src.fluid_image
+
+/* =============================================== */
+/* -------------------- Bowls -------------------- */
+/* =============================================== */
+
+/obj/item/reagent_containers/food/drinks/bowl
+	name = "bowl"
+	desc = "A bowl is a common open-top container used in many cultures to serve food, and is also used for drinking and storing other items."
+	icon = 'icons/obj/kitchen.dmi'
+	icon_state = "bowl"
+	item_state = "zippo"
+	initial_volume = 50
+	rc_flags = RC_FULLNESS | RC_VISIBLE | RC_SPECTRO
+
+	var/image/fluid_image = null
+
+	New()
+		..()
+		fluid_image = image('icons/obj/kitchen.dmi', "fluid")
+
+	on_reagent_change()
+		src.overlays = null
+		if (reagents.total_volume)
+			var/datum/color/average = reagents.get_average_color()
+			fluid_image.color = average.to_rgba()
+			src.overlays += src.fluid_image
+
+	attackby(obj/item/W as obj, mob/user as mob)
+		if (istype(W, /obj/item/reagent_containers/food/snacks/cereal_box))
+			var/obj/item/reagent_containers/food/snacks/cereal_box/cbox = W
+
+			var/obj/newcereal = new /obj/item/reagent_containers/food/snacks/soup/cereal(get_turf(src), cbox.prize)
+			cbox.prize = 0
+			newcereal.reagents = src.reagents
+
+			if (newcereal.reagents)
+				newcereal.reagents.my_atom = newcereal
+				src.reagents = null
+			else
+				newcereal.reagents = new /datum/reagents(50)
+				newcereal.reagents.my_atom = newcereal
+
+			newcereal.on_reagent_change()
+
+			user.visible_message("<b>[user]</b> pours [cbox] into [src].", "You pour [cbox] into [src].")
+			cbox.amount--
+			if (cbox.amount < 1)
+				boutput(user, "<span style=\"color:red\">You finish off the box!</span>")
+				qdel(cbox)
+
+			qdel(src)
+
+		else if (istype(W, /obj/item/reagent_containers/food/snacks/tortilla_chip))
+			if (reagents.total_volume)
+				boutput(user, "You dip [W] into the bowl.")
+				reagents.trans_to(W, 10)
+			else
+				boutput(user, "<span style=\"color:red\">There's nothing in the bowl to dip!</span>")
+
+		else
+			..()
+

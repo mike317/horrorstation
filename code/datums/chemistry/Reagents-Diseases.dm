@@ -194,28 +194,28 @@ datum
 			disease = /datum/ailment/disease/berserker
 
 		disease/dysentery
-			name = "salmonella bacteria"
-			id = "salmonella"
-			description = "A nasty bacteria found in spoiled food."
+			name = "dysentery bacteria"
+			id = "dysentery"
+			description = "A nasty bacteria found in water that has sat still for too long."
 			reagent_state = LIQUID
-			minimum_to_infect = 0
+			minimum_to_infect = 5
 			fluid_r = 30
 			fluid_g = 70
 			fluid_b = 0
 			transparency = 255
-			disease = /datum/ailment/disease/food_poisoning
+			disease = /datum/ailment/disease/food_poisoning/med
 
 		disease/salmonella // Food Poisoning
 			name = "salmonella bacteria"
 			id = "salmonella"
-			description = "A nasty bacteria found in spoiled food."
+			description = "A nasty bacteria found in spoiled or raw food."
 			reagent_state = LIQUID
 			minimum_to_infect = 0
 			fluid_r = 30
 			fluid_g = 70
 			fluid_b = 0
 			transparency = 255
-			disease = /datum/ailment/disease/food_poisoning
+			disease = /datum/ailment/disease/food_poisoning/weak
 
 		disease/ecoli // Food Poisoning 2
 			name = "e.coli bacteria"
@@ -227,7 +227,32 @@ datum
 			fluid_g = 70
 			fluid_b = 0
 			transparency = 255
-			disease = /datum/ailment/disease/food_poisoning
+			disease = /datum/ailment/disease/food_poisoning/med
+
+		disease/urinella//don't drink urine
+			name = "Peeium"
+			id = "peeium"
+			description = "A nasty bacteria found in human urine."
+			reagent_state = LIQUID
+			minimum_to_infect = 0
+			fluid_r = 30
+			fluid_g = 70
+			fluid_b = 0
+			transparency = 255
+			disease = /datum/ailment/disease/food_poisoning/strong
+
+		disease/rancidity
+			name = "rancidius bacterium"
+			id = "rancidity"
+			description = "A nasty bacteria found in rancid food."
+			reagent_state = LIQUID
+			minimum_to_infect = 0
+			fluid_r = 30
+			fluid_g = 70
+			fluid_b = 0
+			transparency = 255
+			disease = /datum/ailment/disease/food_poisoning/verystrong
+
 
 		disease/MRSA // for infected wounds
 			name = "MRSA"

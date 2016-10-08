@@ -29,6 +29,7 @@
 /obj/projectile
 	name = "projectile"
 	flags = TABLEPASS
+
 	var/xo
 	var/yo
 
@@ -96,6 +97,11 @@
 			return
 		if (A == shooter)
 			// never collide with the original shooter
+			return
+		if (proj_data.hits_xenos == 0 && isAlien(A))
+			log_shot(src, A, 1)
+			A.visible_message("<b><span style=\"color:red\">The [src] bounces off of [A] uselessly!</span></b>")
+			die()
 			return
 
 		// Necessary because the check in human.dm is ineffective (Convair880).
@@ -407,6 +413,7 @@ datum/projectile
 		forensic_ID = null
 		precalculated = 1
 
+		hits_xenos = 1
 	// Determines the amount of length units the projectile travels each tick
 	// A tile is 32 wide, 32 long, and 32 * sqrt(2) across.
 	// Setting this to 32 will mimic the old behaviour for shots travelling in one of the cardinal directions.

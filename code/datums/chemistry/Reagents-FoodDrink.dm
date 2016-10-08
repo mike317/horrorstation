@@ -1,5 +1,5 @@
 /mob/living/carbon/human/var/will_starve_in_deciseconds = -1
-
+/mob/living/carbon/human/var/will_dehydrate_in_deciseconds = -1
 //Contains reagents related to eating or drinking.
 /*
 
@@ -12,6 +12,110 @@ proc/spawn_edible_critters()
 					new/obj/critter/cherkir_critters/dogorsomething(l.loc)
 */
 
+/mob/living/carbon/human/proc/dehydrate()//this is a copypasta of possibly broken starve() code, change it if starve is updated
+//(Cherkir, 10/7/16)
+	var/starve_msg = ""
+	var/output_msg = ""
+
+	if (prob(90))
+		return
+
+	for (var/obj/item/reagent_containers/food/f in src)
+		if (f.cooking && prob(95))
+			return//don't constantly drop shit when you're cooking
+
+	if (isAlien(src))
+		return
+
+	else if (mutantrace && !istype(mutantrace, /datum/mutantrace/dwarf))
+		return
+
+	if (will_dehydrate_in_deciseconds == -1)
+		will_dehydrate_in_deciseconds = rand(3000,6000)
+
+	if (will_dehydrate_in_deciseconds >= 3000  || will_dehydrate_in_deciseconds <= 500)//not hungry or extremely hungry
+		var/death_chance = 50//much more powerful than the default death chance for hunger
+
+		if (will_dehydrate_in_deciseconds < 500)
+			death_chance = 100 - (will_dehydrate_in_deciseconds/10)
+			if (death_chance > 100)
+				death_chance = 100
+			if (death_chance < 50)
+				death_chance = 50
+
+		death_chance += health/5//change this
+
+		var/adapt_chance = 1//you can never get infected again
+
+		if (src.reagents.has_reagent("tapeworm"))
+			death_chance = 150//why not
+			adapt_chance = 0
+
+		for (var/datum/ailment_data/am in src.ailments)
+			if (istype(am.master, /datum/ailment/parasite/alien_larva))
+				if (prob(death_chance))
+					src.cure_disease(am, adapt_chance)//so, a 1 in 200 chance per tick to cure this. Larvae generally burst before this,
+					//so they'll still burst most of the time. Guaranteed to resist it next time
+
+
+
+
+	if (will_dehydrate_in_deciseconds < 3000)//5 minutes
+		starve_msg = "<span style = \"color:red\">You feel a bit thirsty.</span>"
+	else if (will_dehydrate_in_deciseconds < 2500)
+		starve_msg = "<span style = \"color:red\">You feel quite thirsty.</span>"
+	else if (will_dehydrate_in_deciseconds < 2000)
+		starve_msg = "<span style = \"color:red\">You feel very thirsty.</span>"
+	else if (will_dehydrate_in_deciseconds < 1000)
+		starve_msg = "<span style = \"color:red\"><b>You feel extremely thirsty!</b></span>"
+	else if (will_dehydrate_in_deciseconds < 600)//less than a minute left
+		starve_msg = "<span style = \"color:red\"><b>You feel like you'll die if you don't drink something soon!</b></span>"
+	else if (will_dehydrate_in_deciseconds < 300)//less than half a minute left!
+
+		if (prob(90))
+			starve_msg = "<span style = \"color:red\"><b>You fall to the ground, weakened by thirst!</span></b>"
+			output_msg = "<span style = \"color:red\"><b>[src] falls to the ground!</b></span>"
+			weakened += 6//worse than hunger
+			stunned += 6
+			if (prob(10))
+				paralysis += 6
+
+			src.take_toxin_damage(10)//worse than hunger
+
+			updatehealth()
+		else//more probable than in hunger
+			starve_msg = "<span style = \"color:red\"><b>You fall to the ground, severely weakened by thirst! It's like your body is starting to slowly die.</span></b>"
+			output_msg = "<span style = \"color:red\"><b>[src] falls to the ground! They don't look very good.</b></span>"
+			weakened += 10
+			stunned += 10
+			if (prob(50))
+				paralysis += 10//worse than hunger
+
+			src.take_toxin_damage(50)//way worse than hunger
+
+			updatehealth()
+
+			if (prob(25))//more likely to die than in hunger, which is prob(1)
+				src.death()
+
+	if (will_dehydrate_in_deciseconds < 2000 && will_dehydrate_in_deciseconds >= 1000 && prob(10))
+		src.take_toxin_damage(5)//much worse than in hunger
+		starve_msg = "<span style = \"color:red\"><b>Your stomach hurts.</span></b>"
+
+	else if (will_starve_in_deciseconds < 1000 && prob(10))
+		src.take_toxin_damage(10)//much worse than in hunger
+		starve_msg = "<span style =\"color:red\"><b>Your stomach <i>really</i> hurts. <i>You need water soon.</i></span></b>"
+
+	if (will_dehydrate_in_deciseconds < 1500)
+		slowed = 1
+	else
+		slowed = 0
+
+	if (output_msg)
+		visible_message(output_msg, starve_msg)
+	else
+		boutput(src, starve_msg)
+
 /mob/living/carbon/human/proc/starve()
 	var/starve_msg = ""
 	var/output_msg = ""
@@ -19,8 +123,8 @@ proc/spawn_edible_critters()
 	if (prob(90))
 		return
 
-	for (var/obj/item/reagent_containers/food/snacks/ingredient/meat/m in src)
-		if (m.cooking && prob(92))
+	for (var/obj/item/reagent_containers/food/f in src)
+		if (f.cooking && prob(95))//this was buffed because now dehydration does the same thing
 			return//don't constantly drop shit when you're cooking
 
 	if (mutantrace && !istype(mutantrace, /datum/mutantrace/dwarf))
@@ -98,11 +202,11 @@ proc/spawn_edible_critters()
 				src.death()
 
 	if (will_starve_in_deciseconds < 2000 && will_starve_in_deciseconds >= 1000 && prob(10))
-		TakeDamage("All", 0, 0, 1)
+		src.take_toxin_damage(1)
 		starve_msg = "<span style = \"color:red\"><b>Your stomach hurts.</span></b>"
 
 	else if (will_starve_in_deciseconds < 1000 && prob(10))
-		TakeDamage("All", 0, 0, 2)
+		src.take_toxin_damage(2)
 		starve_msg = "<span style =\"color:red\"><b>Your stomach <i>really</i> hurts.</span></b>"
 
 	if (will_starve_in_deciseconds < 1500)
@@ -119,7 +223,7 @@ datum
 	reagent
 		fooddrink/
 			name = "food drink stuff"
-
+/*
 			on_mob_life(var/mob/M)
 				if (istype(src, /datum/reagent/fooddrink/starve) || istype(src, /datum/reagent/fooddrink/alcoholic) || src.taste == "hot" || src.taste == "deadly")
 					..(M)
@@ -147,7 +251,8 @@ datum
 
 
 				..(M)
-
+				*/
+		//HUNGER STUFF
 		fooddrink/starve
 			name = "starve"
 			id = "starve"
@@ -170,11 +275,22 @@ datum
 
 				..(M)
 
-		fooddrink/tapeworm//like starve but leaves the body
-			name = "tapeworm"
-			id = "tapeworm"
+
+		fooddrink/nutriment
+			name = "nutriment"
+			id = "nutriment"
 
 			on_mob_life(var/mob/M)
+				..(M)
+				if (prob(20) && M.get_brute_damage() < 20 && M.get_toxin_damage() < 20)
+					M.HealDamage("All", 1, 0, 1)
+
+					if (prob(10))
+						M.HealDamage("All", 0, 1, 0)
+
+				M.updatehealth()
+
+
 				if (ishuman(M) && !isAlien(M))
 
 					var/mob/living/carbon/human/H = M
@@ -182,11 +298,99 @@ datum
 					if (H.will_starve_in_deciseconds == -1)
 						H.will_starve_in_deciseconds = rand(3000,6000)
 
-					H.will_starve_in_deciseconds -= rand(7,12)
+					H.will_starve_in_deciseconds += rand(14, 24)
 
-					H.will_starve_in_deciseconds = max(H.will_starve_in_deciseconds, 0)
+					H.will_starve_in_deciseconds = min(H.will_starve_in_deciseconds, 6000)
+
+					H.starve()
+
+
+
+				..(M)
+		//THIRST STUFF
+		fooddrink/hydration
+			name = "hydration"
+			id = "hydration"
+
+			on_mob_life(var/mob/M)
+				..(M)
+				if (prob(20) && M.get_brute_damage() < 30 && M.get_toxin_damage() < 30)
+					M.HealDamage("All", 1, 0, 1)
+
+					if (prob(10))
+						M.HealDamage("All", 0, 1, 0)
+
+				M.updatehealth()
+
+
+				if (ishuman(M) && !isAlien(M))
+
+					var/mob/living/carbon/human/H = M
+
+					if (H.will_dehydrate_in_deciseconds == -1)
+						H.will_dehydrate_in_deciseconds = rand(3000,6000)
+
+					H.will_dehydrate_in_deciseconds += rand(14, 24)
+
+					H.will_dehydrate_in_deciseconds = min(H.will_dehydrate_in_deciseconds, 6000)
+
+					H.dehydrate()
+
+
+
+				..(M)
+
+
+		fooddrink/dehydration
+			name = "dehydration"
+			id = "dehydration"
+
+			on_mob_life(var/mob/M)
+				if (ishuman(M) && !isAlien(M))
+
+					var/mob/living/carbon/human/H = M
+
+					if (H.will_dehydrate_in_deciseconds == -1)
+						H.will_dehydrate_in_deciseconds = rand(3000,6000)
+
+					H.will_dehydrate_in_deciseconds -= rand(7,12)
+
+					H.will_dehydrate_in_deciseconds = max(H.will_dehydrate_in_deciseconds, 0)
+					//if the average mob starts out with 4500 of this, and this is called every second,
+					//and we take away ~9 every second, it will take 500 seconds/8 minutes for them to dehydrate
+					H.dehydrate()
+					return//this reagent will never leave the body if you're human
+
+				..(M)
+		//hunger and thirst
+		fooddrink/tapeworm
+			name = "tapeworm"
+			id = "tapeworm"
+
+			on_mob_life(var/mob/M)
+				..(M)
+
+				if (ishuman(M) && !isAlien(M))
+
+					var/mob/living/carbon/human/H = M
+
+					if (H.will_starve_in_deciseconds == -1)
+						H.will_starve_in_deciseconds = rand(3000,6000)
+
+					if (H.will_dehydrate_in_deciseconds == -1)
+						H.will_dehydrate_in_deciseconds = rand(3000,6000)
+
+					if (prob(50))
+						H.will_starve_in_deciseconds -= rand(7,12)
+
+						H.will_starve_in_deciseconds = max(H.will_starve_in_deciseconds, 0)
 					//if the average mob starts out with 4500 of this, and this is called every second,
 					//and we take away ~9 every second, it will take 500 seconds/8 minutes for them to starve
+					else
+						H.will_dehydrate_in_deciseconds -= rand(7,12)
+
+						H.will_dehydrate_in_deciseconds = max(H.will_dehydrate_in_deciseconds, 0)
+
 					H.starve()
 
 				..(M)
@@ -232,9 +436,6 @@ datum
 			transparency = 255
 			thirst_value = 1.5
 
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil(O)
 
 			on_mob_life(var/mob/M)
 				..(M)
@@ -1693,9 +1894,6 @@ datum
 						playsound(T, "sound/effects/splat.ogg", 50, 1)
 						new /obj/decal/cleanable/blood/gibs(T)
 
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil(O)
 
 			on_mob_life(var/mob/M)
 				..(M) // call your parents  :(
@@ -2059,10 +2257,6 @@ datum
 			transparency = 155
 			depletion_rate = 0.2
 
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil(O)
-
 			on_mob_life(var/mob/M)
 				..(M)
 				if(!M) M = holder.my_atom
@@ -2282,20 +2476,6 @@ datum
 					M.reagents.add_reagent("cholesterol", rand(1,2))
 				..(M)
 
-		fooddrink/meat
-			name = "meat"
-			id = "meat"
-			description = "A substance found in all meats."
-			reagent_state = SOLID
-			fluid_r = 172
-			fluid_g = 126
-			fluid_b = 103
-			transparency = 100
-
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil(O)
-
 		fooddrink/beff
 			name = "beff"
 			id = "beff"
@@ -2305,10 +2485,6 @@ datum
 			fluid_g = 126
 			fluid_b = 103
 			transparency = 255
-
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil(O)
 
 			on_mob_life(var/mob/M)
 				..(M)

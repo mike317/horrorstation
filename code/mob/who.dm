@@ -5,29 +5,60 @@
 	var/list/whoAdmins = list()
 	var/list/whoMentors = list()
 	var/list/whoNormies = list()
+
+	var/list/whoGimmicks = list()
+	var/list/whoCodermins = list()
+	var/list/whoCoders = list()
+	var/list/whoIconners = list()
+	var/list/whoMappers = list()
+
 	for (var/mob/M in mobs)
 		if (!M.client) continue
 
 		//Admins
 		if (M.client.holder)
 			var/thisW = "<span class='adminooc text-normal'>"
+
+			var/clist = whoAdmins
+
+			switch (M.client.holder.rank)
+				if ("Coder")
+					thisW = "<span class='coderooc text-normal'>"
+					clist = whoCoders
+				if ("Iconner")
+					thisW = "<span class='coderooc text-normal'>"
+					clist = whoIconners
+				if ("Mapper")
+					thisW = "<span class='coderooc text-normal'>"
+					clist = whoMappers
+				if ("Codermin")
+					thisW = "<span class='coderminooc text-normal'>"
+					clist = whoCodermins
+
+			if (thisW == initial(thisW))
+				if (M.client.holder.level == LEVEL_NOPOWER)
+					thisW = "<span class='coderooc text-normal'>"
+					clist = whoCoders
+
+
+
 			if (usr.client.holder) //The viewer is an admin, we can show them stuff
 				if (M.client.stealth || M.client.alt_key)
 					thisW += "[M.client.key] <i>(as [M.client.fakekey])</i></span>"
-					whoAdmins += thisW
+					clist += thisW
 				else
 					thisW += "[M.client.key]</span>"
-					whoAdmins += thisW
+					clist += thisW
 
 			else //A lowly normal person is viewing, hide!
 				if (M.client.alt_key)
 					thisW += "[M.client.fakekey]</span>"
-					whoAdmins += thisW
+					clist += thisW
 				else if (M.client.stealth) // no you fucks don't show us as an admin anyway!!
-					whoNormies += "<span class='ooc text-normal'>[M.client.fakekey]</span>"
+					clist += "<span class='ooc text-normal'>[M.client.fakekey]</span>"
 				else
 					thisW += "[M.client.key]</span>"
-					whoAdmins += thisW
+					clist += thisW
 
 		//Mentors
 		else if (M.client.mentor)
@@ -35,11 +66,17 @@
 
 		//Normies
 		else
-			whoNormies += "<span class='ooc text-normal'>[M.client.key]</span>"
+			if (M.client.isDonor())
+				whoGimmicks += "<span class='donor1ooc text-normal'>[M.client.key] - [M.client.isDonor()]</span>"
+			else
+				whoNormies += "<span class='ooc text-normal'>[M.client.key]</span>"
 
 	whoAdmins = sortList(whoAdmins)
 	whoMentors = sortList(whoMentors)
 	whoNormies = sortList(whoNormies)
+	whoGimmicks = sortList(whoGimmicks)
+	whoCoders = sortList(whoCoders)
+	whoCodermins = sortList(whoCodermins)
 
 	if (whoAdmins.len)
 		rendered += "<b>Admins:</b><br>"
@@ -53,8 +90,21 @@
 		rendered += "<b>Normal:</b><br>"
 		for (var/aNormie in whoNormies)
 			rendered += aNormie + "<br>"
+	if (whoGimmicks.len)
+		rendered += "<b>Donors:</b><br>"
+		for (var/aDonor in whoGimmicks)
+			rendered += aDonor + "<br>"
+	if (whoCoders.len)
+		rendered += "<b>Coders:</b><br>"
+		for (var/aCoder in whoCoders)
+			rendered += aCoder + "<br>"
+	if (whoCodermins.len)
+		rendered += "<b>Coder Admins:</b><br>"
+		for (var/aCoderMin in whoCoders)
+			rendered += aCoderMin + "<br>"
 
-	rendered += "<b>Total Players: [whoAdmins.len + whoMentors.len + whoNormies.len]</b><br>"
+
+	rendered += "<b>Total Players: [whoAdmins.len + whoMentors.len + whoNormies.len + whoGimmicks.len + whoCoders.len + whoIconners.len + whoMappers.len + whoCodermins.len]</b><br>"
 	rendered += "---------------------"
 	boutput(usr, rendered)
 

@@ -87,10 +87,24 @@
 			qdel(src)
 			*/
 		xeno_start += src.loc
+
+		if (prob(30))
+			new/mob/living/carbon/human/npc/monkey(src.loc)
+			if (prob(75))
+				new/mob/living/carbon/human/npc/monkey(src.loc)
+
 		qdel(src)
 
 	if (name == "Warehouse-Start")
 		survivor_start += src.loc
+
+		if (prob(90))
+			new/mob/living/carbon/human/npc/monkey(src.loc)
+		if (prob(90))
+			new/mob/living/carbon/human/npc/monkey(src.loc)
+		if (prob(90))
+			new/mob/living/carbon/human/npc/monkey(src.loc)
+
 		qdel(src)
 
 	if (name == "Cherkir-Critter-Start")

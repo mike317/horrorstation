@@ -135,6 +135,46 @@
 			A.reagents.add_reagent("[src.stuff]", 2)
 			src.shakes ++
 			user.show_text("You put some [src.stuff] onto [A].")
+
+			if (A.reagents.get_reagent_amount("salt") >= 10)
+				spawn (2000)//creates "aged" meat
+					A.reagents.remove_reagent("salmonella", 50)
+					A.reagents.remove_reagent("e. coli", 50)
+
+			switch (A.reagents.get_reagent_amount("salt"))
+				if (1 to 5)
+					A.name = "[initial(A.name)]"
+				if (6 to 9)
+					A.name = "Moderately-salted [initial(A.name)]"
+				if (10 to INFINITY)
+					A.name = "Salt-[initial(A.name)]"
+
+			switch (A.reagents.get_reagent_amount("pepper"))
+				if (1 to 5)
+					A.name = "[initial(A.name)]"
+				if (6 to 9)
+					A.name = "Moderately-peppered [initial(A.name)]"
+				if (10 to INFINITY)
+					A.name = "Pepper-[initial(A.name)]"
+
+			var/booze = 0
+
+			for (var/datum/reagent/fooddrink/alcoholic/fukkenbeer in A.reagents.reagent_list)
+				booze += A.reagents.get_reagent_amount("[fukkenbeer.id]")
+
+			switch (booze)
+				if (1 to 5)
+					A.name = "[initial(A.name)]"
+				if (6 to 9)
+					A.name = "Moderately-alcoholic [initial(A.name)]"
+				if (10 to INFINITY)
+					A.name = "Booze-[initial(A.name)]"
+
+			if (booze >= 10)
+				spawn (1500)//creates "aged" meat if this is meat.
+					A.reagents.remove_reagent("salmonella", 50)
+					A.reagents.remove_reagent("e. coli", 50)
+
 		else
 			return ..()
 

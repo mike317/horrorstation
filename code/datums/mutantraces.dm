@@ -880,7 +880,10 @@
 	var/sound_alienroar0 = 'sound/voice/tg/hiss5.ogg'
 	//not tg
 
-	emotes_allowed = list("hiis", "roar", "snarl", "deathgasp")
+	var/pheromones = null
+	var/xeno_light_on = 0
+
+	emotes_allowed = list("hiss", "roar", "snarl", "deathgasp")
 	//test
 	New(var/mob/living/carbon/human/M)
 		if (M)
@@ -948,6 +951,8 @@
 
 			mob.updatehealth()
 
+		update_pheromones()
+
 
 
 	proc/onWeedEnter()
@@ -957,6 +962,109 @@
 	proc/onWeedExit()
 		if (plasma > maxPlasma)
 			plasma = maxPlasma
+
+	proc/init_pheromones()
+		if (pheromones == null)
+			return
+		else
+			switch (pheromones)
+
+				if ("Infuriate Monkeys")
+					for (var/mob/living/carbon/human/npc/monkey/m in range(10, src.mob))
+						for (var/mob/living/carbon/human/h in range(10, src.mob))
+							if (ismonkey(m) && !ismonkey(h) && !isAlien(h) || prob(10) && ismonkey(m) && ismonkey(h) && !isAlien(h))
+								m.was_harmed(h)
+
+
+				if ("Heal Sisters")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (isAlien(h))
+							h.mutantrace:plasma += rand(10,20)
+							h.HealBleeding(100)
+							h.HealDamage("All", h.mutantrace:healrate, h.mutantrace:healrate, h.mutantrace:healrate)
+							if (h.bleeding)
+								h.bleeding = 0
+
+							h.blood_volume += 10
+
+							if (h.blood_volume > 500)
+								h.blood_volume = 500
+
+
+				if ("Weaken Hosts")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (!isAlien(h))
+							h.slowed = 1
+
+				if ("Heal Nested Hosts")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (!isAlien(h))
+							if (h.restrained() && istype(h.buckled, /obj/xeno/hive/nest))
+								h.HealDamage("All", 5, 5, 5)
+
+				//no initial effects for these
+				if ("Expediate Hive Growth")
+					return
+
+				if ("Reinforce Hive")
+					return
+
+
+
+	proc/update_pheromones()
+		if (pheromones == null)
+			return
+		else
+			switch (pheromones)
+				if ("Infuriate Monkeys")
+					for (var/mob/living/carbon/human/npc/monkey/m in range(10, src.mob))
+						for (var/mob/living/carbon/human/h in range(10, src.mob))
+							if (ismonkey(m) && !ismonkey(h) && !isAlien(h) && prob(20) || prob(10) && ismonkey(m) && ismonkey(h) && !isAlien(h))
+								m.was_harmed(h)//kek
+
+				if ("Heal Sisters")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (isAlien(h))
+							h.mutantrace:plasma += rand(10,20)
+							h.HealBleeding(100)
+							h.HealDamage("All", h.mutantrace:healrate, h.mutantrace:healrate, h.mutantrace:healrate)
+							if (h.bleeding)
+								h.bleeding = 0
+
+							h.blood_volume += 10
+
+							if (h.blood_volume > 500)
+								h.blood_volume = 500
+
+
+				if ("Weaken Hosts")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (!isAlien(h))
+							h.slowed = 1
+							if (prob(5))
+								h.weakened += rand(4,5)
+				if ("Heal Hosts")
+					for (var/mob/living/carbon/human/h in range(10, src.mob))
+						if (!isAlien(h))
+							if (prob(10))
+								h.HealDamage("All", 5, 5, 5)
+
+				if ("Expediate Hive Growth")
+					for (var/obj/xeno/hive/weeds/w in range(10, src.mob))
+						if (w.is_node == 1)
+							if (prob(1))
+								if (!w.expediated)
+									w.SurroundSpreadAll(1)
+									w.expediated = 1
+
+				if ("Reinforce Hive")
+					for (var/obj/xeno/hive/wall/w in range(10, src.mob))
+						if (prob(1))
+							w.health += 1
+
+					for (var/obj/xeno/hive/membrane/m in range(10, src.mob))
+						if (prob(1))
+							m.health += 1
 
 	onDeath()
 		for (var/mob/living/carbon/human/H in mobs)
@@ -1031,8 +1139,6 @@
 							mob.emote_allowed = 1
 
 			if ("deathgasp")
-				if (mob.stat < 2)//no fake dying anymore
-					return
 				if(mob.emote_allowed)
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
@@ -1222,6 +1328,7 @@
 	obj_destroy = 0
 	turf_destroy = 0
 
+	healrate = 1
 
 	override_fireover = 1
 	base_icon = 'icons/tg-goon-xenos/xeno.dmi'
@@ -1383,6 +1490,8 @@
 	firevuln = 100
 	brutevuln = 30
 
+	healrate = 1
+
 	base_icon = 'icons/tg-goon-xenos/xeno.dmi'
 	base_icon_state = "facehugger"
 	icon_state = "facehugger"
@@ -1519,6 +1628,7 @@
 	maxPlasma = 500
 	evoPlasma = 0
 	evoTime = 220
+	healrate = 2
 	firevuln = 3
 	brutevuln = 0.66
 	obj_destroy = 3
@@ -1542,6 +1652,7 @@
 	plasma = 300
 	maxPlasma = 300
 	evoPlasma = 0
+	healrate = 3
 	evoTime = 350
 	firevuln = 2.5
 	brutevuln = 0.5
@@ -1568,6 +1679,7 @@
 	evoPlasma = 0
 	evoTime = 500
 	firevuln = 2
+	healrate = 5
 	brutevuln = 0.4
 	obj_destroy = 1
 	turf_destroy = 1
@@ -1592,6 +1704,7 @@
 	evoPlasma = 0
 	evoTime = 500
 	firevuln = 2.3
+	healrate = 7
 	brutevuln = 0.3
 	obj_destroy = 2
 	turf_destroy = 2
@@ -1687,6 +1800,7 @@
 	brutevuln = 0.25
 	obj_destroy = 3
 	turf_destroy = 3
+	healrate = 10
 	bigXeno = 1
 
 	evoProgress = 0
@@ -1783,6 +1897,7 @@
 	brutevuln = 0.2
 	obj_destroy = 4
 	turf_destroy = 4
+	healrate = 20
 	bigXeno = 1
 
 	override_fireover = 1

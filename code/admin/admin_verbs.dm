@@ -413,14 +413,12 @@ var/list/special_pa_observing_verbs = list(\
 			return
 
 	switch (rank)
-		if ("Host")
+		if ("Headmin")
 			src.holder.level = LEVEL_HOST
-	//	if ("Coder")
-	//		src.holder.level = LEVEL_CODER
 		if ("Codermin")
 			src.holder.level = LEVEL_CODER
-		if ("Shit Person")
-			src.holder.level = LEVEL_SHITGUY
+	//	if ("Shit Person")
+	//		src.holder.level = LEVEL_SHITGUY
 		if ("Primary Administrator")
 			src.holder.level = LEVEL_PA
 		if ("Administrator")
@@ -429,17 +427,15 @@ var/list/special_pa_observing_verbs = list(\
 			src.holder.level = LEVEL_SA
 		if ("Moderator")
 			src.holder.level = LEVEL_MOD
-		if ("Goat Fart", "Ayn Rand's Armpit")
-			src.holder.level = LEVEL_BABBY
+//		if ("Goat Fart", "Ayn Rand's Armpit")
+//			src.holder.level = LEVEL_BABBY
 		if ("Coder")
 			src.holder.level = LEVEL_NOPOWER
 		if ("Iconner")
 			src.holder.level = LEVEL_NOPOWER
 		if ("Mapper")
 			src.holder.level = LEVEL_NOPOWER
-		//GIMMICK RANKS
-		if ("Cool Killer")
-			src.holder.level = LEVEL_NOPOWER
+
 
 		if ("Inactive")
 			src.holder.dispose()

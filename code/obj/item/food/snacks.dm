@@ -1,6 +1,11 @@
 
 // Bad food
 
+/obj/item/reagent_containers/food/snacks
+	cook_time = 30
+	cooking = 0
+	cooked = 1
+
 /obj/item/reagent_containers/food/snacks/yuck
 	name = "?????"
 	desc = "How the hell did they manage to cook this abomination..?!"
@@ -1391,7 +1396,6 @@
 	New()
 		..()
 		reagents.add_reagent("cholesterol",3)
-		hunger_heal = rand(75,85)
 
 /obj/item/reagent_containers/food/snacks/steak_m
 	name = "monkey steak"
@@ -1405,7 +1409,6 @@
 	New()
 		..()
 		reagents.add_reagent("cholesterol",3)
-		hunger_heal = rand(75,85)
 
 /obj/item/reagent_containers/food/snacks/steak_s
 	name = "synth-steak"
@@ -1419,21 +1422,18 @@
 	New()
 		..()
 		reagents.add_reagent("cholesterol",2)
-		hunger_heal = rand(75,85)
 
 /obj/item/reagent_containers/food/snacks/steak_generic
 	name = "meat-steak"
 	icon_state = "steak"
 	amount = 2
 	heal_amt = 3
-	hunger_heal = 55
 	food_color = "#999966"
 	initial_volume = 50
 
 	New()
 		..()
 		reagents.add_reagent("cholesterol",2)
-		hunger_heal = rand(75,85)
 
 /obj/item/reagent_containers/food/snacks/fish_fingers
 	name = "fish fingers"

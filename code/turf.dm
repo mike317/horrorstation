@@ -232,7 +232,7 @@ var/global/client/ff_debugger = null
 			return 0
 		if (isAlien(user))
 			return 0
-		var/yes = input("Open the crafting interface?") in list ("Yes", "No")
+		var/yes = input(user, "Open the crafting interface?") in list ("Yes", "No")
 		if (yes == "Yes")
 			var/obj/workspot/w = new/obj/workspot(loc, user)
 			w.attack_hand(user)

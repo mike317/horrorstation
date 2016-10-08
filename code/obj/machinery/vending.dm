@@ -104,6 +104,12 @@
 		..()
 		src.panel_image = image(src.icon, src.icon_panel)
 		spawn(1)
+			if (ALIENMODE && noticker())
+				blob_act(1000)
+
+				for (var/obj/item/reagent_containers/food/f in loc)
+					qdel(f)
+		/*
 			if (ALIENMODE && prob(70) && noticker())
 				if (prob(80))
 					blob_act(100)
@@ -118,7 +124,7 @@
 					for (var/obj/item/edible in loc)
 						if (edible.edible)
 							qdel(edible)
-
+			*/
 	proc/vendinput(var/datum/mechanicsMessage/inp)
 		throw_item()
 		return

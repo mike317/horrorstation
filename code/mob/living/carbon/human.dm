@@ -266,7 +266,7 @@
 
 	xeno_light = new /datum/light/point
 	xeno_light.attach(src)
-	xeno_light.set_color(0.1, 0.66, 0.1)
+	xeno_light.set_color(0.66, 0.1, 0.66)
 
 	infrared_light = new /datum/light/point
 	infrared_light.attach(src)
@@ -2662,6 +2662,8 @@
 		stat("Plasma Percentage (Actual Plasma)", "[(src.mutantrace:plasma/src.mutantrace:maxPlasma) * 100] ([src.mutantrace:plasma])")
 		if (src.mutantrace:evoProgress == -1 || src.mutantrace:maxEvoProgress == -1)
 			stat("You are at your final evolution.")
+		if (src.mutantrace:pheromones)
+			stat("You are currently emitting [src.mutantrace:pheromones] pheromones.")
 		else
 			var/expediated_evolution = 0
 

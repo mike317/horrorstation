@@ -308,6 +308,27 @@ datum
 				if (prob(66))
 					P.growth++
 
+		molecular_acid
+			name = "molecular acid"
+			id = "m_acid"
+			description = "A peculiar acid found in the bodies of Xenomorphic lifeforms."
+			reagent_state = LIQUID
+
+			fluid_r = 50
+			fluid_g = 155
+			fluid_b = 50
+			transparency = 0
+
+			reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
+				src = null
+				if (method == TOUCH)
+					var/mob/living/L = M
+					if (istype(L) && !isAlien(L))
+						L.take_toxin_damage(rand(20,30))
+						L.emote("scream")
+						boutput(L, "<span style = \"color:red\"><b>Your skin is singed by the acid smoke!</span></b>")
+						L.TakeDamage("All", 0, rand(5,10))
+
 		plasma
 			name = "plasma"
 			id = "plasma"
@@ -618,9 +639,6 @@ datum
 			thirst_value = 3
 			hygiene_value = 1.33
 			taste = "bland"
-			on_obj_life(var/obj/O)
-				..(O)
-				spoil()
 
 			on_mob_life(var/mob/living/carbon/human/H)
 				..()

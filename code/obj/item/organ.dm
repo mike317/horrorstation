@@ -604,6 +604,30 @@
 		playsound(H.loc, "sound/effects/gib.ogg", rand(50,75), 1)
 		return 1
 
+	attackby(var/obj/item/W as obj, var/mob/user as mob)
+		var/goodmeatchance = 40
+		if (W.hit_type == DAMAGE_CUT)
+			if (istype(W, /obj/item/kitchen/utensil))
+				goodmeatchance = 75
+			if (user.mind.assigned_role == "Chef")
+				goodmeatchance = 100
+
+			boutput(user, "<span style = \"color:blue\">You begin to fillet [src]...</span>")
+			if (goodmeatchance)
+				var/obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat/o = new/obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat(src.loc)
+				o.name = "[src] meat"
+				user.visible_message("<span style = \"color:blue\">[user][user.mind.assigned_role == "Chef" ? " skillfully" : ""] fillets the [src].</span>")
+				//a nice brain fillet
+			else
+				var/obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat/o = new/obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat(src.loc)
+				o.name = "shitty [src] meat"
+				user.visible_message("<span style = \"color:blue\">[user] imperfectly cuts the [src], producing a lopsided piece of meat.</span>")
+
+			if (prob(40))
+				qdel(src)
+				//shitty meat
+
+
 	take_damage(brute, burn, tox, damage_type)
 		if (brute <= 0 && burn <= 0)// && tox <= 0)
 			return 0

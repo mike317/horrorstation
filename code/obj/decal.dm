@@ -761,7 +761,7 @@
 		if (!isAlien(user))
 			if (istype(user, /mob/living/carbon/human))
 				var/mob/living/carbon/human/H = user
-				if (H.job == "Chef")
+				if (H.job == "Chef" || ALIENMODE)
 					user.visible_message("<span style=\"color:blue\"><b>[H]</b> starts rifling through [src] with their hands. What a weirdo.</span>",\
 					"<span style=\"color:blue\">You rake through the gibs with your bare hands.</span>")
 					playsound(src.loc, "sound/effects/splat.ogg", 50, 1)
@@ -769,12 +769,18 @@
 						H.gloves.blood_DNA = src.blood_DNA
 					else
 						H.blood_DNA = src.blood_DNA
-					if (src.sampled)
+					if (src.sampled && !ALIENMODE)
 						H.show_text("You didn't find anything useful. Now your hands are all bloody for nothing!", "red")
-					else
+					else if (!src.sampled || ALIENMODE)
 						H.show_text("You find some... salvageable... meat.. you guess?", "blue")
 						H.unlock_medal("Sheesh!", 1)
+
 						new /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat(src.loc)
+
+						if (ALIENMODE)
+							if (prob(20))
+								qdel(src)
+
 						src.sampled = 1
 				else
 					return ..()
