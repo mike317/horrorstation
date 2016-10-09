@@ -22,20 +22,44 @@
 
 	cook_time = 75
 	cooking = 0
-	cooked = 0
+	cooked = COOKED_RAW
+
+	var/salted = 0
 
 	attackby(var/obj/item/o as obj, var/mob/user as mob)
-		if (o.hit_type == DAMAGE_CUT)
-			if (istype(o, /obj/item/kitchen/utensil))
-				slice(user)
-			else
-				if (prob(70))
+		if (istype(o, /obj/item/shaker))
+			..()
+		else
+			if (o.hit_type == DAMAGE_CUT)
+				if (istype(o, /obj/item/kitchen/utensil))
 					slice(user)
 				else
-					user.visible_message("<span style = \"color:red\">[user] accidentally cuts themselves!</span>", "<span style = \"color:red\">You accidentally cut yourself!</span>")
-					user.TakeDamage("All", rand(5,10), 0, 0, DAMAGE_CUT)
-		else
-			boutput(user, "<span style = \"color:red\">You can't make bacon with this! You need a knife.</span>")
+					if (prob(70))
+						slice(user)
+					else
+						user.visible_message("<span style = \"color:red\">[user] accidentally cuts themselves!</span>", "<span style = \"color:red\">You accidentally cut yourself!</span>")
+						user.TakeDamage("All", rand(5,10), 0, 0, DAMAGE_CUT)
+		//	else
+		//		boutput(user, "<span style = \"color:red\">You can't make bacon with this! You need a knife.</span>")
+
+	proc/salt()
+		if (salted)
+			return
+		reagents.add_reagent("salt", rand(10,15))
+		salted = 1
+
+		if (reagents.get_reagent_amount("salt") >= 10)
+			spawn (2000)//creates "aged" meat
+				ferment()
+
+		switch (reagents.get_reagent_amount("salt"))
+			if (1 to 5)
+				name = "[initial(name)]"
+			if (6 to 9)
+				name = "Moderately-salted [initial(name)]"
+			if (10 to INFINITY)
+				name = "Salt-[initial(name)]"
+
 
 	proc/slice(var/mob/user)
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat) || istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
@@ -49,14 +73,14 @@
 
 	New()
 		..()
-		reagents.add_reagent("meat", 50)
-		reagents.metabolize(src)
+	//	reagents.add_reagent("meat", 50)
+//		reagents.metabolize(src)
 
 	heal(var/mob/living/M)
-		if (!cooked)
+		if (cooked == COOKED_RAW)
 			boutput(M, "<span style=\"color:red\">Eating raw meat probably wasn't a good idea.</span>")
 			if (prob(66))
-				M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1)
+				M.contract_disease(/datum/ailment/disease/food_poisoning/strong, null, null, 1)
 		/*
 		if (prob(33))
 			boutput(M, "<span style=\"color:red\">You briefly think you probably shouldn't be eating raw meat.</span>")
@@ -76,7 +100,7 @@
 
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
 
-			src.cooked = 1
+			src.cooked = COOKED_COOKED
 			src.name = "cooked bacon"
 			var/overlay = icon(src.icon, "cooked")
 			var/icon/i = src.icon
@@ -93,7 +117,7 @@
 			s.dysentery = src.dysentery
 
 			s.name = "cooked meat"
-			s.cooked = 1
+			s.cooked = COOKED_COOKED
 			s.spoiled -= rand(1,3)
 			s.dysentery -= rand(10,20)
 
@@ -106,7 +130,7 @@
 			s.dysentery = src.dysentery
 
 			s.name = "cooked meat"
-			s.cooked = 1
+			s.cooked = COOKED_COOKED
 			s.spoiled -= rand(1,3)
 			s.dysentery -= rand(10,20)
 		//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat
@@ -119,7 +143,7 @@
 			s.dysentery = src.dysentery
 
 			s.name = "cooked meat"
-			s.cooked = 1
+			s.cooked = COOKED_COOKED
 			s.spoiled -= rand(1,3)
 			s.dysentery -= rand(10,20)
 
@@ -128,6 +152,18 @@
 			qdel(src)
 		else
 			return
+
+/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat
+	name = "??? meat"
+	desc = "A slab of meat."
+	amount = 1
+
+	cook_time = 60//super tender. After all, it's been rotting for a while.
+
+	New()
+		..()
+		if (prob(30))
+			reagents.add_reagent("rancidity", 10)//also possibly rancid.
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat
 	name = "??? meat"
@@ -189,7 +225,7 @@
 
 	New()
 		..()
-		if (prob(30))
+		if (prob(20))
 			reagents.add_reagent("rancidity", 10)
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon

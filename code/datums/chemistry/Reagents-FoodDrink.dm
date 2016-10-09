@@ -14,6 +14,7 @@ proc/spawn_edible_critters()
 
 /mob/living/carbon/human/proc/dehydrate()//this is a copypasta of possibly broken starve() code, change it if starve is updated
 //(Cherkir, 10/7/16)
+	return
 	var/starve_msg = ""
 	var/output_msg = ""
 

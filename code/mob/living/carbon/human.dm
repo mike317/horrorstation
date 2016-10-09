@@ -6722,17 +6722,37 @@
 		src.was_harmed(M)
 
 /mob/living/carbon/human/attackby(obj/item/W, mob/M)
+	if (stat == 2 && !isAlien(M))
+		if (W.hit_type == DAMAGE_CUT)
+			var/cut_chance = 50
+			if (istype(W, /obj/item/kitchen/utensil))
+				cut_chance = 75
+				if (M.mind.assigned_role == "Chef")
+					cut_chance = 100
+			if (prob(cut_chance))
+				M.visible_message("<span style = \"color:red\">[M] cuts off some meat from [src]'s corpse.</span>")
+				new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				if (prob(20))
+					qdel(src)
+			else
+				M.visible_message("<span style = \"color:red\">[M] fails to cut off any meat from [src]'s corpse.</span>")
+		return
+
 	if (isAlien(M) && istype(W, /obj/item/xeno/facehugger))
 		if (ismonkey(src))
 			return 0
 		var/obj/item/xeno/facehugger/fucc = W
+
 		if (!fucc.alive)
 			boutput(M, "<span style = \"color:red\"><b>This child is already dead.</span></b>")
 			return 0
 		if (src.stat == 2)
 			boutput(M, "<span style = \"color:red\"><b>This host is already dead.</span></b>")
 			return 0
+
 		if (!src.lying && !src.weakened && !src.stunned && !src.paralysis)
+			if (fucc.alive)
+				return attack_hand(M)
 			return 0
 
 		if (istype(src.head, /obj/item/clothing/head/helmet))

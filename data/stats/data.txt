@@ -1,8 +1,1 @@
 
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a34%3a36&mob_name=Alien+Sentinel+984&mob_job&mob_byond_key=Furry+Chicken&x=201&y=206&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a35%3a28&mob_name=Alien+Sentinel+512&mob_job&mob_byond_key=Furry+Chicken&x=201&y=203&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a36%3a19&mob_name=Alien+Sentinel+738&mob_job&mob_byond_key=Furry+Chicken&x=201&y=203&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a42%3a17&mob_name=Alien+Sentinel+163&mob_job&mob_byond_key=Furry+Chicken&x=204&y=182&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a46%3a33&mob_name=Alien+Praetorian+436&mob_job&mob_byond_key=Furry+Chicken&x=198&y=187&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
-data_type=deaths&data_status=insert&data_timestamp=2016-10-07+22%3a48%3a16&mob_name=Alien+Praetorian+211&mob_job&mob_byond_key=Furry+Chicken&x=198&y=187&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=1
-data_type=traitors&data_status=insert&data_timestamp=2016-10-07+22%3a59%3a21&mob_name=mahtchoh+men&mob_job&mob_byond_key=Furry+Chicken&success=1&objective_count=0&traitor_type=macho+man&special&late_joiner=0

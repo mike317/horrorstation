@@ -324,10 +324,43 @@ datum
 				if (method == TOUCH)
 					var/mob/living/L = M
 					if (istype(L) && !isAlien(L))
-						L.take_toxin_damage(rand(20,30))
+						L.take_toxin_damage(volume/2)
 						L.emote("scream")
 						boutput(L, "<span style = \"color:red\"><b>Your skin is singed by the acid smoke!</span></b>")
-						L.TakeDamage("All", 0, rand(5,10))
+						L.TakeDamage("All", 0, volume/4)
+
+			super//released when an alien self-explodes
+				name = "super molecular acid"
+				id = "s_m_acid"
+				description = "An extremely powerful molecular acid that can destroy almost any object."
+
+				reaction_mob(var/mob/M, var/method=TOUCH, var/volume)
+					src = null
+					if (method == TOUCH)
+						var/mob/living/L = M
+						if (istype(L) && !isAlien(L))
+							L.take_toxin_damage(volume)
+							L.emote("scream")
+							boutput(L, "<span style = \"color:red\"><b>Your skin is singed by the acid smoke!</span></b>")
+							L.TakeDamage("All", 0, volume/2)
+
+				reaction_obj(var/obj/O, var/volume)
+					src = null
+
+					if (istype(O, /obj/overlay))
+						return
+
+					if (prob(80))
+						if (isitem(O) && volume >= 10)
+							O.ex_act(volume >= 30 ? 1.0 : 2.0)
+
+						else
+							if (volume >= 40 && volume < 50)
+								O.ex_act(3.0)
+							else if (volume >= 50 && volume < 75)
+								O.ex_act(2.0)
+							else if (volume >= 75)
+								O.ex_act(1.0)
 
 		plasma
 			name = "plasma"

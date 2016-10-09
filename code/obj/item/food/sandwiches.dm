@@ -8,7 +8,7 @@
 	food_color = "#FFFFCC"
 	custom_food = 0
 	initial_volume = 30
-
+	cooked = COOKED_COOKED
 
 	meat_h
 		name = "manwich"

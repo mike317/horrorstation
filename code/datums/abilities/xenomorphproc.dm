@@ -295,7 +295,8 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 			X.addAbility(/datum/targetable/xenomorph/hide)
 
 	if (caste != "Facehugger" && caste != "facehugger")
-		X.addAbility(/datum/targetable/xenomorph/evolve)
+		if (!queen && caste != "Warrior" && caste != "warrior" && caste != "Praetorian" && caste != "praetorian")
+			X.addAbility(/datum/targetable/xenomorph/evolve)
 
 	if (caste != "Facehugger" && caste != "facehugger" && caste != "Larva" && caste != "larva" && !islarva)
 
@@ -322,6 +323,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 	if (lowertext(caste) == "warrior")
 		X.addAbility(/datum/targetable/xenomorph/penetrate)
+		X.addAbility(/datum/targetable/xenomorph/tailimpale)
 	if (lowertext(caste) == "sentinel" || lowertext(caste) == "praetorian")
 		X.addAbility(/datum/targetable/xenomorph/spit)
 		X.addAbility(/datum/targetable/xenomorph/kamikaze)
@@ -465,6 +467,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 	X.removeAbility(/datum/targetable/xenomorph/rend)
 	X.removeAbility(/datum/targetable/xenomorph/penetrate)
+	X.removeAbility(/datum/targetable/xenomorph/tailimpale)
 	X.removeAbility(/datum/targetable/xenomorph/rip_apart)
 	X.removeAbility(/datum/targetable/xenomorph/spit)
 	X.removeAbility(/datum/targetable/xenomorph/slam)
@@ -509,6 +512,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 	if (isAlienWarrior(src))
 		X.addAbility(/datum/targetable/xenomorph/penetrate)
+		X.addAbility(/datum/targetable/xenomorph/tailimpale)
 
 	if (isAlienSentinel(src) || isAlienPraetorian(src))
 		X.addAbility(/datum/targetable/xenomorph/spit)

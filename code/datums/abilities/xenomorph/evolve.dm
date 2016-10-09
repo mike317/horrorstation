@@ -28,7 +28,7 @@
 		if (istype(C:mutantrace, /datum/mutantrace/xenomorph/larva))
 			evo_list = list("Drone")
 
-		if (istype(C:mutantrace, /datum/mutantrace/xenomorph/drone))
+		if (istype(C:mutantrace, /datum/mutantrace/xenomorph/drone) && !istype(C:mutantrace, /datum/mutantrace/xenomorph/drone/queen))
 			evo_list = list("Sentinel")//this is so queens override the drone list
 
 		else if (istype(C:mutantrace, /datum/mutantrace/xenomorph/sentinel))

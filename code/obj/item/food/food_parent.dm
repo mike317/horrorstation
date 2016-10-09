@@ -19,7 +19,7 @@
 	var/custom_food = 1 //Can it be used to make custom food like for pizzas
 	var/festivity = 0
 	var/antloc = null
-	var/doants = 1
+	var/doants = 0//I don't like ants - Cherkir
 	var/brewable = 0 // will hitting a still with it do anything?
 	var/brew_result = null // what will it make if it's brewable?
 	var/unlock_medal_when_eaten = null // Add medal name here in the format of e.g. "That tasted funny".
@@ -27,14 +27,14 @@
 
 	var/cook_time = 10
 	var/cooking = 0
-	var/cooked = 0
+	var/cooked = COOKED_RAW
 
 	var/dysentery = 0
 
 	New()
 		..()
 		if (!reagents)
-			reagents = new/datum/reagents()
+			reagents = new/datum/reagents(200)
 		if (prob(1))
 			reagents.add_reagent("vampire_serum", 1)
 		if (prob(1))
@@ -71,7 +71,7 @@
 	proc/spoilage_loop()
 		spawn while (1)
 			if (!reagents)
-				break
+				reagents = new/datum/reagents(100)
 
 			var/bad_reagents_amt = reagents.get_reagent_amount("salmonella") + reagents.get_reagent_amount("e. coli") + reagents.get_reagent_amount("rancidity")
 
@@ -94,42 +94,56 @@
 			var/base_probability_two = 20
 			//spoils after 500 ticks on average
 
-			if (bad_reagents_amt > good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))
-				base_probability_two *= (2 + (bad_reagents_amt/(good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))))
+			less_good_reagents_amt /= 2
 
-			else if (good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2) > bad_reagents_amt)
-				base_probability_two /= (2 + ((good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2))/bad_reagents_amt))
+			if (bad_reagents_amt > good_reagents_amt + alcohol_amt + less_good_reagents_amt)
+				base_probability_two *= 2 + bad_reagents_amt/(good_reagents_amt + alcohol_amt + less_good_reagents_amt)
+
+			else if (good_reagents_amt + alcohol_amt + less_good_reagents_amt > bad_reagents_amt)
+				base_probability_two /= 2 + (good_reagents_amt + alcohol_amt + less_good_reagents_amt)/bad_reagents_amt
 
 			if (prob(base_probability_one) && prob(alcohol_amt))
 				remove_bad_reagents()
 
 			if (prob(base_probability_one) && prob(base_probability_two))
 				spoil()
-				if (prob(80) && good_reagents_amt + alcohol_amt + (less_good_reagents_amt/2) < 10)
+				if (prob(80) && good_reagents_amt + alcohol_amt + less_good_reagents_amt < 10)
 					spoil()
 
 			sleep(10)
 
+	proc/remove_some_bad_reagents()
+		reagents.remove_reagent("salmonella", 5)
+		reagents.remove_reagent("e. coli", 5)
+		if (prob(20))
+			reagents.remove_reagent("rancidity", 5)
+
 	proc/remove_bad_reagents()
 		reagents.remove_reagent("salmonella", 50)
 		reagents.remove_reagent("e. coli", 50)
-		if (prob(90))
+		if (prob(50))
 			reagents.remove_reagent("rancidity", 50)
+
+	proc/ferment()
+		edible = 1
+		cooked = COOKED_FERMENTED
+		reagents.remove_reagent("salmonella", 50)
+		reagents.remove_reagent("e. coli", 50)
 
 	proc/cook(var/turf/T = null)
 		reagents.remove_reagent("salmonella", 50)
 		reagents.remove_reagent("e. coli", 50)
-		if (prob(90))
+		if (prob(50))
 			reagents.remove_reagent("rancidity", 50)
 
 		if (prob(66))
 			reagents.clear_reagents()
 
-		cooked = 1
+		cooked = COOKED_COOKED
 		cooking = 0
 
 
-	proc/spoil()//happens every seconds
+	proc/spoil()
 
 
 
@@ -164,7 +178,6 @@
 
 	proc/heal(var/mob/living/M)
 		var/healing = src.heal_amt
-		var/spoiled_fuck = spoiled
 
 		if (ishuman(M))
 			var/mob/living/carbon/human/H = M
@@ -172,28 +185,6 @@
 				H.sims.affectMotive("hunger", heal_amt * 4.5)
 				H.sims.affectMotive("bladder", -heal_amt * 1.5)
 
-		if (spoiled_fuck == 1 && prob(20))
-			boutput(M, "<span style =\"color:red\">That tasted slightly off.</span>")
-			if (ishuman(M))
-				var/mob/living/carbon/human/H = M
-				H.take_toxin_damage(5)
-				H.updatehealth()
-
-		else if (spoiled_fuck > 1 && prob(80))
-			boutput(M, "<span style = \"color:red\">That was definitely spoiled.</span>")
-			if (ishuman(M))
-				var/mob/living/carbon/human/H = M
-				H.take_toxin_damage(20)
-				H.updatehealth()
-				if (prob(30) || spoiled_fuck > 2)
-					boutput(H, "<span style = \"color:red\"><b>You think you're going to be sick!</span></b>")
-					H.take_toxin_damage(15)
-					H.emote("vomit")
-					H.weakened += 5
-					H.stunned += 5
-
-		if (prob(10))
-			spoiled--//maybe you ate off the spoiled part lol. We won't change the icon still
 
 		if (quality >= 5)
 			boutput(M, "<span style=\"color:blue\">That tasted amazing!</span>")
@@ -252,7 +243,7 @@
 
 	cook_time = 10
 	cooking = 0
-	cooked = 1
+	cooked = COOKED_COOKED
 
 /*	attackby(obj/item/W as obj, mob/user as mob)
 		if (istype(W, /obj/item/shaker))
@@ -300,9 +291,11 @@
 					var/mob/living/carbon/human/H = M
 					var/was_starve_in_deciseconds = H.will_starve_in_deciseconds
 
-					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")/2
+					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")
 
 					H.will_starve_in_deciseconds += rand(hunger_heal * 7, hunger_heal * 14)
+
+					H.ate_rancid_food(spoiled)
 
 					src.reagents.remove_reagent("nutriment", hunger_heal)
 
@@ -383,11 +376,15 @@
 				if (ishuman(M))
 					var/mob/living/carbon/human/H = M
 
-					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")/2
+					var/hunger_heal = src.reagents.get_reagent_amount("nutriment")
 
 					H.will_starve_in_deciseconds += rand(hunger_heal * 7, hunger_heal * 14)
 
 					src.reagents.remove_reagent("nutriment", hunger_heal)
+
+					H.ate_rancid_food(spoiled)
+
+
 
 				src.heal(M)
 				playsound(M.loc, "sound/items/eatfood.ogg", rand(10,50), 1)
@@ -412,6 +409,39 @@
 
 	proc/on_finish(mob/eater)
 		return
+
+/mob/living/carbon/human/proc/ate_rancid_food(var/spoiled_fuck = 1)
+	if (isAlien(src))
+		return
+	if (!istype(src))
+		return
+	if (spoiled_fuck <= 0)
+		return
+
+	if (spoiled_fuck == 1 && prob(40))
+		boutput(src, "<span style =\"color:red\">That tasted slightly off.</span>")
+
+		if (prob(20))
+			boutput(src, "<span style = \"color:red\">You fall over! Eating that was a mistake.</span>")
+			src.weakened += 3
+			src.stunned += 3
+		if (prob(30))
+			if (prob(50))
+				src.contract_disease(/datum/ailment/disease/food_poisoning/med)
+			else
+				src.contract_disease(/datum/ailment/disease/food_poisoning/strong)
+
+	else
+		if (spoiled_fuck > 1)
+			boutput(src, "<span style = \"color:red\">That was definitely spoiled.</span>")
+
+			if (prob(30) || spoiled_fuck > 2)
+				boutput(src, "<span style = \"color:red\"><b>You think you're going to be sick!</span></b>")
+			//	H.take_toxin_damage(15)
+				src.emote("vomit")
+				src.weakened += 5
+				src.stunned += 5
+				src.contract_disease(/datum/ailment/disease/food_poisoning/verystrong)
 
 /* ================================================ */
 /* -------------------- Drinks -------------------- */
@@ -450,7 +480,7 @@
 		name = "warm [src]"
 		spoiled -= rand(1,5)
 		dysentery -= rand(10,20)
-		cooked = 1
+		cooked = COOKED_COOKED
 
 
 	on_reagent_change()

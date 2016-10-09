@@ -425,11 +425,18 @@
 		var/obj/item/ghettoadditionobj1 = ghettoaddition1.slot_object
 		var/obj/item/ghettoadditionobj2 = ghettoaddition2.slot_object
 
-		var/list/ghettobaseobjs = list(/obj/item/wirecutters, /obj/item/wrench, /obj/item/crowbar, /obj/item/weldingtool)
+		var/list/ghettobaseobjs = list(/obj/item/wirecutters, /obj/item/wrench, /obj/item/crowbar, /obj/item/weldingtool, /obj/item/crowbar/survivor_crowbar)
 		var/list/ghettoadditionobjs = list(/obj/item/electronics/batteryassembly, /obj/item/raw_material/shard/glass)
 
+		//non weapons
 
-		if (ghettobaseobjs.Find(ghettobaseobj.type) && ghettoadditionobjs.Find(ghettoadditionobj1.type))
+		var/list/ghettobaseobjs2 = list(/obj/item/raw_material/shard/glass)
+		var/list/ghettoadditionobjs2 = list(/obj/item/cable_coil)
+
+		var/list/base_objects = ghettobaseobjs + ghettobaseobjs2
+		var/list/additions = ghettoadditionobjs + ghettoadditionobjs2
+
+		if (base_objects.Find(ghettobaseobj.type) && additions.Find(ghettoadditionobj1.type))
 			if (istype(ghettobaseobj, /obj/item/wirecutters))
 				if (istype(ghettoadditionobj1, /obj/item/electronics/batteryassembly))
 					var/electrocutters = new/obj/item/craftedmelee/ghettotool/wirecutters/electrocutters(bench.loc)
@@ -448,9 +455,14 @@
 				else if (istype(ghettoadditionobj1, /obj/item/cable_coil) && istype(ghettoadditionobj2, /obj/item/raw_material/shard/glass))
 					var/glassbar = new/obj/item/craftedmelee/ghettotool/crowbar/glassbar(bench.loc)
 					return glassbar
+			else if (istype(ghettobaseobj, /obj/item/raw_material/shard/glass))
+				if (istype(ghettoadditionobj1, /obj/item/cable_coil))
+					var/shank = new/obj/item/craftedmelee/ghettotool/shank/glass(bench.loc)
+					return shank
 
 		ghettobaseobj.set_loc(bench.loc)
 		ghettoadditionobj1.set_loc(bench.loc)
+
 		if (ghettoadditionobj2)
 			ghettoadditionobj2.set_loc(bench.loc)
 

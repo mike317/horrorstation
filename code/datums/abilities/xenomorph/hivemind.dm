@@ -13,7 +13,8 @@
 	var/message_a = src.say_quote(message)
 	var/queentext = ""
 	var/queentextend = ""
-	if (mutantrace && istype(mutantrace, /datum/mutantrace/xenomorph/drone/queen))
+
+	if (isAlienWarrior(src) || isAlienPraetorian(src) || isAlienQueen(src))
 		queentext = "<font size = 3>"
 		queentextend = "</font>"
 

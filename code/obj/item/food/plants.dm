@@ -10,7 +10,7 @@
 
 	cook_time = 20
 	cooking = 0
-	cooked = 0
+	cooked = COOKED_RAW
 
 	New()
 		..()
@@ -70,7 +70,7 @@
 		p.edible = 1
 		p.spoiled -= rand(1,5)//plants are easier to unspoil by cooking lol
 		p.dysentery -= rand(10,20)
-		p.cooked = 1
+		p.cooked = COOKED_COOKED
 
 		if (src)
 			qdel(src)

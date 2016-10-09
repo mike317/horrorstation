@@ -1088,7 +1088,8 @@
 					src_mob_area = src.mob.loc.loc.loc
 				boutput(H, "<span style = \"color:red\"><b>Hivemind: [src.mob] has been revived at [src_mob_area].</span></b>")
 		var/mob/living/carbon/human/H = src.mob
-		H.xeno_light.enable()
+		if (xeno_light_on)
+			H.xeno_light.enable()
 		icon_state = "[base_icon_state]_s"
 		return 0//don't override the death proc
 //	fve()

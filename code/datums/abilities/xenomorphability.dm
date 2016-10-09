@@ -49,7 +49,7 @@
 
 /datum/targetable/xenomorph
 	icon = 'icons/mob/alien_ui.dmi'
-	icon_state = "template"
+	icon_state = "genericskill"
 	cooldown = 0
 	last_cast = 0
 	var/can_use_in_container = 0

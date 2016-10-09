@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475899535
-DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\xenomorph code\datums\chemistry code\obj code\obj\item code\obj\item\food code\WorkInProgress 
+LAST_COMPILE_TIME: 1475974374
+DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\xenomorph code\datums\buildmodes code\datums\buildmodes\adventure code\datums\buildmodes\adventure\elements code\datums\buildmodes\adventure\elements\trap code\datums\chemistry code\datums\controllers code\datums\controllers\process code\datums\critter_mobs code\datums\critter_mobs\health code\datums\gamemodes code\datums\hud code\datums\projectiles code\datums\randomevents code\datums\randomevents\minor code\mob code\mob\living code\mob\living\carbon code\obj code\obj\alien code\obj\item code\obj\item\food code\obj\machinery code\obj\machinery\computer code\procs code\WorkInProgress code\WorkInProgress\Materials_Crafting icons icons\adolf12 icons\Dizor icons\effects icons\effects\overlays icons\misc icons\mob icons\mob\inhand icons\obj icons\Testing icons\Testing\newicons icons\tg-goon-xenos maps sound sound\effects sound\items sound\machines sound\voice sound\voice\newalien sound\voice\newalien\avp2 shit sound\voice\newalien\avp2 shit\ambience sound\voice\newalien\avp2 shit\footsteps sound\voice\newalien\avp2 shit\footsteps\alien sound\voice\newalien\avp2 shit\objects sound\voice\newalien\avp2 shit\objects\glass sound\voice\tg sound\vox sound\weapons 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\datums\abilities\xenomorph\s-acid.dm;code\datums\abilities\xenomorphproc.dm;code\WorkInProgress\actuallyKeelinsStuff.dm
-FILE: code\datums\abilities\xenomorph\s-acid.dm
+WINDOW: code\WorkInProgress\Materials_Crafting\Mat_ModManu_Recipes.dm;code\turf.dm;code\WorkInProgress\Materials_Crafting\Mat_ModManu.dm;icons\Dizor\Dizor_CMspr.dmi;code\WorkInProgress\actuallyKeelinsStuff.dm;code\obj\item\kitchen.dm;code\datums\gamemodes\xeno.dm;code\datums\abilities\xenomorph\s-acid.dm;code\WorkInProgress\Materials_Crafting\Mat_MaterialProcs.dm;code\WorkInProgress\Materials_Crafting\Mat_Materials.dm;code\WorkInProgress\Materials_Crafting\Mat_ModManu_Blueprints.dm;code\WorkInProgress\Materials_Crafting\Mat_Processing.dm;code\WorkInProgress\Materials_Crafting\Mat_RawMaterials.dm;code\WorkInProgress\Materials_Crafting\Mat_Recipes.dm;code\_vox.dm;code\WorkInProgress\Materials_Crafting\Mat_Research.dm;code\_setup.dm;code\_layer.dm;code\datums\projectiles\neurotoxin.dm;code\datums\chemistry\Reagents-FoodDrink.dm;code\procs\jobprocs.dm
+FILE: code\WorkInProgress\actuallyKeelinsStuff.dm
 */
 // END_INTERNALS

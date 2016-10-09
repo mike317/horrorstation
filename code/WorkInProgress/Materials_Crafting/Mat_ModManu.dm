@@ -4,6 +4,8 @@
 //And the sloppiest code award 2014 goes to this file. FUCK. ME.
 //This will need some major refactoring once im done.
 
+/mob/living/carbon/human/var/can_make_workspot_at = 0
+
 /obj/workbench_ui/maptext_dummy
 	name = ""
 	desc = ""
@@ -188,42 +190,44 @@
 		var/obj/storage/closet/newObj = new()
 		return newObj
 
-/turf/floor/simulated
-/*
-	attack_hand(var/mob/living/carbon/human/user)
-		..()
-		var/yes = input("Open the crafting interface?") in list ("Yes", "No")
-		if (yes == "Yes")
-			var/obj/workspot/w = new/obj/workspot(loc, user)
-			w.attack_hand(user)
-			boutput(user, "<span style = \"color:red\">You are now crafting on the [src]. Click the [src] again to continue crafting there. Moving away will cause the crafting to cancel after a time period has elapsed.</span>")
-*/
-
 /obj/workspot
 	var/obj/workbench/workbench
 	var/accessed = 1
-	var/mob/living/carbon/human/user
+	var/mob/living/carbon/human/holder
 
 	density = 0
 	anchored = 1
 	name = ""
 
-	New(var/mob/living/carbon/human/H)
+	New(var/turf/location, var/mob/living/carbon/human/H)
+
+		if (!location || !H || !istype(H))
+			return
+
+		if (H.can_make_workspot_at > world.timeofday)
+			boutput(H, "You've already made a working area too recently.")
+			return
+
 		..()
 
-		user = H
+		H.can_make_workspot_at = world.timeofday + 600//make them wait a minute
 
-		var/obj/workbench/w = new/obj/workbench(src.loc)
+		loc = location
+
+		holder = H
+
+		var/obj/workbench/w = new/obj/workbench(location)
+		w.layer = -1
 		w.uses_spot = 1//sets this bench to be invisible
 		w.workspot = src
 
 		workbench = w
 
 	attack_hand(var/mob/living/carbon/human/H)
-		if (H != user)
+		if (H != holder)
 			return 0
 		if (workbench)
-			workbench.attack_hand(user)
+			workbench.attack_hand(H)
 		else
 			qdel(src)
 
@@ -234,7 +238,7 @@
 	anchored = 1
 	var/uses_spot = 0
 
-	var/obj/workspot/workspot
+	var/obj/workspot/workspot = null
 	var/list/recipe_list = list()
 	var/list/users = list()
 
@@ -245,22 +249,8 @@
 
 	ProximityLeave(atom/movable/AM as mob|obj)
 		if(get_dist(src, AM) > 1 && users.Find(AM))
-			if (uses_spot)
-				spawn(300)
-					if (get_dist(src, AM) > 1 && users.Find(AM))
-						goto cont
-					else
-						return
-
-			cont
-
 			users.Remove(AM)
 			hide_from(AM)
-			if (uses_spot)
-				var/obj/workspot/ws = workspot
-				qdel(ws)
-				workspot = null
-				qdel(src)
 		return
 
 	Del()
@@ -375,7 +365,7 @@
 		if(active_recipe)
 			var/fail = 0
 			for(var/datum/modular_component/C in active_recipe.recipe_parts)
-				if(!C.slot_object)
+				if(!C.slot_object && !istype(active_recipe, /datum/modular_recipe/ghettoweapon))
 					fail = 1
 					break
 			if(fail)

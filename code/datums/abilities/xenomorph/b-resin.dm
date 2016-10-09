@@ -67,13 +67,16 @@
 				qdel(r)
 
 
+		var/cloc = C.loc
+
 		boutput(C, "<span style=\"color:blue\"><B>You start building the [buildwhat]...</B></span>")
 
 		sleep(40 - (istype(C.mutantrace, /datum/mutantrace/xenomorph/drone) ? 25 : 0))
 
-		new toBuild(C.loc)
+		if (cloc == C.loc)
+			new toBuild(C.loc)
 
-		boutput(C, "<span style=\"color:blue\"><B>You finish building the [buildwhat].</B></span>")
+			boutput(C, "<span style=\"color:blue\"><B>You finish building the [buildwhat].</B></span>")
 
 	//	playsound(C.loc, 'vomitsound.ogg', 100, 1)
 		return 0

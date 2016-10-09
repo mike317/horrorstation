@@ -2520,6 +2520,22 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 		twitching = 0
 
 /mob/attackby(obj/item/W as obj, mob/user as mob)
+	if (stat == 2 && !isAlien(user))
+		if (W.hit_type == DAMAGE_CUT)
+			var/cut_chance = 50
+			if (istype(W, /obj/item/kitchen/utensil))
+				cut_chance = 75
+				if (user.mind.assigned_role == "Chef")
+					cut_chance = 100
+			if (prob(cut_chance))
+				user.visible_message("<span style = \"color:red\">[user] cuts off some meat from [src]'s corpse.</span>")
+				new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				if (prob(20))
+					qdel(src)
+			else
+				user.visible_message("<span style = \"color:red\">[user] fails to cut off any meat from [src]'s corpse.</span>")
+		return
+
 	actions.interrupt(src, INTERRUPT_ATTACKED)
 
 	// why is this not in human/attackby?

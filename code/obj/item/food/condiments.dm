@@ -131,6 +131,9 @@
 	var/myVerb = "shake"
 
 	afterattack(atom/A, mob/user as mob)
+		if (src.shakes >= 15)
+			user.show_text("[src] is empty!", "red")
+			return
 		if (istype(A, /obj/item/reagent_containers/food))
 			A.reagents.add_reagent("[src.stuff]", 2)
 			src.shakes ++
@@ -138,8 +141,8 @@
 
 			if (A.reagents.get_reagent_amount("salt") >= 10)
 				spawn (2000)//creates "aged" meat
-					A.reagents.remove_reagent("salmonella", 50)
-					A.reagents.remove_reagent("e. coli", 50)
+					if (istype(A, /obj/item/reagent_containers/food))
+						A:ferment()
 
 			switch (A.reagents.get_reagent_amount("salt"))
 				if (1 to 5)
@@ -172,8 +175,8 @@
 
 			if (booze >= 10)
 				spawn (1500)//creates "aged" meat if this is meat.
-					A.reagents.remove_reagent("salmonella", 50)
-					A.reagents.remove_reagent("e. coli", 50)
+					if (istype(A, /obj/item/reagent_containers/food))
+						A:ferment()
 
 		else
 			return ..()

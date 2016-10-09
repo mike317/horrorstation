@@ -1075,6 +1075,7 @@ var/datum/preMapLoad/preMapLoad = new
 #include "code\WorkInProgress\AphsStuff.dm"
 #include "code\WorkInProgress\apiFallbackRoutes.dm"
 #include "code\WorkInProgress\banshark.dm"
+#include "code\WorkInProgress\barrels.dm"
 #include "code\WorkInProgress\blood_system.dm"
 #include "code\WorkInProgress\blueprints.dm"
 #include "code\WorkInProgress\bone_system.dm"

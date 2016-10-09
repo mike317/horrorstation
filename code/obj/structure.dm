@@ -244,62 +244,68 @@ obj/structure/ex_act(severity)
 		var/user_climb_time = 100
 		var/fail_chance = 50
 		var/override_msg = ""
+		var/message_addendum = ""
 
 		if (!isitem(m) && !ismob(m))
 			return
 
 		if (isitem(m))
-			user_climb_time = 0
+			if (!locate(src) in get_step(user, user.dir))
+				return//necessary due to throwing algorithum
+			user_climb_time = 2
 			fail_chance = 5
-			override_msg = "[user] throws [m] over [src]."
-
-		var/message_addendum = ""
-
-		if (isAlien(user))
-			boutput(user, "<span style = \"color:red\"><b>You have no idea of how to climb this. You would be better off breaking it down.</span>")
-			return
-
-		if (builtby == user.real_name)
-			fail_chance = 0
-			user_climb_time = 20
-			message_addendum = "You find it very easy, since you made it."
-
-		else if (sawbuilt && sawbuilt.len && sawbuilt.Find(user))
-			fail_chance = 15
-			user_climb_time = 75
-			message_addendum = "You find it easy, since you saw it built."
-
-			if (climbed && climbed.len && climbed.Find(user))
-				fail_chance = 10
-				user_climb_time = 35
-				message_addendum = "You find it very easy to climb."
+			override_msg = "[user] throws [m] at [src]."
 
 		else
 
-			if (climbed && climbed.len && climbed.Find(user))
-				fail_chance = 20
-				user_climb_time = 50
-				message_addendum = "You find it relatively easy to climb the [src]."
+
+			if (isAlien(user))
+				boutput(user, "<span style = \"color:red\"><b>You have no idea of how to climb this. You would be better off breaking it down.</span>")
+				return
+
+			if (builtby == user.real_name)
+				fail_chance = 0
+				user_climb_time = 20
+				message_addendum = "You find it very easy, since you made it."
+
+			else if (sawbuilt && sawbuilt.len && sawbuilt.Find(user))
+				fail_chance = 15
+				user_climb_time = 75
+				message_addendum = "You find it easy, since you saw it built."
+
+				if (climbed && climbed.len && climbed.Find(user))
+					fail_chance = 10
+					user_climb_time = 35
+					message_addendum = "You find it very easy to climb."
+
 			else
-				fail_chance = 40
-				user_climb_time = 150
-				message_addendum = "You have no idea of how to climb it. This may take a while."
+
+				if (climbed && climbed.len && climbed.Find(user))
+					fail_chance = 20
+					user_climb_time = 50
+					message_addendum = "You find it relatively easy to climb the [src]."
+				else
+					fail_chance = 40
+					user_climb_time = 150
+					message_addendum = "You have no idea of how to climb it. This may take a while."
 
 
-		if (ishuman(user))
-			var/mob/living/carbon/human/H = user
-			if (H.mutantrace && !istype(H.mutantrace, /datum/mutantrace/dwarf))
-				if (m != user)
-					return
-				fail_chance = 60
-				user_climb_time = rand(500,700)
-				message_addendum = "You have no idea of how to climb it. It is very complex to your tiny brain."
+			if (ishuman(user))
+				var/mob/living/carbon/human/H = user
+				if (H.mutantrace && !istype(H.mutantrace, /datum/mutantrace/dwarf))
+					if (m != user)
+						return
+					fail_chance = 60
+					user_climb_time = rand(500,700)
+					message_addendum = "You have no idea of how to climb it. It is very complex to your tiny brain."
 
 
 		if (isitem(m))
 			m.anchored = 1
 			visible_message("<span style = \"color:red\">[override_msg]</span>")
-			sleep(user_climb_time)
+			if (user_climb_time)
+				sleep(user_climb_time)
+
 			if (prob(fail_chance))
 				visible_message("<span style = \"color:red\">The [m] hits the wall and falls off.</span>")
 				m.anchored = 0
@@ -414,6 +420,7 @@ obj/structure/ex_act(severity)
 			sleep(rand(15,50))//logically this would depend on the size/shape/nailedness of the piece of wood, right
 			if (user.loc == user_loc)
 				user.visible_message("<span style = \"color:red\"><b>[user]</b> pries some wood off of [src] with the [W].</span>", "<span style = \"color:blue\">You pry some wood off of the [src] with the [W].</span>")
+				playsound(user.loc, 'sound/items/Crowbar.ogg', 100, 1)
 				var/h_loss = rand(10,20)
 				if (prob(10))
 					h_loss *= 5
@@ -432,13 +439,19 @@ obj/structure/ex_act(severity)
 			else
 				humie.reinforcing_structure = 0
 
+			return
+
 		if (istype(W, /obj/item/weldingtool))
+			var/obj/item/weldingtool/welder = W
+			if (!welder.welding)
+				return
 			var/user_loc = user.loc
 			user.visible_message("<span style = \"color:red\"><b>[user]</b> starts to weld the nails off of [src] with the [W]!</span>", "<span style = \"color:blue\">You start to weld the nails off of [src] with the [W].</span>")
 			humie.reinforcing_structure = 1//they aren't but this has the same purpose
 			sleep(rand(15,50))//logically this would depend on the size/shape/nailedness of the piece of wood, right
 			if (user.loc == user_loc)
 				user.visible_message("<span style = \"color:red\"><b>[user]</b> welds the nails off of [src] with the [W].</span>", "<span style = \"color:blue\">You weld the nails off of the [src] with the [W].</span>")
+				playsound(user.loc, pick('sound/items/Welder.ogg', 'sound/items/Welder2.ogg'), 100, 1)
 				var/h_loss = rand(5,10)
 
 				if (prob(10))
@@ -449,11 +462,13 @@ obj/structure/ex_act(severity)
 				checkhealth()
 
 				if (src && health > 0)
-					src.visible_message("<span style = \"color:red\"><b>[src] looks damage, but doesn't fall apart yet.</span>")
+					src.visible_message("<span style = \"color:red\"><b>[src] takes damage, but doesn't fall apart yet.</span>")
 
 				humie.reinforcing_structure = 0
 			else
 				humie.reinforcing_structure = 0
+
+			return
 
 		else if (istype(W, /obj/item/woodstuff))
 

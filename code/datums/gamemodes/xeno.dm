@@ -1,4 +1,4 @@
-#define BYPASSFAILEDSTART 0
+#define BYPASSFAILEDSTART 1
 
 /datum/game_mode/xeno
 	name = "Alien Infestation"

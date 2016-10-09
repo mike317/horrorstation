@@ -4,7 +4,7 @@
 /obj/item/reagent_containers/food/snacks
 	cook_time = 30
 	cooking = 0
-	cooked = 1
+	cooked = COOKED_COOKED
 
 /obj/item/reagent_containers/food/snacks/yuck
 	name = "?????"

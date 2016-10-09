@@ -227,17 +227,6 @@ var/global/client/ff_debugger = null
 	oxygen = MOLES_O2STANDARD
 	nitrogen = MOLES_N2STANDARD
 
-	attack_hand(mob/user as mob)
-		if (density)
-			return 0
-		if (isAlien(user))
-			return 0
-		var/yes = input(user, "Open the crafting interface?") in list ("Yes", "No")
-		if (yes == "Yes")
-			var/obj/workspot/w = new/obj/workspot(loc, user)
-			w.attack_hand(user)
-			boutput(user, "<span style = \"color:red\">You are now crafting on the [src]. Click the [src] again to continue crafting there. Moving away will cause the crafting to cancel after a time period has elapsed.</span>")
-
 	attackby(var/obj/item/W, var/mob/user)
 		if (istype(W, /obj/item/pen))
 			var/obj/item/pen/P = W
@@ -1574,6 +1563,12 @@ var/global/client/ff_debugger = null
 /turf/simulated/floor/proc/update_icon()
 
 /turf/simulated/attack_hand(mob/user as mob)
+	if (!isAlien(user))
+		if (locate(/obj/workspot) in src)
+			var/obj/workspot/w = locate() in src
+			if (w.holder == user)
+				return w.attack_hand(user)
+
 	if (src.density == 1)
 		return
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
@@ -1683,6 +1678,20 @@ var/global/client/ff_debugger = null
 		icon_state = "floor"
 	levelupdate()
 
+/turf/simulated/floor/MouseDrop(mob/user as mob)
+	if (isAlien(user))
+		return
+	if (locate(/obj/workspot) in src)
+		return
+	var/yes = input(user, "Start a crafting workplace here?") in list ("Yes", "No")
+	if (yes == "Yes")
+		var/obj/workspot/w = new/obj/workspot(src, user)
+		if (w && w.loc)
+			w.attack_hand(user)
+			boutput(user, "<span style = \"color:red\">You are now crafting on the [src]. Click the [src] again to continue crafting there. Moving away will cause the crafting to cancel after a time period has elapsed.</span>")
+	return
+
+
 /turf/simulated/floor/attackby(obj/item/C as obj, mob/user as mob)
 
 	if(!C || !user)
@@ -1779,6 +1788,7 @@ var/global/client/ff_debugger = null
 		return attack_hand(user)
 
 /turf/unsimulated/attack_hand(var/mob/user as mob)
+
 	if (src.density == 1)
 		return
 	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))

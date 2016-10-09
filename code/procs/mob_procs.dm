@@ -1274,18 +1274,24 @@
 
 		if (S == "medium stuff" && istype(target, /obj/item) && target:w_class <= 2.0)
 			var/obj/item/o = target
+			if (istype(o, /obj/item/woodstuff))
+				return
 			src.visible_message("<span style=\"color:red\">[src] rips [o] to shreds!</span>", "<span style=\"color:blue\">You rip [o] to shreds.</span>")
 			qdel(o)
 			return 1
 
 		if (S == "small stuff" && istype(target, /obj/item) && target:w_class <= 1.0)
 			var/obj/item/o = target
+			if (istype(o, /obj/item/woodstuff))
+				return
 			src.visible_message("<span style=\"color:red\">[src] rips [o] to shreds!</span>", "<span style=\"color:blue\">You rip [o] to shreds.</span>")
 			qdel(o)
 			return 1
 
 		if (S == "large stuff" && istype(target, /obj/item) && target:w_class <= 3.0)
 			var/obj/item/o = target
+			if (istype(o, /obj/item/woodstuff))
+				return
 			src.visible_message("<span style=\"color:red\">[src] rips [o] to shreds!</span>", "<span style=\"color:blue\">You rip [o] to shreds.</span>")
 			qdel(o)
 			return 1

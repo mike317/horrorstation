@@ -1,7 +1,6 @@
 /datum/targetable/xenomorph/squeeze
 	name = "Squeeze"
 	desc = "Squeeze through a door, or under a table, window, or grille."
-	icon = 'icons/tg-goon-xenos/xeno.dmi'
 	icon_state = "squeezeskill"
 	cooldown = 0
 	targeted = 0

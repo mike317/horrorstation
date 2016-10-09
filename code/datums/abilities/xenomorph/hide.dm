@@ -3,7 +3,6 @@
 /datum/targetable/xenomorph/hide
 	name = "Hide"
 	desc = "Hide under any object."
-	icon = 'icons/tg-goon-xenos/xeno.dmi'
 	icon_state = "hideskill"
 	cooldown = 0
 	targeted = 0

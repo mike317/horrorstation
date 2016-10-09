@@ -116,6 +116,11 @@
 	var/heat = NOT_HOT
 	var/on = 0//doesn't apply to all ghettotools, but most
 
+	hitsound = 'sound/weapons/smash.ogg'
+	force = 5.0
+	throwforce = 5.0
+	hit_type = DAMAGE_BLUNT
+
 /obj/item/craftedmelee/ghettotool/attackby(obj/item/W as obj, mob/user as mob)
 	var/heat_delay = 100
 	var/sharpen_delay = 150
@@ -133,6 +138,7 @@
 
 	if (heat == SUPER_HOT)
 		return
+
 	if (W.damtype == "fire")
 		switch (heat)
 			if (NOT_HOT)
@@ -142,11 +148,31 @@
 			if (REALLY_HOT)
 				heat = SUPER_HOT
 
+/obj/item/craftedmelee/ghettotool/shank
+	icon = 'icons/Dizor/Dizor_CMspr.dmi'
+	name = "shank"
+
+	inhand_image_icon = 'icons/mob/inhand/hand_tools.dmi'
+	item_state = "shard-glass"
+
+	hit_type = DAMAGE_STAB
+	hitsound = 'sound/effects/bloody_stab.ogg'
+
+	glass
+		force = 10.0
+		throwforce = 10.0
+		name = "glass shank"
+		icon_state = "shank_glass"
+
+
 /obj/item/craftedmelee/ghettotool/crowbar
 
 	inhand_image_icon = 'icons/mob/inhand/hand_tools.dmi'
 	item_state = "crowbar"
 	name = "Improvised crowbar"
+
+	force = 7.0
+	throwforce = 7.0
 
 	electrobar
 		name = "Electrified Crowbar"
@@ -158,11 +184,28 @@
 				on = 0
 				icon_state = "off"
 			else if (!on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
 				on = 1
 				icon_state = "on"
+
+		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+			if (on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				M.remove_stamina(rand(8,10))
+			..()
+
 	glassbar
 		name = "Glass-Crowbar"
 		icon = 'icons/adolf12/glass bar.dmi'
+
+		hitsound = 'sound/weapons/slashcut.ogg'
+
+		force = 9.0
+		throwforce = 9.0
+
+		hit_type = DAMAGE_CUT
+
+
 
 
 /obj/item/craftedmelee/ghettotool/wrench
@@ -170,10 +213,15 @@
 	inhand_image_icon = 'icons/mob/inhand/hand_tools.dmi'
 	item_state = "wrench"
 
+	force = 9.0
+	throwforce = 9.0
+
 	electrowrench
 		name = "Electrified Wrench"
 		icon = 'icons/adolf12/electric wrench.dmi'
 		icon_state = "off"
+
+		hit_type = DAMAGE_BLUNT
 
 
 		attack_self(mob/user as mob)
@@ -181,13 +229,27 @@
 				on = 0
 				icon_state = "off"
 			else if (!on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
 				on = 1
 				icon_state = "on"
+
+		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+			if (on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				M.remove_stamina(rand(8,10))
+			..()
 
 /obj/item/craftedmelee/ghettotool/wirecutters
 
 	inhand_image_icon = 'icons/mob/inhand/hand_tools.dmi'
 	item_state = "cutters"
+
+	force = 9.0
+	throwforce = 9.0
+
+	hit_type = DAMAGE_CUT
+
+	hitsound = 'sound/effects/bloody_stab.ogg'
 
 	electrocutters
 		name = "Electrified Wirecutters"
@@ -199,8 +261,17 @@
 				on = 0
 				icon_state = "off"
 			else if (!on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
 				on = 1
 				icon_state = "on"
+
+		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+			if (on)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				M.remove_stamina(rand(8,10))
+			..()
+
+
 
 /obj/item/craftedcrap
 	name = "???"
@@ -335,6 +406,8 @@
 			playsound(src.loc, "hellhorn_12.ogg", 100, 1)
 		return
 
+
+
 /obj/burning_barrel
 	name = "burning barrel"
 	desc = "cozy."
@@ -401,14 +474,14 @@
 		if (!istype(edible))
 			return
 
-		if (istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked)//this is to prevent people
+		if (istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked == COOKED_COOKED)//this is to prevent people
 		//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
 			user.visible_message("<span style = \"color:red\"><b>[user] holds [edible] over [src]'s flame, but it is already hot and dissolves!</span>")
 			edible.reagents = new/datum/reagents()
 			return
 
 
-		if (istype(edible, /obj/item/reagent_containers/food) && !istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked)//this is to prevent people
+		if (istype(edible, /obj/item/reagent_containers/food) && !istype(edible, /obj/item/reagent_containers/food/drinks) && edible.edible && edible.cooked == COOKED_COOKED)//this is to prevent people
 		//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
 			user.visible_message("<span style = \"color:red\"><b>[user] holds [edible] over [src]'s flame, but it is already cooked and burns up!</span>")
 			new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
@@ -440,7 +513,7 @@
 			if (!istype(plant) || !plant)
 				return
 
-			if (istype(plant, /obj/item/reagent_containers/food) && plant.edible && plant.cooked)//this is to prevent people
+			if (istype(plant, /obj/item/reagent_containers/food) && plant.edible && plant.cooked == COOKED_COOKED)//this is to prevent people
 			//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
 				user.visible_message("<span style = \"color:red\"><b>[user] holds [plant] over [src]'s flame, but it is already cooked and burns up!</span>")
 				new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
@@ -503,7 +576,7 @@
 			if (food.cooking)
 				return
 
-			if (istype(food, /obj/item/reagent_containers/food) && food.edible && food.cooked)//this is to prevent people
+			if (istype(food, /obj/item/reagent_containers/food) && food.edible && food.cooked == COOKED_COOKED)//this is to prevent people
 			//from cooking things over and over to practically guarantee getting rid of rancidity/e.coli/salmonella
 				user.visible_message("<span style = \"color:red\"><b>[user] holds [food] over [src]'s flame, but it is already cooked and burns up!</span>")
 				new/obj/item/reagent_containers/food/snacks/yuckburn(loc)
