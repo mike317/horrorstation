@@ -604,32 +604,45 @@
 	if (prob(35))
 		new/obj/item/kitchen/utensil/knife(next_turf)
 
+	new/obj/item/shaker/salt(next_turf)
+
 	if (init_spawn)
-		var/max_v = rand(20, 30)
+		var/max_v = rand(50, 60)//all things considered 20 to 30 wasn't much at all, you might have to block off 4+ or more
+		//entrances from a bunch of hungry aliens and 5 to 7 pieces of wood to reinforce each entrance was tiny
 
 		for (var/v = 1, v <= max_v, v++)
 			if (prob(80))
 				var/wherethewoodat = pick("clutter", "plank")
 				if (wherethewoodat == "clutter")
 					var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-					if (!istype(o.loc, /turf/floor/simulated))
+					if (!istype(o.loc, /turf/simulated/floor))
 						qdel(o)
 				else
 					var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-					if (!istype(o.loc, /turf/floor/simulated))
+					if (!istype(o.loc, /turf/simulated/floor))
 						qdel(o)
 
-	for (var/v = 1, v <= 10, v++)
-		if (prob(80))
-			new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(next_turf)
+	for (var/v = 1, v <= 7, v++)
+		if (prob(60))
+			var/obj/reagent_barrel/salt_barrel/b = new/obj/reagent_barrel/salt_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			for (var/obj/item/i in b.loc)
+				qdel(i)
+		else
+			var/obj/reagent_barrel/rum_barrel/b = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			for (var/obj/item/i in b.loc)
+				qdel(i)
 
 	for (var/v = 1, v <= 10, v++)
 		if (prob(80))
-			new/obj/item/reagent_containers/patch/synthflesh(next_turf)
+			new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+
+	for (var/v = 1, v <= 10, v++)
+		if (prob(80))
+			new/obj/item/reagent_containers/patch/synthflesh(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 		if (prob(60))
-			new/obj/item/reagent_containers/patch/mini/bruise(next_turf)
+			new/obj/item/reagent_containers/patch/mini/bruise(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 		if (prob(40))
-			new/obj/item/reagent_containers/patch/mini/burn(next_turf)
+			new/obj/item/reagent_containers/patch/mini/burn(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 
 	if (!group)
 		if (another_turf && !welding_tank_or_barrel)

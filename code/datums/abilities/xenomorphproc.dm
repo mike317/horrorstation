@@ -285,6 +285,9 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 	if (!caste && newxeno && !queen)
 		islarva = 1
 
+
+	X.addAbility(/datum/targetable/xenomorph/bioflashlight)
+
 	if (H.mutantrace:bigXeno == 0)
 		X.addAbility(/datum/targetable/xenomorph/vent_crawl)
 		if (caste == "Facehugger" || caste == "facehugger")
@@ -306,17 +309,19 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 		X.addAbility(/datum/targetable/xenomorph/rend)
 
-		X.addAbility(/datum/targetable/xenomorph/bioflashlight)
 		//if (H.mutantrace:bigXeno == 0)
 		//	X.addAbility(/datum/targetable/xenomorph/leap_toggle)
 
 		if (isAlienDrone(H))
 			X.addAbility(/datum/targetable/xenomorph/weed)
 			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
-			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
+
 
 		if (isAlienQueen(H))
 			X.addAbility(/datum/targetable/xenomorph/build_egg)
+
+		if (isAlienDrone(H) || isAlienPraetorian(H))
+			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
 
 		if (H.mind)
 			H.mind.is_xenomorph = X
@@ -479,6 +484,8 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 	X.removeAbility(/datum/targetable/xenomorph/secrete_acid_cloud)
 	X.removeAbility(/datum/targetable/xenomorph/secrete_acid)
 
+	X.addAbility(/datum/targetable/xenomorph/bioflashlight)
+
 	if (!isAlienHugger(src))
 		X.addAbility(/datum/targetable/xenomorph/build_with_resin)
 		X.addAbility(/datum/targetable/xenomorph/devour)
@@ -488,7 +495,6 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 		X.addAbility(/datum/targetable/xenomorph/rend)
 
-		X.addAbility(/datum/targetable/xenomorph/bioflashlight)
 
 
 	else
@@ -506,9 +512,12 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		if (isAlienDrone(src))
 			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
 			X.addAbility(/datum/targetable/xenomorph/weed)
-			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
+
 		if (isAlienQueen(src))
 			X.addAbility(/datum/targetable/xenomorph/build_egg)
+
+		if (isAlienDrone(src) || isAlienPraetorian(src))
+			X.addAbility(/datum/targetable/xenomorph/release_pheromones)
 
 	if (isAlienWarrior(src))
 		X.addAbility(/datum/targetable/xenomorph/penetrate)

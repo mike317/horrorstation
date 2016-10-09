@@ -6741,6 +6741,9 @@
 	if (isAlien(M) && istype(W, /obj/item/xeno/facehugger))
 		if (ismonkey(src))
 			return 0
+		if (isAlien(src))
+			return 0
+
 		var/obj/item/xeno/facehugger/fucc = W
 
 		if (!fucc.alive)
@@ -6751,11 +6754,10 @@
 			return 0
 
 		if (!src.lying && !src.weakened && !src.stunned && !src.paralysis)
-			if (fucc.alive)
-				return attack_hand(M)
-			return 0
+			return attack_hand(M)
+		//	return 0
 
-		if (istype(src.head, /obj/item/clothing/head/helmet))
+		if (src.head && istype(src.head, /obj/item/clothing/head/helmet))
 			if (prob(src.head.armor_value_melee * 10 > 85 ? 85 : src.head.armor_value_melee))
 				src.visible_message("<span style = \"color:red\"><b>The facehugger bounces off of [src]'s helmet!</span></b>")
 				if (prob(src.head.armor_value_melee *3))
@@ -6767,7 +6769,7 @@
 
 				return
 
-		if (istype(src.wear_mask, /obj/item/clothing/mask))
+		if (src.wear_mask && istype(src.wear_mask, /obj/item/clothing/mask))
 			if (prob(src.wear_mask.armor_value_melee * 10 > 70 ? 70 : src.wear_mask.armor_value_melee))
 				src.visible_message("<span style = \"color:red\"><b>The facehugger bounces off of [src]'s mask!</span></b>")
 				if (prob(src.wear_mask.armor_value_melee * 1))//I mean it's just a mask
@@ -6779,45 +6781,44 @@
 				return
 
 
-			if (isAlien(src))
+
+		for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
+			//they just can't be facehugged.
+			if (istype(am.master, /datum/ailment/parasite/alien_larva))
+				boutput(M, "<span style = \"color:red\"><b>This host is already infected.</span></b>")
 				return 0
 
-			for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
-				//they just can't be facehugged.
-				if (istype(am.master, /datum/ailment/parasite/alien_larva))
-					boutput(M, "<span style = \"color:red\"><b>This host is already infected.</span></b>")
-					return 0
+		src.visible_message("<span style = \"color:red\"><b>[src] is facehugged by [M]!</b></span>")
+		if (fucc)
+			fucc.on_hug()
 
-			src.visible_message("<span style = \"color:red\"><b>[src] is facehugged by [M]!</b></span>")
-			if (fucc)
-				fucc.on_hug()
+		src.force_equip(null, slot_wear_mask)
+		src.force_equip(new/obj/item/clothing/mask/alien, slot_wear_mask)
+		src.force_equip(null, head)
+	//	spawn(rand(100,200))
+		//	src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
+		src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
+		src.weakened += 10
+		src.stunned += 10
+		qdel(W)
 
-			src.force_equip(null, slot_wear_mask)
-			src.force_equip(new/obj/item/clothing/mask/alien, slot_wear_mask)
-			src.force_equip(null, head)
-		//	spawn(rand(100,200))
-			//	src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
-			src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
-			src.weakened += 10
-			src.stunned += 10
-			del W
+		spawn (rand(70,100))
+			if (src.wear_mask)
+				src.visible_message("<span style = \"color:red\"><b>The facehugger on [src]'s face shrivels up and dies.</span></b>")
+				var/obj/item/xeno/facehugger/f = new/obj/item/xeno/facehugger(src.loc)
+				f.death(1)
+				src.u_equip(/obj/item/clothing/mask/alien)
+				src.update_clothing()
 
-			spawn (rand(70,100))
-				if (src.wear_mask)
-					src.visible_message("<span style = \"color:red\"><b>The facehugger on [src]'s face shrivels up and dies.</span></b>")
-					var/obj/item/xeno/facehugger/f = new/obj/item/xeno/facehugger(src.loc)
-					f.death(1)
-					src.u_equip(/obj/item/clothing/mask/alien)
-					src.update_clothing()
+		return 1
+	else
+		for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
+			//they just can't be facehugged.
+			if (istype(am.master, /datum/ailment/parasite/alien_larva))
+				boutput(M, "<span style = \"color:red\"><b>This host is infected; You cannot touch it.</span></b>")
+				return 0
 
-			return 1
-		else
-			for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
-				//they just can't be facehugged.
-				if (istype(am.master, /datum/ailment/parasite/alien_larva))
-					boutput(M, "<span style = \"color:red\"><b>This host is infected; You cannot touch it.</span></b>")
-					return 0
-			return src.attack_hand(M)
+		return src.attack_hand(M)
 
 	if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
 		if (prob(W.force * 5))

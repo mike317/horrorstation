@@ -1443,3 +1443,125 @@ ADMIN: kamina321 = Moderator
 [19:58:22] SAY: Shitty Bill (NPC) : Yo Donald "Don" Glabs.
 [19:58:24] ADMIN: Mahtcho Man (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/biker
 [19:58:30] SAY: Shitty Bill (NPC) : Dang, it's Mahtcho Man.
+
+
+Starting up. 20:58.07
+---------------------
+
+[20:58:13] ADMIN: Loading jobban_rank
+[20:58:13] ADMIN: Jobban_keylist was empty
+[20:58:13] ADMIN: Updating jobbanfile!
+[20:58:13] ADMIN: Loading oocban_rank
+[20:58:13] ADMIN: oocban_keylist was empty
+[20:58:13] ADMIN: Updating jobbanfile!
+ADMIN: furrychicken = Headmin
+ADMIN: cherkir = Headmin
+ADMIN: jasonvorheese = Primary Administrator
+ADMIN: REDACTEDminimeatwadREDACTED = Primary Administrator
+ADMIN: xenosandboxthesecond = Primary Administrator
+ADMIN: exbod = Primary Administrator
+ADMIN: zenek123 = Secondary Administrator
+ADMIN: noobpwnt4lif3 = Codermin
+ADMIN: kimjuandong = Coder
+ADMIN: adolf12 = Iconner
+ADMIN: kamina321 = Moderator
+[20:58:43] ACCESS: Login: Furry Chicken from 
+[20:59:13] ADMIN: Furry Chicken [DEAD] has started the game.
+[20:59:13] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[20:59:28] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[20:59:35] SAY: Father Jack (NPC) : FECK!
+[20:59:36] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:00:02] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:00:09] ADMIN: Alien Drone 546 (Furry Chicken) [TRAITOR] opened the create_object panel
+[21:00:14] ADMIN: Alien Drone 546 (Furry Chicken) [TRAITOR] created a /obj/item/xeno/facehugger
+[21:00:19] ADMIN: Alien Drone 546 (Furry Chicken) [TRAITOR] opened the create_mob panel
+[21:00:21] ADMIN: Alien Drone 546 (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/fatherted
+[21:00:27] SAY: Shitty Bill (NPC) : Got a light, bud?
+[21:00:40] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:00:41] ACCESS: Login: Alien Facehugger 985 (Furry Chicken) [TRAITOR] from 
+[21:02:02] SAY: Shitty Bill (NPC) : You a miner?
+[21:02:55] SAY: Shitty Bill (NPC) : I think my homebros got caught.
+[21:03:00] SAY: Shitty Bill (NPC) : The hell you lookin' at, brud?
+[21:03:05] SAY: Shitty Bill (NPC) : Got any blotters?
+[21:03:42] SAY: Shitty Bill (NPC) : Got a light, friend?
+[21:04:38] ACCESS: Login: living alien (Furry Chicken) [TRAITOR] from 
+[21:04:45] ACCESS: Login: Furry Chicken [DEAD] from 
+[21:04:54] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:05:04] SAY: Father Jack (NPC) : ARSE!
+[21:05:23] ACCESS: Login: Alien Facehugger 402 (Furry Chicken) [TRAITOR] from 
+[21:06:40] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:06:47] SAY: Shitty Bill (NPC) : Yo, gimme yer smokes.
+[21:06:59] SAY: Shitty Bill (NPC) : I think my bruds got caught.
+[21:07:17] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:07:24] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] opened the create_mob panel
+[21:07:25] SAY: Shitty Bill (NPC) : Oh hell, it's Father Jack.
+[21:07:30] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/fatherjack
+[21:07:46] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] opened the create_object panel
+[21:07:49] SAY: Shitty Bill (NPC) : I think my bruds are running late.
+[21:07:51] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] created a /obj/item/xeno/facehugger
+[21:09:27] SAY: Shitty Bill (NPC) : I ever tell you 'bout your grampa?
+[21:10:16] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[21:10:25] SAY: Shitty Bill (NPC) : I think my bros stole my cat.
+[21:11:12] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] opened the create_object panel
+[21:11:17] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] created a /obj/item/xeno/resin
+[21:13:16] ADMIN: Alien Drone 769 (Furry Chicken) [TRAITOR] teleported the gibs to themselves (<a href='?src=%admin_ref%;action=jumptocoords;target=171,175,1' title='Jump to Coords'>171,175,1</a> in Fore Port Maintenance)
+[21:13:17] SAY: Shitty Bill (NPC) : Man, I sure don't miss my dad.
+[21:13:31] SAY: Father Jack (NPC) : FECK!
+[21:13:33] SAY: Father Jack (NPC) : DRINK!
+[21:13:38] SAY: Shitty Bill (NPC) : You roll?
+[21:13:50] SAY: Shitty Bill (NPC) : What're you lookin' at, friend?
+[21:14:35] SAY: Shitty Bill (NPC) : I ever tell you 'bout your grampa?
+[21:15:01] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[21:15:25] SAY: Shitty Bill (NPC) : Nice hair, beardo.
+[21:15:27] SAY: Shitty Bill (NPC) : You ride?
+[21:15:39] SAY: Shitty Bill (NPC) : You a changer?
+[21:15:51] SAY: Shitty Bill (NPC) : Hey friendo, gimme yer hugs.
+[21:15:54] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[21:16:50] SAY: Shitty Bill (NPC) : Nice karma, Colonel.
+[21:17:46] SAY: Shitty Bill (NPC) : Got any argine?
+[21:19:00] SAY: Shitty Bill (NPC) : You a Russian?
+[21:19:40] SAY: Shitty Bill (NPC) : Whatcha you lookin' at, astronaut?
+[21:20:13] SAY: Shitty Bill (NPC) : I ever tell you 'bout the time I sold dope to that ice dude?
+[21:20:44] SAY: Father Jack (NPC) : ARSE!
+[21:21:10] SAY: Shitty Bill (NPC) : Hey buddy, gimme yer cash.
+[21:21:26] SAY: Father Jack (NPC) : GIRLS!
+[21:22:30] SAY: Shitty Bill (NPC) : Got any 'ritos?
+[21:22:37] SAY: Father Jack (NPC) : ARSE!
+
+
+Starting up. 21:28.59
+---------------------
+
+[21:29:07] ADMIN: Loading jobban_rank
+[21:29:07] ADMIN: Jobban_keylist was empty
+[21:29:07] ADMIN: Updating jobbanfile!
+[21:29:07] ADMIN: Loading oocban_rank
+[21:29:07] ADMIN: oocban_keylist was empty
+[21:29:07] ADMIN: Updating jobbanfile!
+ADMIN: furrychicken = Headmin
+ADMIN: cherkir = Headmin
+ADMIN: jasonvorheese = Primary Administrator
+ADMIN: REDACTEDminimeatwadREDACTED = Primary Administrator
+ADMIN: xenosandboxthesecond = Primary Administrator
+ADMIN: exbod = Primary Administrator
+ADMIN: zenek123 = Secondary Administrator
+ADMIN: silentsh00t = Administrator
+ADMIN: noobpwnt4lif3 = Codermin
+ADMIN: kimjuandong = Coder
+ADMIN: adolf12 = Iconner
+ADMIN: kamina321 = Moderator
+[21:29:51] ACCESS: Login: Furry Chicken from 
+[21:30:44] ADMIN: Furry Chicken [DEAD] has started the game.
+[21:30:44] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[21:31:04] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] opened the create_mob panel
+[21:31:14] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/fatherjack
+[21:31:15] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/fatherjack
+[21:31:54] SAY: Father Jack (NPC) : GIRLS!
+[21:32:01] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[21:32:11] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[21:32:13] SAY: Shitty Bill (NPC) : Man, I sure don't miss Sirius.
+[21:32:15] SAY: Shitty Bill (NPC) : Nice pod, bucko.
+[21:32:27] ACCESS: Login: Alien Queen (Furry Chicken) [TRAITOR] [DEAD] from 
+[21:32:44] SAY: Father Jack (NPC) : DRINK!
+[21:33:23] SAY: Shitty Bill (NPC) : You a miner?
+[21:33:59] ACCESS: Login: Furry Chicken [TRAITOR] from 

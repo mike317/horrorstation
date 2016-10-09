@@ -128,7 +128,7 @@
 		src.ai_threatened = world.timeofday
 		src.ai_target = M
 		src.shitlist[M] ++
-		if (prob(40))
+		if (prob(40) && src.stat != 2)
 			src.emote("scream")
 		var/pals = 0
 		for (var/mob/living/carbon/human/npc/monkey/pal in all_viewers(7, src))
@@ -143,7 +143,7 @@
 			pal.ai_target = M
 			pal.shitlist[M] ++
 			pals ++
-			if (prob(40))
+			if (prob(40) && src.stat != 2)
 				src.emote("scream")
 
 	proc/done_with_you(var/mob/M as mob)
