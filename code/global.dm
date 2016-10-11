@@ -561,7 +561,7 @@ var/global
 	list/observer_start = list()
 	list/xeno_start = list()
 	list/survivor_start = list()
-	list/cherkir_critter_start = list()
+	list/random_survivor_start = list()
 	list/clownstart = list()
 	list/prisonwarp = list()	//prisoners go to these
 	//list/mazewarp = list()

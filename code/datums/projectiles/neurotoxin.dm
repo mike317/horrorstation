@@ -1,5 +1,5 @@
 /datum/projectile/energy_bolt/neurotoxin
-	name = "energy bolt"
+	name = "neurotoxin"
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "acidspit"
 	hits_xenos = 0

@@ -9,8 +9,7 @@ h1, h2, h3, h4, h5, h6 {color: #00f;font-family: Georgia, Verdana, sans-serif;}
 .motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover {color: #638500;}
 
 /* ADD HERE FOR BOLD */
-.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal {font-weight: bold;}
-
+.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc {font-weight: bold;}
 /* OUTPUT COLORS */
 .ooc {color: #002eb8;}
 .looc {color: #4c6ccd;}
@@ -23,6 +22,15 @@ h1, h2, h3, h4, h5, h6 {color: #00f;font-family: Georgia, Verdana, sans-serif;}
 .gfartadmin {color: #996600;}
 .mentorooc {color: #7b00ff;}
 .mentorlooc {color: #a24cff;}
+.coder {color: #4A235A;}
+.coderooc {color: #4A235A;}
+.coderlooc {color:#5B2C6F;}
+.codermin {color:#1A5276;}
+.cooderminooc {color:#1A5276;}
+.coderminlooc {color:#1F618D;}
+.donor1 {color:#B7950B;}
+.donor1ooc {color:#B7950B;}
+.donor1looc {color:#D4AC0D;}
 .medal {color: #808000;}
 .say {}
 .blobsay {color: #F4AB0E;}

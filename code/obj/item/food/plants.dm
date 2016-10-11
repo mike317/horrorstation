@@ -44,38 +44,6 @@
 					break
 			throw_impact(get_turf(src))
 
-	cook(var/turf/T)
-		..()
-
-		if (T == "FUCK")
-			return 0
-
-		var/obj/item/reagent_containers/food/snacks/plant/p = new/obj/item/reagent_containers/food/snacks/plant(T)
-
-
-		p.spoiled = src.spoiled
-		p.dysentery = src.dysentery
-
-		p.icon = src.icon
-		p.icon_state = src.icon_state
-
-
-		var/overlay = icon(p.icon, "cooked")
-		var/icon/i = src.icon
-		i.Blend(overlay, ICON_MULTIPLY)
-		p.icon = i
-
-		src.reagents.trans_to_direct(p)
-		p.name = "cooked [src]"
-		p.edible = 1
-		p.spoiled -= rand(1,5)//plants are easier to unspoil by cooking lol
-		p.dysentery -= rand(10,20)
-		p.cooked = COOKED_COOKED
-
-		if (src)
-			qdel(src)
-		else
-			return
 
 
 /obj/item/reagent_containers/food/snacks/plant/tomato/

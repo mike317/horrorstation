@@ -1,7 +1,7 @@
 
 /datum/targetable/xenomorph/weed
 	name = "Plant Weeds"
-	desc = "Plant weeds."
+	desc = "Plant some weeds, which are necessary to expand the hive."
 	icon_state = "weednode"
 	cooldown = 0
 	targeted = 0

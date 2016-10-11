@@ -18,6 +18,10 @@
 			else
 		return
 
+	bullet_act(var/obj/projectile/p)
+		if (p.proj_data && prob(p.proj_data.power))
+			qdel(src)
+
 	proc/death()
 		src.visible_message("<span style=\"color:red\"><B>[src] collapses into a pile of resin goop.</B></span>")
 		qdel(src)

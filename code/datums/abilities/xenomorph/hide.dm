@@ -16,7 +16,7 @@
 		var/mob/living/carbon/human/H = holder.owner
 
 		if (!istype(H:mutantrace, /datum/mutantrace/xenomorph/larva))//huggers are descendents of larvae
-			boutput(H, "<span style = \"color:red\"><B>Your caste cannot hide. How did you even get here?</span></B>")
+			boutput(H, "<span style = \"color:red\"><B>You are unable to hide as this caste.</span></B>")
 			return 0
 
 

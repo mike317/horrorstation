@@ -14,6 +14,12 @@
 			action_name = "start slicing the [src] into thin slices"
 
 */
+
+/obj/item/raw_material/proc/beat_into_a_shape(var/obj/item/weapon, var/mob/living/carbon/human/user)
+	if (istype(weapon, /obj/item/wrench))
+		var/whattodo = input(user, "Shape this into what?") in list("Shitty Gun #1", "Shitty Gun #2", "Shitty Gun #3")
+		return
+
 /obj/item/raw_material/proc/refine(var/obj/item/weapon, var/mob/living/carbon/human/user)//weapon == null when they use hands
 	var/melt_time = 0
 	var/action_name = "do something that should not be possible to see, please contact a coder"

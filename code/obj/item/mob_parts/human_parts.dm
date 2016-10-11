@@ -85,12 +85,10 @@
 
 		set_skin_tone()
 
-		var/obj/xeno/hive/weeds = locate() in src.loc
-
-		if (weeds)
+		if (locate(/obj/xeno/hive/weeds) in src.loc)
 			spawn(rand(600,900))
-				if (weeds && src || src && locate(/obj/xeno/hive/weeds) in src.loc)
-					weeds.visible_message("<span style = \"color:red\">[src] is overcome by the weeds.</span>")
+				if (locate(/obj/xeno/hive/weeds) in src.loc)
+					visible_message("<span style = \"color:red\">[src] is disentigrated by the weeds.</span>")
 					qdel(src)
 
 	proc/set_skin_tone()

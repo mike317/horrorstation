@@ -450,7 +450,10 @@
 		else if (playercount > 24)
 			max_warehouses = 4
 
-		survivor_start.len = max_warehouses
+		while (random_survivor_start.len < survivor_start.len)//I think there is a random list proc but fuck it - Cherkir
+			random_survivor_start += pick(survivor_start)
+
+		random_survivor_start.len = max_warehouses
 
 		ticker.mode:handled_warehouse_culling = 1
 
@@ -459,7 +462,7 @@
 //
 //	if (mobcount < 10)
 //		survivors_start.cull
-	var/start = pick(survivor_start)
+	var/start = pick(random_survivor_start)
 	/*
 
 	var/woodspawn1 = locate(src.x+3, src.y+2, src.z)
@@ -505,18 +508,105 @@
 		tries++
 		goto back
 
+	if (!istype(src.loc, /turf/simulated/floor))//shitty fix to the spawning in space bug
+		src.loc = central_spawn_loc
+
 
 	alien_mode_spawn_stuff(central_spawn_loc, initial_spawn)
 
+proc/random_tenth_decimal(var/r1, var/r2)
+
+	return (rand(r1 * 100, r2 * 100))/100
+
 /mob/living/carbon/human/proc/alien_mode_spawn_stuff(var/group = 0, var/init_spawn = 0)
 	if (isAlien(src))
-		return 0//no
+		return 0//no get out ayys ree
 	var/next_turf = null
 	var/another_turf = (prob(30) ? 1 : null)
 	var/welding_tank_or_barrel = 0//0 = tank, 1 = barrel
 	var/turf/simulated/floor/available_turfs[0]
 
+	var/spawn_time = 10
 
+	if (init_spawn)
+		sleep(50)
+
+		var/max_v = rand(50, 60)//all things considered 20 to 30 wasn't much at all, you might have to block off 4+ or more
+		//entrances from a bunch of hungry aliens and 5 to 7 pieces of wood to reinforce each entrance was tiny
+
+		for (var/v = 1, v <= max_v, v++)
+			if (prob(80))
+				var/wherethewoodat = pick("clutter", "plank")
+				if (wherethewoodat == "clutter")
+					spawn (spawn_time * 1.5 * random_tenth_decimal(1,2))
+						var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+						if (!istype(o.loc, /turf/simulated/floor))
+							qdel(o)
+				else
+					spawn (spawn_time * 1.5 * random_tenth_decimal(1,2))
+						var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+						if (!istype(o.loc, /turf/simulated/floor))
+							qdel(o)
+		spawn (spawn_time * 2)
+			var/obj/reagent_barrel/salt_barrel/saltb = new/obj/reagent_barrel/salt_barrel(locate(next_turf:x+rand(-2,2), next_turf:y+rand(-2,2), next_turf:z))
+			var/obj/reagent_barrel/rum_barrel/rumb = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-2,2), next_turf:y+rand(-2,2), next_turf:y))
+
+			if (rumb.loc == saltb.loc)//probably won't be a problem
+				if (istype(locate(rumb.x+1, rumb.y, rumb.z), /turf/simulated/floor))
+					rumb.x++
+				else
+					rumb.x--
+/*
+		for (var/v = 1, v <= 7, v++)
+			if (prob(60))
+				var/obj/reagent_barrel/salt_barrel/b = new/obj/reagent_barrel/salt_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+				for (var/obj/item/i in b.loc)
+					qdel(i)
+			else
+				var/obj/reagent_barrel/rum_barrel/b = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+				for (var/obj/item/i in b.loc)
+					qdel(i)
+					*/
+
+		for (var/v = 1, v <= 10, v++)
+			if (prob(70))
+				spawn (spawn_time * 2.5 * random_tenth_decimal(1,2))
+					var/obj/item/device/glowstick/g = new/obj/item/device/glowstick(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z)
+					g.on = 1
+					g.icon_state = "glowstick-on"
+					g.light.enable()
+
+		for (var/v = 1, v <= 10, v++)
+			if (prob(80))
+				spawn (spawn_time * 3 * random_tenth_decimal(1,2))
+					var/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat/goodmeat = new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+					goodmeat.salt()
+
+		for (var/v = 1, v <= 10, v++)
+			if (prob(80))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/synthflesh(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			if (prob(60))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/mini/bruise(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			if (prob(40))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/mini/burn(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			if (prob(10))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/mini/omnipatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			if (prob(50))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/mini/antifoodpoisoningpatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			if (prob(30))
+				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+					new/obj/item/reagent_containers/patch/mini/antitoxinpatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+
+		spawn (spawn_time * 6)
+			for (var/turf/t in range(3, next_turf))
+				if (t.density)
+					for (var/obj/item/i in t)
+						qdel(i)
 //	if (prob(75))//not everyone and their bee should spawn with a welding tank
 	//	welding_tank_or_barrel = 1
 
@@ -583,66 +673,62 @@
 	if (group && isturf(group))
 		next_turf = group
 
-	new/obj/item/crowbar/survivor_crowbar(next_turf)//let's survivors get out of anywhere
 
-	new/obj/item/device/flashlight(next_turf)
+	var/obj/item/crowbar/survivor_crowbar/c = new/obj/item/crowbar/survivor_crowbar(next_turf)//lets survivors get out of anywhere
+	src.equip_if_possible(c, slot_r_hand)
 
-	if (prob(30))
-		new/obj/item/device/multitool(next_turf)
+	if (!locate(c) in src)
+		src.equip_if_possible(c, slot_l_hand)
 
-	if (prob(60))
-		new/obj/item/wirecutters(next_turf)
-
-	if (prob(40))
-		new/obj/item/wrench(next_turf)
-
-	if (prob(70))
-		new/obj/item/screwdriver(next_turf)
-
-	new/obj/item/knife_butcher(next_turf)
-
-	if (prob(35))
-		new/obj/item/kitchen/utensil/knife(next_turf)
-
-	new/obj/item/shaker/salt(next_turf)
-
-	if (init_spawn)
-		var/max_v = rand(50, 60)//all things considered 20 to 30 wasn't much at all, you might have to block off 4+ or more
-		//entrances from a bunch of hungry aliens and 5 to 7 pieces of wood to reinforce each entrance was tiny
-
-		for (var/v = 1, v <= max_v, v++)
-			if (prob(80))
-				var/wherethewoodat = pick("clutter", "plank")
-				if (wherethewoodat == "clutter")
-					var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-					if (!istype(o.loc, /turf/simulated/floor))
-						qdel(o)
-				else
-					var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-					if (!istype(o.loc, /turf/simulated/floor))
-						qdel(o)
-
-	for (var/v = 1, v <= 7, v++)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		new/obj/item/device/flashlight(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(30))
+			new/obj/item/device/multitool(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
 		if (prob(60))
-			var/obj/reagent_barrel/salt_barrel/b = new/obj/reagent_barrel/salt_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-			for (var/obj/item/i in b.loc)
-				qdel(i)
-		else
-			var/obj/reagent_barrel/rum_barrel/b = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-			for (var/obj/item/i in b.loc)
-				qdel(i)
-
-	for (var/v = 1, v <= 10, v++)
-		if (prob(80))
-			new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-
-	for (var/v = 1, v <= 10, v++)
-		if (prob(80))
-			new/obj/item/reagent_containers/patch/synthflesh(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-		if (prob(60))
-			new/obj/item/reagent_containers/patch/mini/bruise(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			new/obj/item/wirecutters(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
 		if (prob(40))
-			new/obj/item/reagent_containers/patch/mini/burn(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
+			new/obj/item/wrench(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(70))
+			new/obj/item/screwdriver(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(50))
+			new/obj/item/knife_butcher(next_turf)
+
+		else
+			new/obj/item/kitchen/utensil/knife(next_turf)
+
+	//insulated gloves
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(20))
+			var/obj/item/clothing/gloves/yellow/gloves = new/obj/item/clothing/gloves/yellow(next_turf)
+			equip_if_possible(gloves, slot_gloves)
+
+	//weapon spawn
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(17))
+			new/obj/item/device/flash(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(15))
+			new/obj/item/gun/energy/taser_gun(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(10))
+			new/obj/item/gun/energy/laser_gun(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		new/obj/item/cable_coil(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(50))
+			new/obj/item/cable_coil(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		new/obj/item/electronics/battery(next_turf)
+	spawn (spawn_time * random_tenth_decimal(1,2))
+		if (prob(50))
+			new/obj/item/electronics/battery(next_turf)
+//	new/obj/item/shaker/salt(next_turf)
+
 
 	if (!group)
 		if (another_turf && !welding_tank_or_barrel)
@@ -658,19 +744,7 @@
 
 
 
-	//insulated gloves
-	if (prob(20))
-		var/obj/item/clothing/gloves/yellow/gloves = new/obj/item/clothing/gloves/yellow(next_turf)
-		equip_if_possible(gloves, slot_gloves)
 
-	//weapon spawn
-
-	if (prob(17))
-		new/obj/item/device/flash(next_turf)
-	if (prob(15))
-		new/obj/item/gun/energy/taser_gun(next_turf)
-	if (prob(10))
-		new/obj/item/gun/energy/laser_gun(next_turf)
 
 	spawn (5)
 		boutput(src, "<b>You've spawned with several vital tools, including a crowbar. Use this to open depowered doors.</b><br>")
@@ -691,25 +765,38 @@
 
 				if (abs_dist < 50)//oh shit
 					if (prob(80))
-						boutput(src, "<br><br><span style = \"color:red\"><b>You know that you are very close to an Xenomorph. You are in danger as long as you stay here. Move quickly.</span></b>")
+						boutput(src, "<br><br><span style = \"color:red\"><b>You know that you are very close to an Xenomorph.</span></b>")
 						break
 				else
 					if (prob(30))
 						boutput(src, "<br><br><span style = \"color:red\"><b>You know that there is an Xenomorph at [ayy.loc.loc].</span></b>")
 						break
 
-		for (var/obj/landmark/start/cherkir_critter_start/c in world)
-			var/c_area = "nowhere"
-			if (istype(c.loc, /obj))
-				if (c.loc.loc.loc)
-					c_area = c.loc.loc.loc
-			else if (istype(c.loc, /turf))
-				if (c.loc.loc)
-					c_area = c.loc.loc
+		for (var/obj/landmark/loot_spawn/l in world)
 
 			if (prob(20))
-				boutput(src, "<br><br><span style = \"color:red\"><b>You know that a good place to gather food is [c_area].</span></b>")
+				if (l.loc.loc)
+					boutput(src, "<br><br><span style = \"color:red\"><b>You know that there are some [l.loot_first ? l.loot_first_name : ""]s[l.loot_second ? " and some [l.loot_second_name]s" : ""] at [l.loc.loc].</span></b>")
 
+		for (var/mob/living/carbon/human/monkey/firstmonkey in world)//since xenostarts were already removed
+
+			var/monkey_count = 1
+
+			for (var/mob/living/carbon/human/monkey/m in range(10, firstmonkey))
+				monkey_count++
+
+			if (monkey_count >= 2)//there is roughly a 20% chance for each xeno start to have 2 monkeys
+				var/m_area = "nowhere"
+				if (istype(firstmonkey.loc, /obj))
+					if (firstmonkey.loc.loc.loc)
+						m_area = firstmonkey.loc.loc.loc
+				else if (istype(firstmonkey.loc, /turf))
+					if (firstmonkey.loc.loc)
+						m_area = firstmonkey.loc.loc
+
+				if (prob(50))
+					boutput(src, "<br><br><span style = \"color:red\"><b>You know that a good place to gather food is [m_area], but beware of Xenomorphs.</span></b>")
+					break//should prevent same location being output twice
 
 /mob/living/carbon/human/proc/spawnId(rank)
 	var/obj/item/card/id/C = null

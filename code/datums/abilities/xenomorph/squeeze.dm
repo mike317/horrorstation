@@ -1,3 +1,11 @@
+mob/living/carbon/human/proc/squeeze(var/turf/location)
+	mutantrace:hiding = 1
+	layer = HIDING_MOB_LAYER
+	spawn(rand(4,6))
+		loc = location
+		mutantrace:hiding = 0
+		layer = initial(layer)
+
 /datum/targetable/xenomorph/squeeze
 	name = "Squeeze"
 	desc = "Squeeze through a door, or under a table, window, or grille."
@@ -25,7 +33,7 @@
 				if (!istype(o, /obj/window) && o.density && o != g)
 					return
 
-			H.set_loc(g.loc)
+			H.squeeze(g.loc)
 			H.visible_message("<span style = \"color:red\">[H] squeezes under the grille.</span>","<span style = \"color:red\">You squeeze under the grille.</span>")
 			break
 
@@ -34,7 +42,7 @@
 				if (!istype(o, /obj/grille) && o.density && o != w)
 					return
 
-			H.set_loc(w.loc)
+			H.squeeze(w.loc)
 			H.visible_message("<span style = \"color:red\">[H] squeezes under the window.</span>","<span style = \"color:red\">You squeeze under the window.</span>")
 			break
 
@@ -42,7 +50,7 @@
 			if (!t.density)
 				return
 
-			H.set_loc(t.loc)
+			H.squeeze(t.loc)
 			H.visible_message("<span style = \"color:red\">[H] squeezes under the table.</span>","<span style = \"color:red\">You squeeze under the table.</span>")
 			break
 
@@ -51,7 +59,7 @@
 				if (o.density && o != p)
 					return
 
-			H.set_loc(p.loc)
+			H.squeeze(p.loc)
 			H.visible_message("<span style = \"color:red\">[H] squeezes through the plastic flaps.</span>","<span style = \"color:red\">You squeeze through the plastic flaps.</span>")
 			break
 
@@ -61,7 +69,7 @@
 					return
 
 			if (!istype(d, /obj/machinery/door/poddoor))
-				H.set_loc(d.loc)
+				H.squeeze(d.loc)
 				H.visible_message("<span style = \"color:red\">[H] squeezes through the door.</span>","<span style = \"color:red\">You squeeze through the door.</span>")
 
 		return 0

@@ -1565,3 +1565,70 @@ ADMIN: kamina321 = Moderator
 [21:32:44] SAY: Father Jack (NPC) : DRINK!
 [21:33:23] SAY: Shitty Bill (NPC) : You a miner?
 [21:33:59] ACCESS: Login: Furry Chicken [TRAITOR] from 
+
+
+Starting up. 22:58.42
+---------------------
+
+[22:58:47] ADMIN: Loading jobban_rank
+[22:58:47] ADMIN: Jobban_keylist was empty
+[22:58:47] ADMIN: Updating jobbanfile!
+[22:58:47] ADMIN: Loading oocban_rank
+[22:58:47] ADMIN: oocban_keylist was empty
+[22:58:47] ADMIN: Updating jobbanfile!
+ADMIN: furrychicken = Headmin
+ADMIN: cherkir = Headmin
+ADMIN: jasonvorheese = Primary Administrator
+ADMIN: REDACTEDminimeatwadREDACTED = Primary Administrator
+ADMIN: xenosandboxthesecond = Primary Administrator
+ADMIN: exbod = Primary Administrator
+ADMIN: zenek123 = Secondary Administrator
+ADMIN: silentsh00t = Administrator
+ADMIN: noobpwnt4lif3 = Codermin
+ADMIN: kimjuandong = Coder
+ADMIN: adolf12 = Iconner
+ADMIN: kamina321 = Moderator
+[22:59:07] ACCESS: Login: Furry Chicken from 
+[22:59:43] ADMIN: Furry Chicken [DEAD] has started the game.
+[22:59:44] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[23:00:06] SAY: Shitty Bill (NPC) : What you lookin' at, dweeb?
+[23:00:08] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[23:00:19] ADMIN: mahchoe maenn (Furry Chicken) [TRAITOR] opened the create_object panel
+[23:00:25] ADMIN: mahchoe maenn (Furry Chicken) [TRAITOR] created a /obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat
+[23:01:55] SAY: Father Jack (NPC) : That would be an ecumenical matter.
+[23:02:07] SAY: Shitty Bill (NPC) : I think my homebros sent you.
+
+
+Starting up. 23:08.18
+---------------------
+
+[23:08:23] ADMIN: Loading jobban_rank
+[23:08:23] ADMIN: Jobban_keylist was empty
+[23:08:23] ADMIN: Updating jobbanfile!
+[23:08:23] ADMIN: Loading oocban_rank
+[23:08:23] ADMIN: oocban_keylist was empty
+[23:08:23] ADMIN: Updating jobbanfile!
+ADMIN: furrychicken = Headmin
+ADMIN: cherkir = Headmin
+ADMIN: jasonvorheese = Primary Administrator
+ADMIN: REDACTEDminimeatwadREDACTED = Primary Administrator
+ADMIN: xenosandboxthesecond = Primary Administrator
+ADMIN: exbod = Primary Administrator
+ADMIN: zenek123 = Secondary Administrator
+ADMIN: silentsh00t = Administrator
+ADMIN: noobpwnt4lif3 = Codermin
+ADMIN: kimjuandong = Coder
+ADMIN: adolf12 = Iconner
+ADMIN: kamina321 = Moderator
+[23:08:45] ACCESS: Login: Furry Chicken from 
+[23:09:15] ADMIN: Furry Chicken [DEAD] has started the game.
+[23:09:16] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[23:09:31] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] opened the create_object panel
+[23:09:36] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /obj/item/xeno/facehugger
+[23:09:36] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /obj/item/xeno/facehugger
+[23:09:36] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /obj/item/xeno/facehugger
+[23:09:39] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] opened the create_mob panel
+[23:09:42] ADMIN: Alien Queen (Furry Chicken) [TRAITOR] created a /mob/living/carbon/human/fatherted
+[23:10:20] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[23:10:24] ADMIN: mahtchoh man (Furry Chicken) [TRAITOR] opened the create_object panel
+[23:10:31] ADMIN: mahtchoh man (Furry Chicken) [TRAITOR] created a /obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat

@@ -1,4 +1,4 @@
-/mob/living/carbon/human/var/xblowingup = 0//0 = not blowing up, 1 = getting ready to blow up, 2 = blowing the fuck up
+/mob/living/carbon/human/var/xblowingup = 0//0 = not blowing up, 1 to 2 = getting ready to blow up, 2 = blowing the fuck up
 
 /mob/living/carbon/human/proc/find_xeno_target(var/allow_lying = 0, var/allow_targets = 1, var/AOE = 0)
 	var/turf/T = get_step(src, src.dir)//allow_lying, at 2, forces lying.
@@ -75,8 +75,8 @@
 
 /datum/targetable/xenomorph/rend
 	name = "Rend"
-	desc = "Severely wound a host by rending them with your teeth. They will most likely bleed to death."
-	cooldown = 20
+	desc = "Severely wound a host by rending them with your teeth. This causes extreme bleeding."
+	cooldown = 50
 	targeted = 0
 	target_anything = 0
 	restricted_area_check = 2
@@ -98,11 +98,11 @@
 			boutput(H, "Only True Xenomorphs can use this ability. What the fuck are you doing here? Get out.")
 			return
 
-		if (H.mutantrace:plasma < 200)
-			boutput(H, "You require at least 200 plasma to use this ability.")
+		if (H.mutantrace:plasma < 150)
+			boutput(H, "You require at least 150 plasma to use this ability.")
 			return
 		else
-			H.mutantrace:plasma -= 200
+			H.mutantrace:plasma -= 150
 
 
 		var/mob/living/l = H.find_xeno_target(1)
@@ -118,7 +118,7 @@
 /datum/targetable/xenomorph/penetrate
 	name = "Skull Penetration"
 	desc = "Use your inner mouth to penetrate the skull and instantly kill any living being. They must be incapacitated."
-	cooldown = 20
+	cooldown = 100
 	targeted = 0
 	target_anything = 0
 	restricted_area_check = 2
@@ -139,11 +139,11 @@
 			boutput(H, "Only Warriors can use this ability. What the fuck are you doing here? Get out.")
 			return
 
-		if (H.mutantrace:plasma < 200)
-			boutput(H, "You require at least 200 plasma to use this ability.")
+		if (H.mutantrace:plasma < 150)
+			boutput(H, "You require at least 150 plasma to use this ability.")
 			return
 		else
-			H.mutantrace:plasma -= 200
+			H.mutantrace:plasma -= 150
 
 
 		var/mob/living/list/l = H.find_xeno_target(1, 2)
@@ -198,6 +198,7 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/praetorian))
 			boutput(H, "Only Praetorians can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma < 200)
 			boutput(H, "You require at least 200 plasma to use this ability.")
@@ -206,6 +207,7 @@
 			H.mutantrace:plasma -= 200
 
 		var/mob/living/l = H.find_xeno_target(1)
+
 		if (l)
 			H.visible_message("<span style = \"color:red\"><big><b>[H] grabs [l], lifting them into the air..</span></big></b>", "<span style = \"color:red\">You grab [l], lifting them into the air..</span>")
 			var/l_loc = l.loc
@@ -217,7 +219,6 @@
 				if (H.loc == H_loc && l.loc == l_loc)
 					l.visible_message("<span style = \"color:red\"><big><b>[H] rips [l] apart!</b></span></big>")
 					l.gib()
-
 
 /datum/targetable/xenomorph/spit
 	name = "Spit"
@@ -243,9 +244,10 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/praetorian) && !istype(H.mutantrace, /datum/mutantrace/xenomorph/sentinel))
 			boutput(H, "Only Praetorians/Sentinels can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma < 50)
-			boutput(H, "You require at least 75 plasma to use this ability.")
+			boutput(H, "You require at least 50 plasma to use this ability.")
 			return
 		else
 			H.mutantrace:plasma -= 50
@@ -285,7 +287,7 @@
 /datum/targetable/xenomorph/slam
 	name = "Slam"
 	desc = "Leverage your body weight against a host or object to send it flying. This will destroy almost all immobile objects."
-	cooldown = 5
+	cooldown = 10
 	targeted = 0
 	target_anything = 0
 	restricted_area_check = 2
@@ -305,6 +307,7 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/praetorian))
 			boutput(H, "Only Praetorians can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma < 100)
 			boutput(H, "You don't have enough plasma to use this ability.")
@@ -354,8 +357,8 @@
 
 /datum/targetable/xenomorph/tailwhip
 	name = "Tail Whip"
-	desc = "Whip your tail across the floor, and knock down hosts with a 2x2 radius."
-	cooldown = 15
+	desc = "Whip your tail across the floor, and knock down hosts within a 2x2 radius."
+	cooldown = 75
 	targeted = 0
 	target_anything = 0
 	restricted_area_check = 2
@@ -373,6 +376,7 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/praetorian))
 			boutput(H, "Only Praetorians can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma < 100)
 			boutput(H, "You don't have enough plasma to use this ability.")
@@ -415,6 +419,7 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/warrior))
 			boutput(H, "Only Warriors can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma < 100)
 			boutput(H, "You don't have enough plasma to use this ability.")
@@ -442,6 +447,7 @@
 
 		var/impale_second = 0
 
+
 		if (first)
 			if (prob(60) && !first.weakened)
 				first.visible_message("<span style = \"color:red\">[first] narrowly dodges [H]'s tail attack!</span>")
@@ -458,6 +464,22 @@
 			playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
 			H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [second] too!</span>")
 			second.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
+
+		for (var/mob/m in range(1, first))//vertical double-stab
+			if (m.x == first.x)
+				if (m.y == first.y - 1 && H.y > first.y || m.y == first.y + 1 && H.y < first.y)
+					if (prob(25))
+						playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
+						H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [m] too!</span>")
+						m.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
+
+		for (var/mob/m in range(1, first))//horizontal double-stab
+			if (m.x == first.x)
+				if (m.x == first.x - 1 && H.x > first.x || m.x == first.x + 1 && H.x < first.x)
+					if (prob(25))
+						playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
+						H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [m] too!</span>")
+						m.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
 
 /datum/targetable/xenomorph/crush
 	name = "Crush"
@@ -481,6 +503,7 @@
 
 		if (!istype(H.mutantrace, /datum/mutantrace/xenomorph/praetorian))
 			boutput(H, "Only Praetorians can use this ability. What the fuck are you doing here? Get out.")
+			return
 
 		if (H.mutantrace:plasma <= 200)
 			boutput(H, "You don't have enough plasma to use this ability.")
@@ -584,16 +607,28 @@
 			if (0)
 				H.xblowingup = 1
 				H.visible_message("<span style = \"color:red\"><b>[H]</b> starts to shake...</span>")
-				boutput(H, "<span style = \"color:blue\"><b>You have used your self-destruction skill. If you wish to continue, use it again after the delay. Otherwise, you will stop self-destructing.</span></b>")
-				spawn (100)
+				boutput(H, "<span style = \"color:red\"><b>WARNING: You have used your self-destruction skill. If you wish to continue, use it again immediately after the delay.</span></b>")
+				spawn (200)
 					H.xblowingup = 0
 				return
 			if (1)
 				H.xblowingup = 2//then continue on
+				H.visible_message("<span style = \"color:red\"><b>[H]</b> starts to shake a lot!</span>")
+				boutput(H, "<span style = \"color:red\"><b>WARNING: YOU WILL EXPLODE IF YOU USE THIS AGAIN!</span></b>")
+				spawn (200)
+					H.xblowingup = 0
+				return
+			if (2)
+				H.xblowingup = 3//boom. no need to reset variable since their mob is gibbed
 
 		var/datum/reagents/r = new/datum/reagents(500)
-		r.add_reagent("s_m_acid", 500)
-		smoke_reaction(r, 7, H.loc, 0)
+		r.add_reagent("s_m_acid", rand(300,400))
+
+		if (isAlienSentinel(H))
+			smoke_reaction(r, 7, H.loc, 0)
+		else
+			r.add_reagent("s_m_acid", 100)
+			smoke_reaction(r, 10, H.loc, 0)
 
 		spawn (4)//since the cloud takes time to set up
 			H.visible_message("<span style = \"color:red\"><b>[H]</b> explodes in a cloud of deadly acid!</span>")

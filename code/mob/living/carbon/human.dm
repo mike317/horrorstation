@@ -6723,7 +6723,7 @@
 
 /mob/living/carbon/human/attackby(obj/item/W, mob/M)
 	if (stat == 2 && !isAlien(M))
-		if (W.hit_type == DAMAGE_CUT)
+		if (W.hit_type == DAMAGE_CUT || istype(W, /obj/item/knife_butcher))
 			var/cut_chance = 50
 			if (istype(W, /obj/item/kitchen/utensil))
 				cut_chance = 75
@@ -6763,7 +6763,6 @@
 				if (prob(src.head.armor_value_melee *3))
 					src.visible_message("<span style = \"color:red\"><b>The facehugger is smashed by [src]'s helmet!</span></b>")
 					M.u_equip(W)
-
 					var/obj/item/xeno/facehugger/f = new/obj/item/xeno/facehugger(src.loc)
 					f.death(0)
 
@@ -6789,6 +6788,7 @@
 				return 0
 
 		src.visible_message("<span style = \"color:red\"><b>[src] is facehugged by [M]!</b></span>")
+
 		if (fucc)
 			fucc.on_hug()
 
@@ -6800,6 +6800,9 @@
 		src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
 		src.weakened += 10
 		src.stunned += 10
+
+		src.update_clothing()
+
 		qdel(W)
 
 		spawn (rand(70,100))
@@ -6812,13 +6815,14 @@
 
 		return 1
 	else
-		for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
-			//they just can't be facehugged.
-			if (istype(am.master, /datum/ailment/parasite/alien_larva))
-				boutput(M, "<span style = \"color:red\"><b>This host is infected; You cannot touch it.</span></b>")
-				return 0
+		if (isAlien(M))
+			for (var/datum/ailment_data/am in src.ailments)//dead people still burst,
+				//they just can't be facehugged.
+				if (istype(am.master, /datum/ailment/parasite/alien_larva))
+					boutput(M, "<span style = \"color:red\"><b>This host is infected; You cannot touch it.</span></b>")
+					return 0
 
-		return src.attack_hand(M)
+		//	return src.attack_hand(M)
 
 	if (isAlienHugger(src) && M.a_intent == INTENT_HARM)
 		if (prob(W.force * 5))

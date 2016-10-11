@@ -62,7 +62,7 @@
 #define isdrone(x) istype(x, /mob/living/silicon/hivebot/drone)
 #define isghostdrone(x) istype(x, /mob/living/silicon/ghostdrone)
 
-
+//add alien type stuff here
 #define isTrueAlien(x) (istype(x, /mob/living/carbon/human) && x:mutantrace && istype(x:mutantrace, /datum/mutantrace/xenomorph) && !istype(x:mutantrace, /datum/mutantrace/xenomorph/larva))
 #define isAlien(x) (istype(x, /mob/living/carbon/human) && x:mutantrace && istype(x:mutantrace, /datum/mutantrace/xenomorph))
 #define isAlienDrone(x) (istype(x, /mob/living/carbon/human) && x:mutantrace && istype(x:mutantrace, /datum/mutantrace/xenomorph/drone))

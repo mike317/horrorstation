@@ -776,6 +776,92 @@ datum
 				if (DNA.endurance < 0 && prob(50))
 					DNA.endurance++
 
+		medical/antifoodpoisoning//copy of silver sulfadiazine
+			name = "antifoodpoisoning"
+			id = "antifoodpoisoning"
+			description = "A chemical that can relieve the recipient of food poisoning."
+			reagent_state = LIQUID
+			fluid_r = 0
+			fluid_g = 155
+			fluid_b = 155
+			depletion_rate = 0.3
+			overdose = 50
+			addiction_prob = 0
+			value = 9
+
+			on_mob_life(var/mob/M)
+				if (prob(10))
+					for (var/datum/ailment_data/ad in M.ailments)
+						if (istype(ad.master, /datum/ailment/disease/food_poisoning))
+							if (istype(M, /mob/living))
+								var/mob/living/mob = M
+								mob.cure_disease(ad, 0)
+				M.reagents.remove_reagent("salmonella", 5)
+				M.reagents.remove_reagent("e.coli", 5)
+
+			reaction_mob(var/mob/M, var/method=TOUCH, var/volume_passed)
+				src = null
+				if (!volume_passed)
+					return
+				if (!ishuman(M))
+					return
+				if (method == TOUCH)
+					for(var/A in M.organs)
+						var/obj/item/affecting = null
+						if(!M.organs[A])    continue
+						affecting = M.organs[A]
+						if (!istype(affecting, /obj/item))
+							continue
+						affecting.heal_damage(0, volume_passed)
+					M.UpdateDamageIcon()
+					M.updatehealth()
+				else if (method == INGEST)
+					boutput(M, "<span style=\"color:red\">You feel sick...</span>")
+					if (volume_passed > 0)
+						M.take_toxin_damage(volume_passed/2)
+					M.updatehealth()
+
+		medical/antitoxin//copy of silver sulfadiazine
+			name = "antitoxin"
+			id = "antitoxin"
+			description = "A powerful reliever of toxin damage."
+			reagent_state = LIQUID
+			fluid_r = 0
+			fluid_g = 255
+			fluid_b = 155
+			depletion_rate = 0.3
+			overdose = 50
+			addiction_prob = 0
+			value = 9
+
+			on_mob_life(var/mob/M)
+				M.take_toxin_damage(rand(-1, -2))
+				M.updatehealth()
+				..(M)
+				return
+
+			reaction_mob(var/mob/M, var/method=TOUCH, var/volume_passed)
+				src = null
+				if (!volume_passed)
+					return
+				if (!ishuman(M))
+					return
+				if (method == TOUCH)
+					for(var/A in M.organs)
+						var/obj/item/affecting = null
+						if(!M.organs[A])    continue
+						affecting = M.organs[A]
+						if (!istype(affecting, /obj/item))
+							continue
+						affecting.heal_damage(0, volume_passed)
+					M.UpdateDamageIcon()
+					M.updatehealth()
+				else if (method == INGEST)
+					boutput(M, "<span style=\"color:red\">You feel sick...</span>")
+					if (volume_passed > 0)
+						M.take_toxin_damage(volume_passed/2)
+					M.updatehealth()
+
 		medical/ephedrine // COGWERKS CHEM REVISION PROJECT. poor man's epinephrine
 			name = "ephedrine"
 			id = "ephedrine"

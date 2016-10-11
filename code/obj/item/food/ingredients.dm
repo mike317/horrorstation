@@ -9,7 +9,7 @@
 	custom_food = 0
 
 	cook_time = 30
-	cooking = 0
+	cooking = COOKED_RAW
 	cooked = 0
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/
@@ -30,7 +30,7 @@
 		if (istype(o, /obj/item/shaker))
 			..()
 		else
-			if (o.hit_type == DAMAGE_CUT)
+			if (o.hit_type == DAMAGE_CUT || istype(o, /obj/item/knife_butcher))
 				if (istype(o, /obj/item/kitchen/utensil))
 					slice(user)
 				else
@@ -42,23 +42,6 @@
 		//	else
 		//		boutput(user, "<span style = \"color:red\">You can't make bacon with this! You need a knife.</span>")
 
-	proc/salt()
-		if (salted)
-			return
-		reagents.add_reagent("salt", rand(10,15))
-		salted = 1
-
-		if (reagents.get_reagent_amount("salt") >= 10)
-			spawn (2000)//creates "aged" meat
-				ferment()
-
-		switch (reagents.get_reagent_amount("salt"))
-			if (1 to 5)
-				name = "[initial(name)]"
-			if (6 to 9)
-				name = "Moderately-salted [initial(name)]"
-			if (10 to INFINITY)
-				name = "Salt-[initial(name)]"
 
 
 	proc/slice(var/mob/user)
@@ -92,66 +75,6 @@
 			new /obj/decal/cleanable/blood(T)
 		..()
 
-	cook(var/turf/T)
-		..()
-
-		if (T == "FUCK")
-			return 0
-
-		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
-
-			src.cooked = COOKED_COOKED
-			src.name = "cooked bacon"
-			var/overlay = icon(src.icon, "cooked")
-			var/icon/i = src.icon
-			i.Blend(overlay, ICON_MULTIPLY)
-			src.icon = i
-			src.spoiled -= rand(1,3)
-			src.dysentery -= rand(10,20)
-
-		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat))
-			var/obj/item/reagent_containers/food/snacks/steak_m/s = new/obj/item/reagent_containers/food/snacks/steak_m(T)
-			src.reagents.trans_to_direct(s)
-
-			s.spoiled = src.spoiled
-			s.dysentery = src.dysentery
-
-			s.name = "cooked meat"
-			s.cooked = COOKED_COOKED
-			s.spoiled -= rand(1,3)
-			s.dysentery -= rand(10,20)
-
-		else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/humanmeat))
-			var/obj/item/reagent_containers/food/snacks/steak_h/s = new/obj/item/reagent_containers/food/snacks/steak_h(T)
-			//actually fuck it how would you be able to tell that this is human meat
-			src.reagents.trans_to_direct(s)
-
-			s.spoiled = src.spoiled
-			s.dysentery = src.dysentery
-
-			s.name = "cooked meat"
-			s.cooked = COOKED_COOKED
-			s.spoiled -= rand(1,3)
-			s.dysentery -= rand(10,20)
-		//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat
-			//	v:name = "Human Meat"
-		else
-			var/obj/item/reagent_containers/food/snacks/steak_generic/s = new/obj/item/reagent_containers/food/snacks/steak_generic(T)
-			src.reagents.trans_to_direct(s)
-
-			s.spoiled = src.spoiled
-			s.dysentery = src.dysentery
-
-			s.name = "cooked meat"
-			s.cooked = COOKED_COOKED
-			s.spoiled -= rand(1,3)
-			s.dysentery -= rand(10,20)
-
-
-		if (src)
-			qdel(src)
-		else
-			return
 
 /obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat
 	name = "??? meat"
@@ -162,9 +85,10 @@
 
 	New()
 		..()
+		/*
 		if (prob(30))
 			reagents.add_reagent("rancidity", 10)//also possibly rancid.
-
+		*///todo: rancidity should only be for rotting corpse meat
 /obj/item/reagent_containers/food/snacks/ingredient/meat/organmeat
 	name = "??? meat"
 	desc = "A slab of meat."

@@ -46,6 +46,18 @@
 				return 1
 		return 0
 
+	proc/alive_survivors()
+		var/count = 0
+		for (var/mob/living/carbon/human/H in mobs)
+			if (H.stat != 2)
+				if (H.mind)
+					if (H.client)
+						if (!isAlien(H))
+							if (!Agimmicks.Find(H))
+								count++
+
+		return count
+
 /datum/game_mode/xeno/announce()
 	boutput(world, "<B>The current game mode is - <font color='red'>Alien Infestation</font>!</B>")
 	boutput(world, "<B>There is one or more highly dangerous Xenomorphs on the station. At least one survivor must survive the infestation for a whole two hours in order to have a human victory.</B>")
@@ -303,21 +315,22 @@
 
 /datum/game_mode/xeno/declare_completion()
 	var/list/xenos = list()
+
 	for (var/datum/mind/M in traitors)
 		if (!M)
 			continue
 		if (isAlien(M.current) && !isAlienHugger(M.current))
 			xenos += M.current
+
 	for (var/datum/mind/M in Agimmicks)
 		if (!M)
 			continue
-		if (isAlien(M.current) && !isAlienHugger(M.current))
-			xenos += M.current
+		xenos += M.current
 
 	if (!xenos.len)
 		boutput(world, "<span style='font-size:20px; color:red'><b>Survivor victory!</b> - All Xenomorphs have been exterminated!")
 	else
-		boutput(world, "<span style='font-size:20px; color:red'><b>Hive victory!</b> - The crew failed to survive the round.")
+		boutput(world, "<span style='font-size:20px; color:red'><b>Alien victory!</b> - The crew failed to survive the round.")
 
 //	..()
 

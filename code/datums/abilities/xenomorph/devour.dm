@@ -57,7 +57,7 @@
 
 /datum/targetable/xenomorph/devour
 	name = "Devour"
-	desc = "Devour a critter for a permanent plasma boost."
+	desc = "Devour a critter, permanently enhancing your plasma, and temporarily speeding up your healing. Dead humans can also be devoured, and they provide far more benefits than other creatures."
 	icon_state = "devour"
 	cooldown = 0
 	targeted = 0
@@ -98,14 +98,17 @@
 
 		if (ismob(T))
 			if (ishuman(T))
-				if (!ismonkey(T))
-					boutput(C, "<span style=\"color:red\">This creature cannot be devoured.</span>")
+				if (!ismonkey(T) && T.stat != 2)
+					boutput(C, "<span style=\"color:red\"><b>You are unable to devour this creature. It must be dead.</b></span>")
 					return 1
 
 		else if (isobj(T))
 			if (!iscritter(T))
 				boutput(C, "<span style=\"color:red\">This is an object. You cannot devour an object.</span>")
 				return 1
+
+		var/T_loc = T.loc
+		var/C_loc = C.loc
 			/*
 		if (istype(T.mutantrace, /datum/mutantrace/monkey))
 			boutput(C, "<span style=\"color:red\">Our hunger will not be satisfied by this lesser being.</span>")
@@ -116,18 +119,21 @@
 			boutput(usr, "<span style=\"color:red\">This creature has already been drained...</span>")
 			return 1
 			*/
+		if (T.loc == T_loc && C.loc == C_loc && T && C)
+			spawn(rand(7,14))
+				if (T && C)
+					T.visible_message("<span style=\"color:red\"><b><font size = 3>[T] is devoured by [C]!</span></b></font")
+					if (isAlien(C))
+						C:mutantrace:maxPlasma += rand(10,50)
+						if (ishuman(T))
+							C:mutantrace:maxPlasma += rand(40,50)
 
-		spawn(rand(7,14))
-			if (T && C)
-				T.visible_message("<span style=\"color:red\"><b><font size = 3>[T] is devoured by [C]!</span></b></font")
-				if (isAlien(C))
-					C:mutantrace:maxPlasma += rand(10,50)
-					C:mutantrace:healrate = 5
-					spawn (rand(80,100))
-						C:mutantrace:healrate = 1
-				if (T.client && ismob(T))
-					T.ghostize()
-				else
-					qdel(T)
+						C:mutantrace:healrate = ishuman(T) ? 10 : 5
+						spawn (rand(80,100) + ishuman(T) ? 500)
+							C:mutantrace:healrate = 1
+					if (T.client && ismob(T))
+						T.ghostize()
+					else
+						qdel(T)
 	//	actions.start(new/datum/action/bar/icon/xenomorphDevour(T, C))
 	//	return 0

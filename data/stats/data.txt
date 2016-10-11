@@ -1,2 +1,1 @@
 
-data_type=deaths&data_status=insert&data_timestamp=2016-10-08+21%3a32%3a44&mob_name=Alien+Queen&mob_job&mob_byond_key=Furry+Chicken&x=97&y=90&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=1

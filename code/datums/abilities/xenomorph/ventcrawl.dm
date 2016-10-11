@@ -71,6 +71,8 @@ proc
 			if (v:loc:loc.name && !findtext(v:loc:loc.name, "somewhere") && !findtext(v:loc:loc.name, "Somewhere"))
 				vent_list_names += "[v:loc:loc ? v:loc:loc : ""][v:loc:loc ? " " : ""]Vent #[vent_num_for_this_area]"
 
+		var/C_loc = C.loc
+
 		var/vent = input(C, "Which vent do you want to crawl to?") in vent_list_names
 
 		//at this point, each vent in vents should correspond with a vent in the
@@ -106,6 +108,9 @@ proc
 				crawldelay = rand(7,9)
 				if (isAlienWarrior(C))
 					crawldelay = rand(2,3)
+
+			if (C.loc != C_loc)
+				return
 
 			boutput(C, "<span style = \"color:red\">You start crawling through the vents...</span>")
 

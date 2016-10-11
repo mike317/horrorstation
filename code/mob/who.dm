@@ -100,7 +100,7 @@
 			rendered += aCoder + "<br>"
 	if (whoCodermins.len)
 		rendered += "<b>Coder Admins:</b><br>"
-		for (var/aCoderMin in whoCoders)
+		for (var/aCoderMin in whoCodermins)
 			rendered += aCoderMin + "<br>"
 
 

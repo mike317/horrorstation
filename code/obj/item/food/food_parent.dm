@@ -73,7 +73,7 @@
 			if (!reagents)
 				reagents = new/datum/reagents(100)
 
-			var/bad_reagents_amt = reagents.get_reagent_amount("salmonella") + reagents.get_reagent_amount("e. coli") + reagents.get_reagent_amount("rancidity")
+			var/bad_reagents_amt = reagents.get_reagent_amount("salmonella") + reagents.get_reagent_amount("e.coli") + reagents.get_reagent_amount("rancidity")
 
 			var/good_reagents_amt = reagents.get_reagent_amount("salt")
 
@@ -105,43 +105,40 @@
 			if (prob(base_probability_one) && prob(alcohol_amt))
 				remove_bad_reagents()
 
-			if (prob(base_probability_one) && prob(base_probability_two))
-				spoil()
-				if (prob(80) && good_reagents_amt + alcohol_amt + less_good_reagents_amt < 10)
+			var/spoilage_probability = 20
+
+			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
+				spoilage_probability = 100
+
+			if (prob(spoilage_probability))
+				if (prob(base_probability_one) && prob(base_probability_two))
 					spoil()
+					if (prob(80) && good_reagents_amt + alcohol_amt + less_good_reagents_amt < 10)
+						spoil()
 
 			sleep(10)
 
+	proc/remove_odd_reagents()
+		reagents.remove_reagent("vampire_serum", 1)
+		reagents.remove_reagent("werewolf_serum", 1)
+		reagents.remove_reagent("green mucus", 5)
+
 	proc/remove_some_bad_reagents()
 		reagents.remove_reagent("salmonella", 5)
-		reagents.remove_reagent("e. coli", 5)
+		reagents.remove_reagent("e.coli", 5)
 		if (prob(20))
 			reagents.remove_reagent("rancidity", 5)
 
 	proc/remove_bad_reagents()
 		reagents.remove_reagent("salmonella", 50)
-		reagents.remove_reagent("e. coli", 50)
+		reagents.remove_reagent("e.coli", 50)
 		if (prob(50))
 			reagents.remove_reagent("rancidity", 50)
 
-	proc/ferment()
-		edible = 1
-		cooked = COOKED_FERMENTED
+	proc/remove_all_bad_reagents()
 		reagents.remove_reagent("salmonella", 50)
-		reagents.remove_reagent("e. coli", 50)
-
-	proc/cook(var/turf/T = null)
-		reagents.remove_reagent("salmonella", 50)
-		reagents.remove_reagent("e. coli", 50)
-		if (prob(50))
-			reagents.remove_reagent("rancidity", 50)
-
-		if (prob(66))
-			reagents.clear_reagents()
-
-		cooked = COOKED_COOKED
-		cooking = 0
-
+		reagents.remove_reagent("e.coli", 50)
+		reagents.remove_reagent("rancidity", 50)
 
 	proc/spoil()
 
@@ -151,10 +148,25 @@
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 			if (spoiled > 1)
 				icon = spoiled_icon
+
 		else if (istype(src, /obj/item/reagent_containers/food/drinks) || istype(src, /obj/item/reagent_containers/food/drinks/drinkingglass))
 			if (src.reagents.total_volume > 0)
 				src:dysentery += max(src.reagents.total_volume/5, 1)//between 1 and 20
+		else
+			if (spoiled > 1 || prob(50))
+				var/overlay = icon(icon, "spoiled")
+				var/icon/i = icon
+
+				i.Blend(overlay, ICON_MULTIPLY)
+
+				icon = i
+
 		return 1
+
+	proc/update_spoiled_icon()
+		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
+			if (spoiled > 1)
+				icon = spoiled_icon
 
 	proc/on_table()
 		if (!isturf(src.loc)) return 0

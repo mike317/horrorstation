@@ -29,8 +29,12 @@
 /obj/landmark/New()
 
 	..()
+
+	if (istype(src, /obj/landmark/loot_spawn))
+		src:init()
+
 	src.tag = "landmark*[src.name]"
-	src.invisibility = 101
+	src.invisibility = 100//was 101. 100 is better since it probably allows us to use this obj's variables and stuff
 
 	if (name == "shuttle")
 		shuttle_z = src.z
@@ -88,10 +92,12 @@
 			*/
 		xeno_start += src.loc
 
-		if (prob(30))
-			new/mob/living/carbon/human/npc/monkey(src.loc)
-			if (prob(75))
-				new/mob/living/carbon/human/npc/monkey(src.loc)
+		if (prob(50))
+			var/mob/living/carbon/human/npc/monkey/m = new/mob/living/carbon/human/npc/monkey(src.loc)
+			m.sedated = 1
+			if (prob(50))
+				m = new/mob/living/carbon/human/npc/monkey(src.loc)
+				m.sedated = 1
 
 		qdel(src)
 
@@ -105,11 +111,204 @@
 		if (prob(90))
 			new/mob/living/carbon/human/npc/monkey(src.loc)
 
+		for (var/mob/living/carbon/human/npc/monkey/m in src.loc)
+			m.sedated = 1
+
 		qdel(src)
+
+	if (name == "Loot-Spawn")
+
+		if (prob(70))
+			qdel(src)//so nobody is messaged about it
+			return
+
+		src.layer = -1
+
+		var/probability_common = 70
+		var/probability_uncommon = 50
+		var/probability_rare = 20
+
+		if (src:loot_first)
+			switch (src:loot_first)
+				if ("Weaponry")
+
+					var/amount = 10
+					var/got_cap_laser = 0
+
+					if (prob(probability_common))
+						amount += 5
+
+					if (prob(probability_uncommon))
+						amount += 7
+
+					if (prob(probability_rare))
+						amount += 10
+
+					for (var/i = 1, i <= amount, i++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)//we have to assume that it will spawn
+						//in a fairly small area sometimes
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						if (prob(20))
+							new/obj/item/gun/energy/taser_gun(spawnloc)
+						if (prob(15))
+							new/obj/item/gun/energy/laser_gun(spawnloc)
+						if (prob(13) && !got_cap_laser)
+							new/obj/item/gun/energy/laser_gun/antique(spawnloc)
+							got_cap_laser = 1
+						if (prob(11))
+							new/obj/item/gun/energy/egun(spawnloc)
+
+						if (prob(10))
+							new/obj/item/gun/energy/phaser_gun(spawnloc)
+
+						if (prob(8))
+							new/obj/item/gun/energy/wavegun(spawnloc)
+
+						if (prob(5))
+
+							new/obj/item/ammo/bullets/derringer(spawnloc)
+
+						if (prob(5))
+							new/obj/item/ammo/bullets/custom(spawnloc)
+
+						if (prob(5))
+							new/obj/item/ammo/bullets/a357(spawnloc)
+
+						if (prob(5))
+							new/obj/item/gun/kinetic/revolver(spawnloc)
+
+						if (prob(5))
+							new/obj/item/gun/kinetic/derringer(spawnloc)
+
+				//		if (prob(2))
+					//		new/obj/item/gun/energy/bfg(spawnloc)
+				if ("Food")
+					var/max_meat = rand(10,20)
+					for (var/v = 1, v <= max_meat, v++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						var/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat/m = new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(spawnloc)
+						m.salt()
+
+
+				if ("Meds")
+					var/max_meds = rand(10,20)
+					for (var/v = 1, v <= max_meds, v++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						if (prob(80))
+							new/obj/item/reagent_containers/patch/synthflesh(spawnloc)
+						if (prob(60))
+							new/obj/item/reagent_containers/patch/mini/bruise(spawnloc)
+						if (prob(40))
+							new/obj/item/reagent_containers/patch/mini/burn(spawnloc)
+						if (prob(10))
+							new/obj/item/reagent_containers/patch/mini/omnipatch(spawnloc)
+						if (prob(30))
+							new/obj/item/reagent_containers/patch/mini/antifoodpoisoningpatch(spawnloc)
+						if (prob(30))
+							new/obj/item/reagent_containers/patch/mini/antitoxinpatch(spawnloc)
+
+
+		if (src:loot_second)
+			switch (src:loot_second)
+				if ("Weaponry")
+
+					var/amount = 10
+					var/got_cap_laser = 0
+
+					if (prob(probability_common))
+						amount += 5
+
+					if (prob(probability_uncommon))
+						amount += 7
+
+					if (prob(probability_rare))
+						amount += 10
+
+					for (var/i = 1, i <= amount, i++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)//we have to assume that it will spawn
+						//in a fairly small area sometimes
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						if (prob(20))
+							new/obj/item/gun/energy/taser_gun(spawnloc)
+						if (prob(15))
+							new/obj/item/gun/energy/laser_gun(spawnloc)
+						if (prob(13) && !got_cap_laser)
+							new/obj/item/gun/energy/laser_gun/antique(spawnloc)
+							got_cap_laser = 1
+						if (prob(11))
+							new/obj/item/gun/energy/egun(spawnloc)
+
+						if (prob(10))
+							new/obj/item/gun/energy/phaser_gun(spawnloc)
+
+						if (prob(8))
+							new/obj/item/gun/energy/wavegun(spawnloc)
+
+						if (prob(5))
+
+							new/obj/item/ammo/bullets/derringer(spawnloc)
+
+						if (prob(5))
+							new/obj/item/ammo/bullets/custom(spawnloc)
+
+						if (prob(5))
+							new/obj/item/ammo/bullets/a357(spawnloc)
+
+						if (prob(5))
+							new/obj/item/gun/kinetic/revolver(spawnloc)
+
+						if (prob(5))
+							new/obj/item/gun/kinetic/derringer(spawnloc)
+
+				//		if (prob(2))
+						//	new/obj/item/gun/energy/bfg(spawnloc)
+				if ("Food")
+					var/max_meat = rand(10,20)
+					for (var/v = 1, v <= max_meat, v++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						var/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat/m = new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(spawnloc)
+						m.salt()
+
+
+				if ("Meds")
+					var/max_meds = rand(10,20)
+					for (var/v = 1, v <= max_meds, v++)
+						var/spawnloc = locate(src.x+rand(-2,2),src.y+rand(-2,2),src.z)
+						if (!istype(spawnloc, /turf/simulated/floor))
+							continue
+
+						if (prob(80))
+							new/obj/item/reagent_containers/patch/synthflesh(spawnloc)
+						if (prob(60))
+							new/obj/item/reagent_containers/patch/mini/bruise(spawnloc)
+						if (prob(40))
+							new/obj/item/reagent_containers/patch/mini/burn(spawnloc)
+						if (prob(10))
+							new/obj/item/reagent_containers/patch/mini/omnipatch(spawnloc)
+						if (prob(30))
+							new/obj/item/reagent_containers/patch/mini/antifoodpoisoningpatch(spawnloc)
+						if (prob(30))
+							new/obj/item/reagent_containers/patch/mini/antitoxinpatch(spawnloc)
+
+	/*
 
 	if (name == "Cherkir-Critter-Start")
 		cherkir_critter_start += src.loc
 		qdel(src)
+		*/
 
 	if (name == "shitty_bill")
 		spawn(30)
@@ -272,3 +471,42 @@ var/global/list/job_start_locations = list()
 	icon = 'icons/mob/screen1.dmi'
 	icon_state = "x"
 	anchored = 1.0
+
+/obj/landmark/loot_spawn
+	name = "Loot-Spawn"
+	anchored = 1.0
+	icon = 'icons/mob/screen1.dmi'
+	icon_state = "x2"
+	var/loot_first
+	var/loot_second
+	var/possible_loot = list("Weaponry", "Food", "Meds")
+
+	var/loot_first_name
+	var/loot_second_name
+
+
+	proc/init()//using this instead of New() because if I call landmark's new first, it will try to set up stuff
+	//with null values, but if I call it second, this won't have any location - Cherkir
+		loot_first = pick(possible_loot)
+		if (prob(40))
+			loot_second = pick(possible_loot)
+
+		switch (loot_first)
+			if ("Weaponry")
+				loot_first_name = "weapon"
+			if ("Food")
+				loot_first_name = "food"
+			if ("Meds")
+				loot_first_name = "medical supplie"//no this is NOT a typo, an s is added
+			else
+				loot_first_name = ""
+
+		switch (loot_second)
+			if ("Weaponry")
+				loot_second_name = "weapon"
+			if ("Food")
+				loot_second_name = "food"
+			if ("Meds")
+				loot_second_name = "medical supplie"
+			else
+				loot_second_name = ""

@@ -168,6 +168,8 @@
 		..()
 		reagents.add_reagent("synthflesh", 40)
 
+
+
 /obj/item/reagent_containers/patch/synthflesh/medbot
 	name = "skin soothing ultra-damage repair stamp"
 	borg = 1
@@ -263,6 +265,33 @@
 	New()
 		..()
 		reagents.add_reagent("synthflesh", 20)
+
+/obj/item/reagent_containers/patch/mini/omnipatch
+	name = "omnipatch"
+	desc = "Heals all damage types. Quite rare."
+	medical = 1
+
+	New()
+		..()
+		reagents.add_reagent("omnizine", 20)
+
+/obj/item/reagent_containers/patch/mini/antifoodpoisoningpatch
+	name = "anti-food-poisoning patch"
+	desc = "Heals food poisoning very quickly."
+	medical = 1
+
+	New()
+		..()
+		reagents.add_reagent("antifoodpoisoning", 20)
+
+/obj/item/reagent_containers/patch/mini/antitoxinpatch
+	name = "anti-toxin patch"
+	desc = "Heals internal toxin damage."
+	medical = 1
+
+	New()
+		..()
+		reagents.add_reagent("antitoxin", 20)
 
 /obj/item/patch_stack
 	name = "Patch Stack"

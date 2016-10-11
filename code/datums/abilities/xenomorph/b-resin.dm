@@ -1,7 +1,7 @@
 
 /datum/targetable/xenomorph/build_with_resin
 	name = "Resin Build"
-	desc = "Build various resin objects. You must have resin in your hands to do this. Drones and Queens build faster than other castes."
+	desc = "Using resin in your hands, build a number of resin objects"
 	icon_state = "bresin"
 	cooldown = 0
 	targeted = 0

@@ -2,6 +2,7 @@
 /mob/living/carbon/human/monkey //Please ignore how silly this path is.
 	name = "monkey"
 
+
 	New()
 		..()
 		spawn(5)
@@ -92,6 +93,7 @@
 	ai_default_intent = INTENT_HELP
 	var/list/shitlist = list()
 	var/ai_aggression_timeout = 600
+	var/sedated = 0
 
 	New()
 		..()
@@ -123,13 +125,15 @@
 
 	was_harmed(var/mob/M as mob, var/obj/item/weapon as obj)
 		//src.ai_aggressive = 1
-		src.target = M
-		src.ai_state = 2
-		src.ai_threatened = world.timeofday
-		src.ai_target = M
-		src.shitlist[M] ++
-		if (prob(40) && src.stat != 2)
-			src.emote("scream")
+
+		if (!src.sedated)
+			src.target = M
+			src.ai_state = 2
+			src.ai_threatened = world.timeofday
+			src.ai_target = M
+			src.shitlist[M] ++
+			if (prob(40) && src.stat != 2)
+				src.emote("scream")
 		var/pals = 0
 		for (var/mob/living/carbon/human/npc/monkey/pal in all_viewers(7, src))
 			if (pals >= 5)
@@ -137,14 +141,16 @@
 			if (prob(10))
 				continue
 			//pal.ai_aggressive = 1
-			pal.target = M
-			pal.ai_state = 2
-			pal.ai_threatened = world.timeofday
-			pal.ai_target = M
-			pal.shitlist[M] ++
-			pals ++
-			if (prob(40) && src.stat != 2)
-				src.emote("scream")
+
+			if (!pal.sedated)
+				pal.target = M
+				pal.ai_state = 2
+				pal.ai_threatened = world.timeofday
+				pal.ai_target = M
+				pal.shitlist[M] ++
+				pals ++
+				if (prob(20) && src.stat != 2)
+					src.emote("scream")
 
 	proc/done_with_you(var/mob/M as mob)
 		if (!M)
@@ -169,7 +175,7 @@
 			return 0
 
 	proc/ai_pickpocket()
-		if (src.weakened || src.stunned || src.paralysis || src.stat || src.ai_picking_pocket)
+		if (src.weakened || src.stunned || src.paralysis || src.stat || src.ai_picking_pocket || src.sedated)
 			return
 		var/list/possible_targets = list()
 		for (var/mob/living/carbon/human/H in view(1, src))
@@ -198,7 +204,7 @@
 		actions.start(new/datum/action/bar/icon/filthyPickpocket(src, theft_target, slot), src)
 
 	proc/ai_knock_from_hand()
-		if (src.weakened || src.stunned || src.paralysis || src.stat || src.ai_picking_pocket || src.r_hand)
+		if (src.weakened || src.stunned || src.paralysis || src.stat || src.ai_picking_pocket || src.r_hand || src.sedated)
 			return
 		var/list/possible_targets = list()
 		for (var/mob/living/carbon/human/H in view(1, src))

@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1475980017
-DIR: browserassets browserassets\css browserassets\css\fonts browserassets\html browserassets\html\admin browserassets\html\traitorTips browserassets\images browserassets\images\antagTips browserassets\js browserassets\unused code code\admin code\chui code\datums code\datums\gamemodes code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\WorkInProgress code\WorkInProgress\Materials_Crafting icons icons\Dizor icons\effects sound sound\vox 
+LAST_COMPILE_TIME: 1476146530
+DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\xenomorph code\datums\abilities\xenomorph\drone code\datums\abilities\xenomorph\queen code\datums\buildmodes code\datums\chemistry code\datums\controllers code\datums\gamemodes code\datums\hud code\datums\projectiles code\datums\webelements code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\obj code\obj\item code\obj\storage data data\resources data\resources\browserassets data\resources\browserassets\css data\resources\browserassets\css\chui\themes data\resources\browserassets\css\chui\themes\default data\resources\browserassets\js sound sound\vox 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\WorkInProgress\Materials_Crafting\Mat_ModManu_Recipes.dm;code\turf.dm;code\WorkInProgress\Materials_Crafting\Mat_ModManu.dm;icons\Dizor\Dizor_CMspr.dmi;code\WorkInProgress\actuallyKeelinsStuff.dm;code\datums\gamemodes\xeno.dm;code\mob\living\carbon\human\monkeys.dm;code\mob\living\carbon\human.dm;code\atom.dm;code\mob.dm
-FILE: code\mob\living\carbon\human.dm
+WINDOW: code\datums\webelements\span.dm;code\style.dms;code\mob\dead.dm;code\datums\webelements\css.dm;code\_setup.dm;code\_macros.dm;code\_build_config.dm;code\_layer.dm
+FILE: code\_setup.dm
 */
 // END_INTERNALS

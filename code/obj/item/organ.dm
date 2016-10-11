@@ -606,7 +606,7 @@
 
 	attackby(var/obj/item/W as obj, var/mob/user as mob)
 		var/goodmeatchance = 40
-		if (W.hit_type == DAMAGE_CUT)
+		if (W.hit_type == DAMAGE_CUT || istype(W, /obj/item/knife_butcher))
 			if (istype(W, /obj/item/kitchen/utensil))
 				goodmeatchance = 75
 			if (user.mind.assigned_role == "Chef")

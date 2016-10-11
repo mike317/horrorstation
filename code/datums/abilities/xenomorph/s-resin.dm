@@ -2,7 +2,7 @@
 
 /datum/targetable/xenomorph/secrete_resin
 	name = "Secrete Resin"
-	desc = "Make a pile of resin, which can be used for building."
+	desc = "Make a pile of resin, which can be used for building various objects."
 	icon_state = "resinp"
 	cooldown = 0
 	targeted = 0
@@ -31,6 +31,8 @@
 				if (h.density || istype(h, /obj/xeno/hive/resin_pile) || istype(h, /obj/xeno/hive/nest))
 					boutput(C, "<span style = \"color:red\"><B>There is already a resin object here.</span></B>")
 					return 0
+
+		C.visible_message("<span style = \"color:red\">[C] secretes a blob of vile resin.</span>")
 
 		new/obj/xeno/hive/resin_pile(C.loc)
 		//playsound(C.loc, 'vomitsound.ogg', 100, 1)

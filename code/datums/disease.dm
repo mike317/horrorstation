@@ -438,7 +438,7 @@
 	if (!AD.master || !istype(AD,/datum/ailment_data/))
 		return 0
 
-	if (prob(AD.resistance_prob))
+	if (prob(AD.resistance_prob) || ensure_resistance)
 		src.resistances += AD.master.type
 	src.ailments -= AD
 	AD.master.on_remove(src,AD)

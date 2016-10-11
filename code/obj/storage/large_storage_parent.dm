@@ -51,6 +51,9 @@
 				for (var/obj/O in src.loc)
 					if (src.is_acceptable_content(O))
 						O.set_loc(src)
+	bullet_act(var/obj/projectile/p)
+		if (p.proj_data && prob(p.proj_data.power*5) || p.proj_data.power >= 20)
+			qdel(src)
 
 	proc/make_my_stuff() // use this rather than overriding the container's New()
 		if (!src.spawn_contents || !islist(src.spawn_contents) || !src.spawn_contents.len)
@@ -647,6 +650,7 @@
 	var/always_display_locks = 0
 	var/datum/radio_frequency/radio_control = 1431
 	var/net_id
+
 
 	New()
 		..()

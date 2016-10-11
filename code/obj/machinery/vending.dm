@@ -107,8 +107,10 @@
 			if (ALIENMODE && noticker())
 				blob_act(1000)
 
-				for (var/obj/item/reagent_containers/food/f in loc)
-					qdel(f)
+				spawn(10)
+
+					for (var/obj/item/i in loc)
+						qdel(i)
 		/*
 			if (ALIENMODE && prob(70) && noticker())
 				if (prob(80))

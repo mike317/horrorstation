@@ -41,7 +41,7 @@
 	if (length(heard))
 		var/message_b
 
-		message_b = pick("hisses quietly", "hisses loudly", "hisses softly")
+		message_b = pick("hisses quietly", "hisses loudly", "hisses softly", "hisses eerily", "hisses oddly")
 			//for emurshun make this depend on what they actually saym
 			//loudly for anything with exclamations, softly for questions?
 		message_b = src.say_quote(message_b)

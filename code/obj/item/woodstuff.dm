@@ -36,6 +36,7 @@
 			if(!locate(/obj/structure/woodwall) in T)
 				var/obj/structure/woodwall/N = new /obj/structure/woodwall(T)
 				N.builtby = usr.real_name
+				src.unequipped(usr)
 				qdel(src)
 				humie.building_structure = 0
 				for (var/mob/m in view(N))
@@ -84,6 +85,7 @@
 			if(!locate(/obj/structure/woodwall) in T)
 				var/obj/structure/woodwall/N = new /obj/structure/woodwall(T)
 				N.builtby = usr.real_name
+				src.unequipped(usr)
 				qdel(src)
 				humie.building_structure = 0
 				for (var/mob/m in view(N))

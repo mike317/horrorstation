@@ -2,7 +2,7 @@
 
 /datum/targetable/xenomorph/build_egg
 	name = "Lay Egg"
-	desc = "Lay an egg."
+	desc = "Lay an egg to grow the next generation of facehuggers."
 	icon_state = "egg"
 	cooldown = 0
 	targeted = 0
