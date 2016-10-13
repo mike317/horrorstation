@@ -270,23 +270,23 @@ obj/structure/ex_act(severity)
 
 			else if (sawbuilt && sawbuilt.len && sawbuilt.Find(user))
 				fail_chance = 15
-				user_climb_time = 75
+				user_climb_time = 30
 				message_addendum = "You find it easy, since you saw it built."
 
 				if (climbed && climbed.len && climbed.Find(user))
 					fail_chance = 10
-					user_climb_time = 35
+					user_climb_time = 25
 					message_addendum = "You find it very easy to climb."
 
 			else
 
 				if (climbed && climbed.len && climbed.Find(user))
 					fail_chance = 20
-					user_climb_time = 50
+					user_climb_time = 40
 					message_addendum = "You find it relatively easy to climb the [src]."
 				else
 					fail_chance = 40
-					user_climb_time = 150
+					user_climb_time = 100
 					message_addendum = "You have no idea of how to climb it. This may take a while."
 
 

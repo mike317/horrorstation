@@ -16,11 +16,11 @@
 		var/mob/living/C = holder.owner
 
 		if (C:mutantrace:evoProgress < C:mutantrace:maxEvoProgress)
-			boutput(C, "<span style = \"color:red\"><B>You are not yet powerful enough to evolve.</span></B>")
+			boutput(C, "<span class='game xenobold'>You are not yet powerful enough to evolve.</span>")
 			return 0
 
 		if (C:mutantrace:maxEvoProgress == -1)
-			boutput(C, "<span style = \"color:red\"><B>You are already at your final evolution.</span></B>")
+			boutput(C, "<span class='game xenobold'>You are already at your final evolution.</span>")
 			return 0
 
 		var/evo_list[0]
@@ -44,7 +44,7 @@
 			evo_list.len = 0
 
 		if (!evo_list.len)
-			boutput(C, "<span style = \"color:red\"><B>You are already at your final evolution.</span></B>")
+			boutput(C, "<span class='game xenobold'>You are already at your final evolution.</span>")
 			return 0
 
 		var/evoPath

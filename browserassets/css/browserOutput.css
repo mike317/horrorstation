@@ -212,10 +212,10 @@ a.popt {text-decoration: none;}
 .motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover {color: #638500;}
 
 /* ADD HERE FOR BOLD */
-.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc {font-weight: bold;}
+.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc, .xenobold {font-weight: bold;}
 
 /* ADD HERE FOR ITALIC */
-.italic, .ghostdronesay.broadcast {font-style: italic;}
+.italic, .ghostdronesay.broadcast, .xeno {font-style: italic;}
 
 /* OUTPUT COLORS */
 .system {color: #ff0000;}
@@ -247,6 +247,8 @@ a.popt {text-decoration: none;}
 .ghostdronesay {color: #d81aef;}
 .green, .radio {color: #008000;}
 .alert {color: #ff0000;}
+.xenobold {color: #681758;}
+.xeno {color: #681758;}
 h1.alert, h2.alert {color: #000000;}
 .bigPM {font-size: 1.2em;}
 .adminHearing .name[data-ctx] {border-bottom: 1px dotted black;}

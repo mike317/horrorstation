@@ -20,14 +20,14 @@
 			return 0
 
 		if (locate(/obj/xeno/hive/egg) in C.loc)
-			boutput(C, "<span style = \"color:red\"><B>There is already an egg here.</span></B>")
+			boutput(C, "<span class='game xenobold'><B>There is already an egg here.</span>")
 			return 0
 
 		if (C:mutantrace:plasma < 100)
-			boutput(C, "<span style = \"color:red\"><B>You do not have enough plasma to use this ability.</span></B>")
+			boutput(C, "<span class='game xenobold'>You need 100 plasma to lay eggs.</span>")
 			return 0
 
-		boutput(C, "<span style = \"color:green\"><B>You lay an egg.</span></B>")
+		boutput(C, "<span class='game xenobold'>You lay an egg.</span>")
 
 		C:mutantrace:plasma -= 100
 		new/obj/xeno/hive/egg(C.loc)

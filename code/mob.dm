@@ -35,7 +35,12 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 	layer = MOB_LAYER
 	animate_movement = 2
 	soundproofing = 10
+
+	var/salted = 0
+	var/rancid = 0
+
 	var/datum/mind/mind
+
 
 	var/datum/abilityHolder/abilityHolder = null
 	var/datum/bioHolder/bioHolder = null
@@ -1001,6 +1006,10 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 		message_admins("<span style=\"color:red\">Antagonist [key_name(src)] ([src.mind.special_role]) died at [log_loc(src)].</span>")
 
 	src.timeofdeath = world.time
+
+	spawn (rand(1000, 2000))
+		rancid = 1
+
 	return ..(gibbed)
 
 /mob/proc/restrained()
@@ -2477,7 +2486,13 @@ mob/living/carbon/human/proc/human_infrared_image(var/mob/living/carbon/human/re
 					cut_chance = 100
 			if (prob(cut_chance))
 				user.visible_message("<span style = \"color:red\">[user] cuts off some meat from [src]'s corpse.</span>")
-				new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				var/v = new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				if (salted)
+					v:salt()
+				if (rancid)
+					v:spoil()
+					if (prob(20))
+						v:spoil()
 				if (prob(20))
 					qdel(src)
 			else

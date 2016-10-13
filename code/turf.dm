@@ -1683,6 +1683,14 @@ var/global/client/ff_debugger = null
 		return
 	if (locate(/obj/workspot) in src)
 		return
+	if (world.time - user.client.last_move_attempt < 50)
+		return
+
+	for (var/mob/living/carbon/human/H in view(user))
+		if (isAlien(H))
+			boutput(user, "<span style = \"color:red\">For some reason, you don't think that's a very good idea.</span>")
+			return
+
 	var/yes = input(user, "Start a crafting workplace here?") in list ("Yes", "No")
 	if (yes == "Yes")
 		var/obj/workspot/w = new/obj/workspot(src, user)

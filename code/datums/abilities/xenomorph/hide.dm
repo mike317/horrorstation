@@ -16,13 +16,13 @@
 		var/mob/living/carbon/human/H = holder.owner
 
 		if (!istype(H:mutantrace, /datum/mutantrace/xenomorph/larva))//huggers are descendents of larvae
-			boutput(H, "<span style = \"color:red\"><B>You are unable to hide as this caste.</span></B>")
+			boutput(H, "<span class='game xenobold'>You are unable to hide as this caste.</span>")
 			return 0
 
 
 		var/datum/mutantrace/xenomorph/larva/l = H.mutantrace
 		l.hiding = !l.hiding
-		boutput(H, "<span style = \"color:red\"><b>You are [l.hiding ? "now hiding" : "no longer hiding"].</span></b>")
+		boutput(H, "<span class='game xenobold'>You are [l.hiding ? "now hiding" : "no longer hiding"].</span>")
 
 		if (l.hiding)
 			H.layer = HIDING_MOB_LAYER

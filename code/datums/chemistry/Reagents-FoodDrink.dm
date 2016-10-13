@@ -18,7 +18,7 @@ proc/spawn_edible_critters()
 	var/starve_msg = ""
 	var/output_msg = ""
 
-	if (prob(90))
+	if (prob(90) || reagents.has_reagent("nutriment"))
 		return
 
 	for (var/obj/item/reagent_containers/food/f in src)
@@ -121,7 +121,7 @@ proc/spawn_edible_critters()
 	var/starve_msg = ""
 	var/output_msg = ""
 
-	if (prob(90))
+	if (prob(90) || reagents.has_reagent("nutriment"))
 		return
 
 	for (var/obj/item/reagent_containers/food/f in src)
@@ -147,7 +147,7 @@ proc/spawn_edible_critters()
 			if (death_chance < 50)
 				death_chance = 50
 
-		death_chance += health/5
+	//	death_chance += health/5
 
 		var/adapt_chance = 1//you can never get infected again
 
@@ -157,22 +157,22 @@ proc/spawn_edible_critters()
 
 		for (var/datum/ailment_data/am in src.ailments)
 			if (istype(am.master, /datum/ailment/parasite/alien_larva))
-				if (prob(death_chance))
+				if (prob(death_chance) && prob(10))//bursting was way too common
 					src.cure_disease(am, adapt_chance)//so, a 1 in 200 chance per tick to cure this. Larvae generally burst before this,
-					//so they'll still burst most of the time. Guaranteed to resist it next time
+					//so they'll still burst most of the time. Guaranteed to resist it next time EDIT NOW 1 in 2000 chance
 
 
 
 
-	if (will_starve_in_deciseconds < 3000)//5 minutes
+	if (will_starve_in_deciseconds < 3000 && will_starve_in_deciseconds >= 2500)//5 minutes
 		starve_msg = "<span style = \"color:red\">You feel a bit hungry.</span>"
-	else if (will_starve_in_deciseconds < 2500)
+	else if (will_starve_in_deciseconds < 2500 && will_starve_in_deciseconds >= 2000)
 		starve_msg = "<span style = \"color:red\">You feel quite hungry.</span>"
-	else if (will_starve_in_deciseconds < 2000)
+	else if (will_starve_in_deciseconds < 2000 && will_starve_in_deciseconds >= 1000)
 		starve_msg = "<span style = \"color:red\">You feel very hungry.</span>"
-	else if (will_starve_in_deciseconds < 1000)
+	else if (will_starve_in_deciseconds < 1000 && will_starve_in_deciseconds >= 600)
 		starve_msg = "<span style = \"color:red\"><b>You feel extremely hungry!</b></span>"
-	else if (will_starve_in_deciseconds < 600)//less than a minute left
+	else if (will_starve_in_deciseconds < 600 && will_starve_in_deciseconds >= 300)//less than a minute left
 		starve_msg = "<span style = \"color:red\"><b>You feel like you'll die if you don't eat something soon!</b></span>"
 	else if (will_starve_in_deciseconds < 300)//less than half a minute left!
 
@@ -207,11 +207,16 @@ proc/spawn_edible_critters()
 		starve_msg = "<span style = \"color:red\"><b>Your stomach hurts.</span></b>"
 
 	else if (will_starve_in_deciseconds < 1000 && prob(10))
-		src.take_toxin_damage(2)
-		starve_msg = "<span style =\"color:red\"><b>Your stomach <i>really</i> hurts.</span></b>"
+		if (prob(80))
+			src.take_toxin_damage(2)
+			starve_msg = "<span style =\"color:red\"><b>Your stomach <i>really</i> hurts.</span></b>"
+		else
+			src.take_toxin_damage(5)
+			starve_msg = "<span style =\"color:red\"><b>Your stomach seems to be digesting itself, which probably isn't good.</span></b>"
 
 	if (will_starve_in_deciseconds < 1500)
-		slowed = 1
+		if (!slowed)
+			slowed = 1//I think constantly setting slowed to 1 made people drop stuff?
 	else
 		slowed = 0
 

@@ -181,7 +181,8 @@
 				if (m.loc == m_loc && user.loc == user_loc)
 					if (src)
 						m.set_loc(src.loc)
-						m.emote("scream")
+						if (m.stat != 2)
+							m.emote("scream")
 						m.TakeDamage("ALL", 0, 20, 0)
 						return
 		else

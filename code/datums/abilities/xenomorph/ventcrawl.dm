@@ -115,7 +115,7 @@ proc
 			boutput(C, "<span style = \"color:red\">You start crawling through the vents...</span>")
 
 			spawn(crawldelay)
-				C.visible_message("<span style = \"color:red\"><b>[C] crawls through the vents!</b></span>", "<span style = \"color:blue\">You crawl through the vents.</span>")
+				C.visible_message("<span style = \"color:red\"><b>[C] crawls through the vents!</b></span>", "<span class='game xenobold'>You crawl through the vents.</span>")
 
 				C.loc = get_turf(realvent)
 

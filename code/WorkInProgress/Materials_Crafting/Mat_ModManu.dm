@@ -218,6 +218,8 @@
 
 		var/obj/workbench/w = new/obj/workbench(location)
 		w.layer = -1
+		w.density = 0
+		w.name = ""
 		w.uses_spot = 1//sets this bench to be invisible
 		w.workspot = src
 

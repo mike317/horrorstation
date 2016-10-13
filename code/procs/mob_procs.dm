@@ -1082,6 +1082,7 @@
 	return 0
 
 /mob/proc/smash_through(var/obj/target, var/list/can_smash)
+
 	if (!target.density)//If it's dense, go on.
 		if (!istype(target, /obj/stool))//if it's a chair, go on
 			if (target.anchored && target.no_xeno_destroy_flag)//if it's anchored and is a vent

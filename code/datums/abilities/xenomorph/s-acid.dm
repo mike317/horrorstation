@@ -99,7 +99,7 @@
 			return
 
 		if (H.mutantrace:plasma < 150)
-			boutput(H, "You require at least 150 plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You require at least 150 plasma to use this ability.</span>")
 			return
 		else
 			H.mutantrace:plasma -= 150
@@ -109,7 +109,7 @@
 
 
 		if (l)
-			l.visible_message("<span style = \"color:red\"><b>[H] brutally rends [l] with their sharp teeth!</span></b>")
+			l.visible_message("<span class='game xenobold'>[H] brutally rends [l] with their sharp teeth!</span>")
 			l.TakeDamage("chest", 50, 0, 0, DAMAGE_CUT)
 			playsound(l.loc, 'sound/weapons/slashcut.ogg', 100, 1)
 
@@ -140,7 +140,7 @@
 			return
 
 		if (H.mutantrace:plasma < 150)
-			boutput(H, "You require at least 150 plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You require at least 150 plasma to use this ability.</span>")
 			return
 		else
 			H.mutantrace:plasma -= 150
@@ -167,11 +167,11 @@
 			var/H_loc = H.loc
 			spawn (rand(10,15))
 				if (H.loc == H_loc && l.loc == l_loc)
-					first.visible_message("<span style = \"color:red\"><big>[H] sends its inner mouth directly through [first]'s head!</span></b>")
+					first.visible_message("<span style = \"color:red\"><big>[H] sends its inner mouth directly through [first]'s head!</span></b>", "<span class='game xenobold'>You end the host's life.</span>")
 					first.TakeDamageAccountArmor("head", 10000)//rip
 					playsound(first.loc, 'sound/weapons/slashcut.ogg', 100, 1)
 					if (second && prob(50))
-						second.visible_message("<span style = \"color:red\"><big>[H] sends its inner mouth directly through [second]'s head!</span></b>")
+						second.visible_message("<span style = \"color:red\"><big>[H] sends its inner mouth directly through [second]'s head!</span></b>", "<span class='game xenobold'>You end another host's life, who foolishly stood on the same spot as the first.</span>")
 						second.TakeDamageAccountArmor("head", 10000)//rip
 						playsound(second.loc, 'sound/weapons/slashcut.ogg', 100, 1)
 
@@ -201,7 +201,7 @@
 			return
 
 		if (H.mutantrace:plasma < 200)
-			boutput(H, "You require at least 200 plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You require at least 200 plasma to use this ability.</span>")
 			return
 		else
 			H.mutantrace:plasma -= 200
@@ -247,7 +247,7 @@
 			return
 
 		if (H.mutantrace:plasma < 50)
-			boutput(H, "You require at least 50 plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You require at least 50 plasma to use this ability.</span>")
 			return
 		else
 			H.mutantrace:plasma -= 50
@@ -310,7 +310,7 @@
 			return
 
 		if (H.mutantrace:plasma < 100)
-			boutput(H, "You don't have enough plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You don't have enough plasma to use this ability.</span>")
 			return
 
 		H.mutantrace:plasma -= 100
@@ -344,6 +344,7 @@
 				return
 			else
 				if (!ismob(a))
+					H.visible_message("<span style = \"color:red\"><b>[H] slams its massive body into [a], knocking it away!</span></b>")
 					playsound(H.loc, 'sound/effects/bang.ogg', 100, 1)
 					step_away(a, H)
 					if (prob(80))
@@ -379,18 +380,18 @@
 			return
 
 		if (H.mutantrace:plasma < 100)
-			boutput(H, "You don't have enough plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You don't have enough plasma to use this ability.</span>")
 			return
 
 		H.mutantrace:plasma -= 100
 
-		H.visible_message("<span style = \"color:red\">[H] sweeps its long tail across the floor!</span>")
+		H.visible_message("<span style = \"color:red\"><b>[H] sweeps its long tail across the floor!</span></b>")
 
 		var/mob/living/list/l = H.find_xeno_target(0, 10, rand(2,3))//must be lying, up to 10 target, AOE range of 2 to 3
 
 		for (var/mob/living/somemob in l)
 
-			somemob.visible_message("<span style = \"color:red\">[somemob] is hit by [H]'s tail!</span>")
+			somemob.visible_message("<span style = \"color:red\"><b>[somemob] is hit by [H]'s tail!</span></b>")
 			somemob.remove_stamina(2)
 			somemob.weakened += 3
 			somemob.TakeDamage("All", rand(10,20), 0, 0, DAMAGE_BLUNT)
@@ -422,7 +423,7 @@
 			return
 
 		if (H.mutantrace:plasma < 100)
-			boutput(H, "You don't have enough plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You don't have enough plasma to use this ability.</span>")
 			return
 
 		H.mutantrace:plasma -= 100
@@ -453,7 +454,7 @@
 				first.visible_message("<span style = \"color:red\">[first] narrowly dodges [H]'s tail attack!</span>")
 			else
 
-				H.visible_message("<span style = \"color:red\">[H] sends its tail right through [first]'s stomach!</span>")
+				H.visible_message("<span style = \"color:red\"><b>[H] sends its tail right through [first]'s stomach!</span></b>")
 
 				playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
 
@@ -462,7 +463,7 @@
 
 		if (second && impale_second)
 			playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
-			H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [second] too!</span>")
+			H.visible_message("<span style = \"color:red\"><b>[H]'s tail goes through [first]'s stomach and impales [second] too!</span></b>")
 			second.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
 
 		for (var/mob/m in range(1, first))//vertical double-stab
@@ -470,7 +471,7 @@
 				if (m.y == first.y - 1 && H.y > first.y || m.y == first.y + 1 && H.y < first.y)
 					if (prob(25))
 						playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
-						H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [m] too!</span>")
+						H.visible_message("<span style = \"color:red\"><b>[H]'s tail goes through [first]'s stomach and impales [m] too!</span></b>")
 						m.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
 
 		for (var/mob/m in range(1, first))//horizontal double-stab
@@ -478,7 +479,7 @@
 				if (m.x == first.x - 1 && H.x > first.x || m.x == first.x + 1 && H.x < first.x)
 					if (prob(25))
 						playsound(H.loc, 'sound/effects/bloody_stab.ogg', 100, 1)
-						H.visible_message("<span style = \"color:red\">[H]'s tail goes through [first]'s stomach and impales [m] too!</span>")
+						H.visible_message("<span style = \"color:red\"><b>[H]'s tail goes through [first]'s stomach and impales [m] too!</span></b>")
 						m.TakeDamage("chest", rand(50,100), 0, 0, DAMAGE_STAB)
 
 /datum/targetable/xenomorph/crush
@@ -506,7 +507,7 @@
 			return
 
 		if (H.mutantrace:plasma <= 200)
-			boutput(H, "You don't have enough plasma to use this ability.")
+			boutput(H, "<span class='game xenobold'>You don't have enough plasma to use this ability.</span>")
 			return
 
 		H.mutantrace:plasma -= 200
@@ -520,7 +521,7 @@
 
 		if (l)
 			if (l.lying)
-				H.visible_message("<span style = \"color:red\">[H] puts its massive hands on [l]'s chest, starting to crush them!</span>", "<span style = \"color:red\">You put your massive hands on [l]'s chest, starting to crush them!</span>")
+				H.visible_message("<span style = \"color:red\"><b>[H] puts its massive claws on [l]'s chest, starting to crush them!</span></b>", "<span class='game xenobold'>You put your massive hands on [l]'s chest, starting to crush them!</span>")
 				for (var/v = 1, v <= 10, v++)
 					if (!l.lying)
 						break
@@ -530,6 +531,7 @@
 
 					playsound(l.loc, 'sound/effects/gib.ogg', 100, 1)
 
+
 					if (ishuman(l))
 						var/mob/living/carbon/human/h = l
 						h.emote("scream")
@@ -537,6 +539,7 @@
 					l.TakeDamage("All", rand(20,30))
 
 					if (prob(4 + was_dead ? 10 : 0))
+						l.visible_message("<span style = \"color;red\"><font size = 3><b>[l] is crushed into gibs by [H]!</span></font></b>")
 						l.gib()
 
 					if (l)
@@ -578,7 +581,7 @@
 		H.mutantrace:xeno_light_on = !H.mutantrace:xeno_light_on
 		H.update_alien_light()
 
-		boutput(H, "<span style = \"color:blue\">You [H:mutantrace:xeno_light_on ? "toggle" : "detoggle"] your bioluminiscience.</span>")
+		boutput(H, "<span class='game xeno'>You [H:mutantrace:xeno_light_on ? "toggle" : "detoggle"] your bioluminiscience.</span>")
 
 /datum/targetable/xenomorph/kamikaze
 	name = "Self-Explosion"
@@ -695,11 +698,11 @@
 			return 0
 
 		if (!istype(C:mutantrace, /datum/mutantrace/xenomorph/sentinel) && !istype(C:mutantrace, /datum/mutantrace/xenomorph/praetorian))
-			boutput(C, "<span style = \"color:red\"><B>Your caste cannot secrete acid.</span></B>")
+			boutput(C, "NO GET OUT GET OUT GET OUT WARRIOR AND DRONE CASTES REEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
 			return 0
 
 		if (C:mutantrace:plasma < 150)
-			boutput(C, "<span style = \"color:red\"><B>You need at least 150 plasma to use this ability.</span></B>")
+			boutput(C, "<span class='game xenobold'>You need at least 150 plasma to use this ability.</span>")
 			return 0
 
 
@@ -709,7 +712,7 @@
 		r.add_reagent("m_acid", rand(50,75))
 		smoke_reaction(r, 5, C.loc, 0)
 
-		C.visible_message("<span style = \"color:red\"><b>[C]</b> releases a cloud of deadly acid!</span>")
+		C.visible_message("<font size = 3><span style = \"color:red\"><b>[C]</b> releases a cloud of deadly acid!</span></font>")
 
 /datum/targetable/xenomorph/secrete_acid
 	name = "Secrete Acid"
@@ -735,11 +738,11 @@
 			*/
 
 		if (!istype(C:mutantrace, /datum/mutantrace/xenomorph/sentinel) && !istype(C:mutantrace, /datum/mutantrace/xenomorph/praetorian))
-			boutput(C, "<span style = \"color:red\"><B>Your caste cannot secrete acid.</span></B>")
+			boutput(C, "IM DONE WITH YOU GET OUT OF MY SWAMP")
 			return 0
 
 		if (C:mutantrace:plasma < 150)
-			boutput(C, "<span style = \"color:red\"><B>You need at least 150 plasma to use this ability.</span></B>")
+			boutput(C, "<span class='game xenobold'>You need at least 150 plasma to use this ability.</span>")
 			return 0
 
 

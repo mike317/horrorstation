@@ -27,22 +27,22 @@
 
 	proc/isSentinel()
 		for (var/mob/living/carbon/human/H in mobs)
-			if (isAlienSentinel(H))
+			if (isAlienSentinel(H) && H.stat != 2)
 				return 1
 		return 0
 	proc/isWarrior()
 		for (var/mob/living/carbon/human/H in mobs)
-			if (isAlienWarrior(H))
+			if (isAlienWarrior(H) && H.stat != 2)
 				return 1
 		return 0
 	proc/isPraetorian()
 		for (var/mob/living/carbon/human/H in mobs)
-			if (isAlienPraetorian(H))
+			if (isAlienPraetorian(H) && H.stat != 2)
 				return 1
 		return 0
 	proc/isQueen()
 		for (var/mob/living/carbon/human/H in mobs)
-			if (isAlienPraetorian(H))
+			if (isAlienPraetorian(H) && H.stat != 2)
 				return 1
 		return 0
 

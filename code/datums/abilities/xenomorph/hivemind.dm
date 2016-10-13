@@ -18,7 +18,7 @@
 		queentext = "<font size = 3>"
 		queentextend = "</font>"
 
-	var/rendered = "[queentext]<i><span class='game say'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span></span></i>[queentextend]"
+	var/rendered = "<i>[queentext]<span class='game xenobold'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span>[queentextend]</i>"
 	for (var/mob/living/carbon/human/H in mobs)
 		if(!H.stat)
 			if(isAlien(H))
@@ -47,7 +47,7 @@
 		message_b = src.say_quote(message_b)
 		message_b = "<i>[message_b]</i>"
 
-		rendered = "<i><span class='game say'><span class='name' data-ctx='\ref[src.mind]'>[src.voice_name]</span> <span class='message'>[message_b]</span></span></i>"
+		rendered = "<i><span class='game xenobold'><span class='name' data-ctx='\ref[src.mind]'>[src.voice_name]</span> <span class='message'>[message_b]</span></span></i>"
 
 		for (var/mob/M in heard)
 			var/thisR = rendered
@@ -57,7 +57,7 @@
 
 	message = src.say_quote(message)
 
-	rendered = "<i><span class='game say'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span></span></i>"
+	rendered = "<i><span class='game xenobold'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span></span></i>"
 
 	for (var/mob/M in mobs)
 		if (istype(M, /mob/new_player))

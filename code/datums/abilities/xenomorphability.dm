@@ -17,11 +17,11 @@
 			else
 				owner.waiting_for_hotkey = 1
 				src.updateIcon()
-				boutput(usr, "<span style=\"color:blue\">Please press a number to bind this ability to...</span>")
+				boutput(usr, "<span class='game xenobold'>Please press a number to bind this power to...</span>")
 				return
 
 		if (!isturf(owner.holder.owner.loc) && !spell.can_use_in_container)
-			boutput(owner.holder.owner, "<span style=\"color:red\">You cannot use this ability here.</span>")
+			boutput(owner.holder.owner, "<span class='game xenobold'>You cannot use this power here.</span>")
 			return
 		if (spell.targeted && usr:targeting_spell == owner)
 			usr:targeting_spell = null
@@ -96,7 +96,7 @@
 		if (!ishuman(holder.owner) || !holder.owner:mutantrace || !istype(holder.owner:mutantrace, /datum/mutantrace/xenomorph))
 			return 0
 		if (incapacitationCheck())
-			boutput(holder.owner, __red("You cannot use this ability while incapacitated."))
+			boutput(holder.owner, ("<span class='game xenobold'>You cannot use this power while incapacitated.</span>"))
 			return 0
 		var/mob/living/carbon/human/H = holder.owner
 		if (istype(H))

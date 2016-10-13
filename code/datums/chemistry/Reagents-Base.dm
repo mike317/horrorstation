@@ -344,6 +344,10 @@ datum
 							boutput(L, "<span style = \"color:red\"><b>Your skin is singed by the acid smoke!</span></b>")
 							L.TakeDamage("All", 0, volume/2)
 
+							if (L.lying && prob(40))
+								L.visible_message("<span style = \"color:red\"><b>[L] is gibbed by the acid!</span></b>", "<span style = \"color:red\"><b><font size = 3>You are gibbed by the acid!</span></b></font>")
+								L.gib()
+
 				reaction_obj(var/obj/O, var/volume)
 					src = null
 

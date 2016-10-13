@@ -626,9 +626,6 @@ var/global/noir = 0
 				if(!ismob(M))
 					return
 
-				if (!istype(M, /mob/living/carbon/human))
-					M.humanize(0,0)
-
 				if(istype(M, /mob/living/carbon/human))
 					var/mob/living/carbon/human/N = M
 					logTheThing("admin", usr, M, "attempting to monkeyize %target%")
@@ -1226,9 +1223,6 @@ var/global/noir = 0
 		if("transform")
 			if(( src.level >= LEVEL_PA ) || ((src.level >= LEVEL_SA) ))
 				var/mob/M = locate(href_list["target"])
-
-				if (!ishuman(M))
-					M.humanize(0,0)
 				//	alert("This secret can only be used on human mobs.")
 				//	return
 				var/mob/living/carbon/human/H = M
@@ -1290,10 +1284,6 @@ var/global/noir = 0
 			if(( src.level >= LEVEL_PA ) || ((src.level >= LEVEL_SA) ))
 				var/mob/M = locate(href_list["target"])
 
-				if (!ishuman(M))
-				//	alert("You may only use this secret on human mobs.")
-				//	return
-					M.humanize(0,0)
 
 				var/mob/living/carbon/human/X = M
 				var/pick = input("Which effect(s)?","Give Bioeffects") as null|text
@@ -1319,10 +1309,6 @@ var/global/noir = 0
 			if(( src.level >= LEVEL_PA ) || ((src.level >= LEVEL_SA) ))
 				var/mob/M = locate(href_list["target"])
 
-				if (!ishuman(M))
-			//		alert("You may only use this secret on human mobs.")
-				//	return
-					M.humanize(0,0)
 
 				var/mob/living/carbon/human/X = M
 				var/pick = input("Which effect(s)?","Remove Bioeffects") as null|text
@@ -3049,16 +3035,25 @@ var/global/noir = 0
 			else
 				alert ("You must be at least a Moderator to plain message a player.")
 		if ("humanize")
-			if (src.level >= LEVEL_PA) // Moved from SG to PA (Convair880).
+			if (src.level >= LEVEL_ADMIN) // Moved from PA to normal admin
 
 				var/mob/M = locate(href_list["target"])
+
 				if(!ismob(M))
+					boutput(usr.client, "[M] isn't even a mob.")
+					return
+
+				if (ishuman(M) && M:mutantrace == null && !istype(M, /mob/living/carbon/human/machoman))
+					boutput(usr.client, "[M] is already a human.")
 					return
 
 				//if (!istype(M, /mob/living/carbon/human))
-				M.humanize(0,0)
 
-				M:bioHolder.RemoveAllEffects()
+
+				usr.client.cmd_admin_humanize(M)
+
+
+		//		M:bioHolder.RemoveAllEffects()
 					/*
 				var/mob/M = locate(href_list["target"])
 				if (!M) return

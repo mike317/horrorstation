@@ -19,7 +19,7 @@
 
 		C:mutantrace:leaping = !C:mutantrace:leaping
 
-		boutput(C, "<span style=\"color:blue\">You are [C:mutantrace:leaping ? "now" : "no longer"] leaping.</span>")
+		boutput(C, "<span class='game xeno'>You are [C:mutantrace:leaping ? "now" : "no longer"] leaping.</span>")
 
 		if (C:mutantrace:leaping)
 			C:mutantrace:leap()

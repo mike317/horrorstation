@@ -9,7 +9,7 @@ h1, h2, h3, h4, h5, h6 {color: #00f;font-family: Georgia, Verdana, sans-serif;}
 .motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover {color: #638500;}
 
 /* ADD HERE FOR BOLD */
-.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc {font-weight: bold;}
+.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc, .xenobold {font-weight: bold;}
 /* OUTPUT COLORS */
 .ooc {color: #002eb8;}
 .looc {color: #4c6ccd;}
@@ -38,6 +38,9 @@ h1, h2, h3, h4, h5, h6 {color: #00f;font-family: Georgia, Verdana, sans-serif;}
 .radio {color: #008000;}
 .sec_radio {color: #E00000;}
 .alert {color: #ff0000;}
+.xenobold {color: #681758;}
+.xeno {color: #681758;}
+
 h1.alert, h2.alert {color: #000000;}
 
 /* HELPER CLASSES */

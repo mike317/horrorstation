@@ -87,6 +87,8 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "blank"
 
+	var/recently_ingested_reagents[0]
+
 	var/obj/human_light/my_light_obj = null
 
 	var/alien_egg_flag = 0
@@ -233,6 +235,8 @@
 
 /mob/living/carbon/human/New()
 	. = ..()
+
+	lobby_music(client, 1)
 
 	image_eyes = image('icons/mob/human_hair.dmi', layer = MOB_FACE_LAYER)
 	image_cust_one = image('icons/mob/human_hair.dmi', layer = MOB_HAIR_LAYER2)
@@ -2705,10 +2709,29 @@
 						src.mutantrace:maxEvoProgress/= (3 * expediated_evolution)//the more aliens that died, the faster you go
 						if (src.mutantrace:evoProgress > src.mutantrace:maxEvoProgress)
 							src.mutantrace:evoProgress = src.mutantrace:maxEvoProgress
-						boutput(src, "<span style = \"color:green\"><b>Due to a[expediated_evolution == 1 ? "" : "n"] [expediated_evolution == 1 ? "" : "severe"] lack of sisters, you find that your evolution is going [expediated_evolution == 1 ? "" : "much"] faster.</b></span>")
+						if (!isAlienWarrior(src) && !isAlienQueen(src) && !isAlienHugger(src))
+							boutput(src, "<span class='game xenobold'><font size = 3>Due to a[expediated_evolution == 1 ? "" : "n"] [expediated_evolution == 1 ? "" : "extreme"] lack of sisters, you find that your evolution is going [expediated_evolution == 1 ? "" : "much"] faster. The hive is currently weak, so be careful.</span></font>")
+						else
+							boutput(src, "<span class='game xenobold'><font size = 3>The hive is currently[expediated_evolution == 1 ? " weak" : " very weak"].</span></font>")
+
+			var/potential_evolution_one = null
+			var/potential_evolution_two = null
+
+			if (isAlienLarva(src))
+				potential_evolution_one = "Drone"
+
+			if (isAlienDrone(src))
+				potential_evolution_one = "Sentinel"
+
+			if (isAlienSentinel(src))
+				potential_evolution_one = "Warrior"
+				potential_evolution_two = " Praetorian"
+
+			if (isAlienPraetorian(src))
+				potential_evolution_one = "Queen"
 
 			stat("Evolutionary Progress", round((src.mutantrace:evoProgress/src.mutantrace:maxEvoProgress) * 100))
-
+			stat("Possible Evolutions: [potential_evolution_one ? potential_evolution_one : "None"],[potential_evolution_two ? potential_evolution_two : ""]")
 
 /mob/living/carbon/human/u_equip(obj/item/W as obj)
 	if (!W)
@@ -5445,6 +5468,7 @@
 /mob/living/carbon/human/say(var/message)
 	if (isAlien(src))
 		voice_name = "Creature"
+
 	var/message_check = message
 	for (var/v in prohibited_strings)
 		if (findtext(message_check, v))
@@ -6731,7 +6755,14 @@
 					cut_chance = 100
 			if (prob(cut_chance))
 				M.visible_message("<span style = \"color:red\">[M] cuts off some meat from [src]'s corpse.</span>")
-				new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				var/v = new/obj/item/reagent_containers/food/snacks/ingredient/meat/corpsemeat(src.loc)
+				if (salted)
+					v:salt()
+				if (rancid)
+					v:spoil()
+					if (prob(20))
+						v:spoil()
+
 				if (prob(20))
 					qdel(src)
 			else
@@ -6787,14 +6818,20 @@
 				boutput(M, "<span style = \"color:red\"><b>This host is already infected.</span></b>")
 				return 0
 
+		src.emote("scream")
+
 		src.visible_message("<span style = \"color:red\"><b>[src] is facehugged by [M]!</b></span>")
 
 		if (fucc)
-			fucc.on_hug()
+		//	fucc.on_hug()
+			hugger_hug_sound(src)
 
-		src.force_equip(null, slot_wear_mask)
+		src.u_equip(slot_wear_mask)
+		src.u_equip(head)
+
+	//	src.force_equip(null, slot_wear_mask)
 		src.force_equip(new/obj/item/clothing/mask/alien, slot_wear_mask)
-		src.force_equip(null, head)
+	//	src.force_equip(null, head)
 	//	spawn(rand(100,200))
 		//	src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
 		src.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)

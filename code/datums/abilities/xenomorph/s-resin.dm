@@ -23,16 +23,16 @@
 			return 0
 
 		if (C:mutantrace:plasma < 100)
-			boutput(C, "<span style = \"color:red\"><B>You need at least 100 plasma to use this ability.</span></B>")
+			boutput(C, "<span class='game xenobold'>You need at least 100 plasma to use this ability.</span>")
 			return 0
 
 		if (locate(/obj/xeno/hive) in C.loc)
 			for (var/obj/xeno/hive/h in C.loc)
 				if (h.density || istype(h, /obj/xeno/hive/resin_pile) || istype(h, /obj/xeno/hive/nest))
-					boutput(C, "<span style = \"color:red\"><B>There is already a resin object here.</span></B>")
+					boutput(C, "<span class='game xenobold'>There is already a resin object here.</span>")
 					return 0
 
-		C.visible_message("<span style = \"color:red\">[C] secretes a blob of vile resin.</span>")
+		C.visible_message("<span style = \"color:red\">[C] secretes a blob of vile resin.</span>", "<span class='game xenobold'>You secrete some resin.</span>")
 
 		new/obj/xeno/hive/resin_pile(C.loc)
 		//playsound(C.loc, 'vomitsound.ogg', 100, 1)

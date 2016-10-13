@@ -134,6 +134,10 @@
 			src.shitlist[M] ++
 			if (prob(40) && src.stat != 2)
 				src.emote("scream")
+		else
+			if (prob(40) && src.stat != 2)
+				src.emote("scream")
+
 		var/pals = 0
 		for (var/mob/living/carbon/human/npc/monkey/pal in all_viewers(7, src))
 			if (pals >= 5)
@@ -149,6 +153,9 @@
 				pal.ai_target = M
 				pal.shitlist[M] ++
 				pals ++
+				if (prob(20) && src.stat != 2)
+					src.emote("scream")
+			else
 				if (prob(20) && src.stat != 2)
 					src.emote("scream")
 

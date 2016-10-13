@@ -99,12 +99,12 @@
 		if (ismob(T))
 			if (ishuman(T))
 				if (!ismonkey(T) && T.stat != 2)
-					boutput(C, "<span style=\"color:red\"><b>You are unable to devour this creature. It must be dead.</b></span>")
+					boutput(C, "<span class = 'game xeno'>You are unable to devour this creature. It must be dead.</span>")
 					return 1
 
 		else if (isobj(T))
 			if (!iscritter(T))
-				boutput(C, "<span style=\"color:red\">This is an object. You cannot devour an object.</span>")
+			//	boutput(C, "<span style=\"color:red\">This is an object. You cannot devour an object.</span>")
 				return 1
 
 		var/T_loc = T.loc
@@ -129,7 +129,7 @@
 							C:mutantrace:maxPlasma += rand(40,50)
 
 						C:mutantrace:healrate = ishuman(T) ? 10 : 5
-						spawn (rand(80,100) + ishuman(T) ? 500)
+						spawn (rand(80,100) + ishuman(T) ? 500 : 0)
 							C:mutantrace:healrate = 1
 					if (T.client && ismob(T))
 						T.ghostize()

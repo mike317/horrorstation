@@ -158,11 +158,24 @@
 	hit_type = DAMAGE_STAB
 	hitsound = 'sound/effects/bloody_stab.ogg'
 
+	attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+		if (prob(40) && isTrueAlien(M))
+			M.emote("roar")
+		if (prob(50) && !isAlien(M))
+			M.emote("scream")
+		..()
+
 	glass
 		force = 10.0
 		throwforce = 10.0
 		name = "glass shank"
 		icon_state = "shank_glass"
+	metal
+		force = 13.0
+		throwforce = 15.0
+		name = "metal shank"
+		icon_state = "shank_metal"
+
 
 
 /obj/item/craftedmelee/ghettotool/crowbar
@@ -183,15 +196,25 @@
 			if (on)
 				on = 0
 				icon_state = "off"
+				visible_message("<span style = \"color:red\">[user] turns [src] off.</span>")
 			else if (!on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 75, 1)
 				on = 1
 				icon_state = "on"
+				visible_message("<span style = \"color:red\">[user] turns [src] on.</span>")
 
 		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 			if (on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40) && isTrueAlien(M))
+					M.emote("roar")
+				if (prob(50) && !isAlien(M))
+					M.emote("scream")
+				if (prob(30))
+					M.slowed = 1
+					spawn(5)
+						M.slowed = 0
 			..()
 
 	glassbar
@@ -205,6 +228,12 @@
 
 		hit_type = DAMAGE_CUT
 
+		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+			if (prob(40) && isTrueAlien(M))
+				M.emote("roar")
+			if (prob(50) && !isAlien(M))
+				M.emote("scream")
+			..()
 
 
 
@@ -228,15 +257,25 @@
 			if (on)
 				on = 0
 				icon_state = "off"
+				visible_message("<span style = \"color:red\">[user] turns [src] off.</span>")
 			else if (!on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 75, 1)
 				on = 1
 				icon_state = "on"
+				visible_message("<span style = \"color:red\">[user] turns [src] on.</span>")
 
 		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 			if (on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40) && isTrueAlien(M))
+					M.emote("roar")
+				if (prob(50) && !isAlien(M))
+					M.emote("scream")
+				if (prob(30))
+					M.slowed = 1
+					spawn(5)
+						M.slowed = 0
 			..()
 
 /obj/item/craftedmelee/ghettotool/wirecutters
@@ -260,15 +299,25 @@
 			if (on)
 				on = 0
 				icon_state = "off"
+				visible_message("<span style = \"color:red\">[user] turns [src] off.</span>")
 			else if (!on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 75, 1)
 				on = 1
 				icon_state = "on"
+				visible_message("<span style = \"color:red\">[user] turns [src] on.</span>")
 
 		attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 			if (on)
-				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 50, 1)
+				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40) && isTrueAlien(M))
+					M.emote("roar")
+				if (prob(50) && !isAlien(M))
+					M.emote("scream")
+				if (prob(30))
+					M.slowed = 1
+					spawn(5)
+						M.slowed = 0
 			..()
 
 

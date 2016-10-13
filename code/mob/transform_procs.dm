@@ -2,20 +2,32 @@
 
 // Added an option to send them to the arrival shuttle. Also runtime checks (Convair880).
 /mob/proc/humanize(var/tele_to_arrival_shuttle = 0, var/equip_rank = 1, var/force = 0)
+
 	if (src.transforming && !force)
 		return
 
 	var/currentLoc = src.loc
-	var/ASLoc = pick(latejoin)
+	var/ASLoc
+
+	if (ALIENMODE)
+		ASLoc = pick(random_survivor_start)
+	else
+		ASLoc = pick(latejoin)
 
 	// They could be in a pod or whatever, which would have unfortunate results when respawned.
-	if (!isturf(src.loc))
+	if (!isturf(src.loc) || istype(src.loc, /turf/space))
 		if (!ASLoc)
 			return
 		else
 			tele_to_arrival_shuttle = 1
 
-	var/mob/living/carbon/human/character = new (currentLoc)
+	var/slocation = currentLoc ? currentLoc : ASLoc
+
+	if (!slocation)
+		return
+
+	var/mob/living/carbon/human/character = new/mob/living/carbon/human (slocation)
+
 	if (character && istype(character))
 		if (character.gender == "female") // Randomize_look() seems to cause runtimes when called before organs are initialized.
 			character.real_name = pick(first_names_female)+" "+pick(last_names)

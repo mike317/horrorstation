@@ -433,8 +433,8 @@
 
 		playsound(loc, pick('sound/effects/alien/facehugger/death_0.ogg', 'sound/effects/alien/facehugger/death_1.ogg'), 100, 1)
 
-	proc/on_hug()
-		playsound(loc, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)
+//	proc/on_hug()
+	//	playsound(loc, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)
 
 
 	proc/healthcheck()
@@ -442,13 +442,13 @@
 			src.death()
 
 /proc/hugger_death_sound(var/atom/a)
-	if (isturf(a))
-		playsound(a, pick('sound/effects/alien/facehugger/death_0.ogg', 'sound/effects/alien/facehugger/death_1.ogg'), 100, 1)
-	else
-		playsound(a.loc, pick('sound/effects/alien/facehugger/death_0.ogg', 'sound/effects/alien/facehugger/death_1.ogg'), 100, 1)
+//	if (isturf(a))
+	//	playsound(a, pick('sound/effects/alien/facehugger/death_0.ogg', 'sound/effects/alien/facehugger/death_1.ogg'), 100, 1)
+	//else
+	playsound(a.loc, pick('sound/effects/alien/facehugger/death_0.ogg', 'sound/effects/alien/facehugger/death_1.ogg'), 100, 1)
 
 /proc/hugger_hug_sound(var/atom/a)
-	if (isturf(a))
-		playsound(a, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)
-	else
-		playsound(a.loc, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)
+//	if (isturf(a))
+	playsound(a, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)
+//	else
+//		playsound(a.loc, pick('sound/effects/alien/facehugger/attack_0.ogg', 'sound/effects/alien/facehugger/attack_1.ogg'), 100, 1)

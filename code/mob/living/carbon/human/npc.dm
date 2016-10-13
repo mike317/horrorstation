@@ -384,6 +384,9 @@
 
 /mob/living/carbon/human/proc/ai_pickupweapon()
 
+	if (istype(src, /mob/living/carbon/human/npc/monkey) && src:sedated)
+		return
+
 	if(istype(src.r_hand,/obj/item/gun) && src.r_hand:canshoot())
 		return
 

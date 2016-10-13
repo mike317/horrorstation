@@ -438,7 +438,7 @@
 	//		if(player.client && player.ready) playercount++
 
 		for (var/mob/living/carbon/human/human in mobs)
-			if (human.client && human.stat != 2)
+			if (human.client && human.stat != 2 && human.mind)
 				if (!isAlien(human))
 					playercount++
 
@@ -516,20 +516,25 @@
 
 proc/random_tenth_decimal(var/r1, var/r2)
 
-	return (rand(r1 * 100, r2 * 100))/100
+	return ((rand(r1 * 100, r2 * 100))/100)
 
 /mob/living/carbon/human/proc/alien_mode_spawn_stuff(var/group = 0, var/init_spawn = 0)
 	if (isAlien(src))
 		return 0//no get out ayys ree
+
 	var/next_turf = null
 	var/another_turf = (prob(30) ? 1 : null)
 	var/welding_tank_or_barrel = 0//0 = tank, 1 = barrel
 	var/turf/simulated/floor/available_turfs[0]
 
+	var/long_spawn_time = 50
 	var/spawn_time = 10
+	var/max_spawn_time = 500
+
+	if (group && isturf(group))
+		next_turf = group
 
 	if (init_spawn)
-		sleep(50)
 
 		var/max_v = rand(50, 60)//all things considered 20 to 30 wasn't much at all, you might have to block off 4+ or more
 		//entrances from a bunch of hungry aliens and 5 to 7 pieces of wood to reinforce each entrance was tiny
@@ -538,18 +543,19 @@ proc/random_tenth_decimal(var/r1, var/r2)
 			if (prob(80))
 				var/wherethewoodat = pick("clutter", "plank")
 				if (wherethewoodat == "clutter")
-					spawn (spawn_time * 1.5 * random_tenth_decimal(1,2))
+					spawn (long_spawn_time * random_tenth_decimal(1,5))
 						var/obj/o = new/obj/item/woodstuff/woodclutter(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 						if (!istype(o.loc, /turf/simulated/floor))
 							qdel(o)
 				else
-					spawn (spawn_time * 1.5 * random_tenth_decimal(1,2))
+					spawn (long_spawn_time * random_tenth_decimal(1,5))
 						var/obj/o = new/obj/item/woodstuff/plank(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 						if (!istype(o.loc, /turf/simulated/floor))
 							qdel(o)
-		spawn (spawn_time * 2)
+
+		spawn (long_spawn_time * 2)
 			var/obj/reagent_barrel/salt_barrel/saltb = new/obj/reagent_barrel/salt_barrel(locate(next_turf:x+rand(-2,2), next_turf:y+rand(-2,2), next_turf:z))
-			var/obj/reagent_barrel/rum_barrel/rumb = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-2,2), next_turf:y+rand(-2,2), next_turf:y))
+			var/obj/reagent_barrel/rum_barrel/rumb = new/obj/reagent_barrel/rum_barrel(locate(next_turf:x+rand(-2,2), next_turf:y+rand(-2,2), next_turf:z))
 
 			if (rumb.loc == saltb.loc)//probably won't be a problem
 				if (istype(locate(rumb.x+1, rumb.y, rumb.z), /turf/simulated/floor))
@@ -570,7 +576,7 @@ proc/random_tenth_decimal(var/r1, var/r2)
 
 		for (var/v = 1, v <= 10, v++)
 			if (prob(70))
-				spawn (spawn_time * 2.5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 2.5 * random_tenth_decimal(1,2))
 					var/obj/item/device/glowstick/g = new/obj/item/device/glowstick(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z)
 					g.on = 1
 					g.icon_state = "glowstick-on"
@@ -578,31 +584,35 @@ proc/random_tenth_decimal(var/r1, var/r2)
 
 		for (var/v = 1, v <= 10, v++)
 			if (prob(80))
-				spawn (spawn_time * 3 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 3 * random_tenth_decimal(1,2))
 					var/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat/goodmeat = new/obj/item/reagent_containers/food/snacks/ingredient/meat/monkeymeat(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
-					goodmeat.salt()
+					if (prob(90))
+						goodmeat.salt()
+					else
+						goodmeat.spoil()
+						goodmeat.spoil()//not so good anymore
 
 		for (var/v = 1, v <= 10, v++)
 			if (prob(80))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 3.3 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/synthflesh(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 			if (prob(60))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 3.6 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/mini/bruise(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 			if (prob(40))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 3.9 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/mini/burn(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 			if (prob(10))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 4.2 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/mini/omnipatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 			if (prob(50))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 4.5 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/mini/antifoodpoisoningpatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 			if (prob(30))
-				spawn (spawn_time * 5 * random_tenth_decimal(1,2))
+				spawn (long_spawn_time * 4.8 * random_tenth_decimal(1,2))
 					new/obj/item/reagent_containers/patch/mini/antitoxinpatch(locate(next_turf:x+rand(-3,3), next_turf:y+rand(-3,3), next_turf:z))
 
-		spawn (spawn_time * 6)
+		spawn (max_spawn_time)
 			for (var/turf/t in range(3, next_turf))
 				if (t.density)
 					for (var/obj/item/i in t)
@@ -673,6 +683,9 @@ proc/random_tenth_decimal(var/r1, var/r2)
 	if (group && isturf(group))
 		next_turf = group
 
+	for (var/obj/item/crowbar/c in src.contents)
+		src.u_equip(c)
+		qdel(c)
 
 	var/obj/item/crowbar/survivor_crowbar/c = new/obj/item/crowbar/survivor_crowbar(next_turf)//lets survivors get out of anywhere
 	src.equip_if_possible(c, slot_r_hand)
@@ -680,21 +693,22 @@ proc/random_tenth_decimal(var/r1, var/r2)
 	if (!locate(c) in src)
 		src.equip_if_possible(c, slot_l_hand)
 
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.1 * random_tenth_decimal(1,2))
 		new/obj/item/device/flashlight(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+
+	spawn (spawn_time * 1.2 * random_tenth_decimal(1,2))
 		if (prob(30))
 			new/obj/item/device/multitool(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.3 * random_tenth_decimal(1,2))
 		if (prob(60))
 			new/obj/item/wirecutters(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.4 * random_tenth_decimal(1,2))
 		if (prob(40))
 			new/obj/item/wrench(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.5 * random_tenth_decimal(1,2))
 		if (prob(70))
 			new/obj/item/screwdriver(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.6 * random_tenth_decimal(1,2))
 		if (prob(50))
 			new/obj/item/knife_butcher(next_turf)
 
@@ -702,29 +716,33 @@ proc/random_tenth_decimal(var/r1, var/r2)
 			new/obj/item/kitchen/utensil/knife(next_turf)
 
 	//insulated gloves
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.7 * random_tenth_decimal(1,2))
 		if (prob(20))
 			var/obj/item/clothing/gloves/yellow/gloves = new/obj/item/clothing/gloves/yellow(next_turf)
 			equip_if_possible(gloves, slot_gloves)
 
 	//weapon spawn
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.8 * random_tenth_decimal(1,2))
 		if (prob(17))
 			new/obj/item/device/flash(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 1.9 * random_tenth_decimal(1,2))
 		if (prob(15))
 			new/obj/item/gun/energy/taser_gun(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+	spawn (spawn_time * 2 * random_tenth_decimal(1,2))
 		if (prob(10))
 			new/obj/item/gun/energy/laser_gun(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+
+	spawn (spawn_time * 2.1 * random_tenth_decimal(1,2))
 		new/obj/item/cable_coil(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+
+	spawn (spawn_time * 2.2 * random_tenth_decimal(1,2))
 		if (prob(50))
 			new/obj/item/cable_coil(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+
+	spawn (spawn_time * 2.3 * random_tenth_decimal(1,2))
 		new/obj/item/electronics/battery(next_turf)
-	spawn (spawn_time * random_tenth_decimal(1,2))
+
+	spawn (spawn_time * 2.4 * random_tenth_decimal(1,2))
 		if (prob(50))
 			new/obj/item/electronics/battery(next_turf)
 //	new/obj/item/shaker/salt(next_turf)
@@ -747,6 +765,7 @@ proc/random_tenth_decimal(var/r1, var/r2)
 
 
 	spawn (5)
+
 		boutput(src, "<b>You've spawned with several vital tools, including a crowbar. Use this to open depowered doors.</b><br>")
 
 		new/datum/objective_set/survivor(src.mind)

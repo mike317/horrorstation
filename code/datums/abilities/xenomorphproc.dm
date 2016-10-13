@@ -552,7 +552,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 			for (var/mob/m in mobs)
 				if (isAlien(m) && m.stat != 2)
 					if (istype(m:mutantrace, /datum/mutantrace/xenomorph/drone/queen))
-						boutput(m, "<span style = \"color:red\"><b>There is already a Queen.</span></b>")
+						boutput(m, "<span class='game xenobold'>There is already a Queen.</span>")
 						return
 
 	var/whatToRemove
@@ -636,7 +636,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 				return 0//no removing empress
 
 	if (devolution != -1 && devolution != -2 && !admintransed)
-		src.visible_message("<span style=\"color:red\"><B>[src]'s body starts to twist and contort...</B></span>", "<span style=\"color:blue\"><B>You start the evolution. This will take a while.</B></span>")
+		src.visible_message("<span class='game xenobold'>[src]'s body starts to twist and contort...</span>", "<span class='game xenobold'>You start the evolution. This will take a while.</span>")
 
 	var/src_last_loc = src.loc
 
@@ -651,7 +651,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 	if (src.loc != src_last_loc)
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			boutput(src, "<span style=\"color:red\"><B>The evolution has failed; you must stand still.</B></span>")
+			boutput(src, "<span class='game xenobold'>The evolution has failed; you must stand still.</span>")
 			return 0
 
 	if (admintransed)
@@ -674,7 +674,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 	if (transforming || !bioHolder)
 		if (transforming)
-			boutput(src, "<span style = \"color:red\"><b>You are already transforming.</span></b>")
+			boutput(src, "<span class='game xenobold'>You are already transforming.</span>")
 		return
 
 	unequip_all()
@@ -683,13 +683,13 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 		bioHolder.AddEffect("xdrone[devolution == -1 ? "l" : ""]")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a new, more robust form.</B></span>", "<span style=\"color:blue\"><B>You have evolved into a Drone.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust form.</span>", "<span class='game xenobold'>You have evolved into a Drone.</span>")
 
 	else if (e == "Sentinel")
 
 		bioHolder.AddEffect("xsentinel[devolution == -1 ? "l" : ""]")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a new, more robust form.</B></span>", "<span style=\"color:blue\"><B>You have evolved into a Sentinel.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust form.</span>", "<span class='game xenobold'>You have evolved into a [e].</span>")
 
 		src.update_alien_light()
 
@@ -697,31 +697,39 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 
 		bioHolder.AddEffect("xwarrior[devolution == -1 ? "l" : ""]")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a new, more robust form.</B></span>", "<span style=\"color:blue\"><B>You have evolved into a Warrior.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust form.</span>", "<span class='game xenobold'>You have evolved into a [e].</span>")
 
 	else if (e == "Praetorian")
 
 		bioHolder.AddEffect("xpraetorian")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a new, much larger and more robust form.</B></span>", "<span style=\"color:blue\"><B>You have evolved into a Praetorian.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust form.</span>", "<span class='game xenobold'>You have evolved into a [e].</span>")
 
 	else if (e == "Queen")
 
 		bioHolder.AddEffect("xqueen")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a massive, hulking shape.</B></span>", "<span style=\"color:blue\"><B>You have evolved into a Queen.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust form.</span>", "<span class='game xenobold'>You have evolved into a [e].</span>")
+			for (var/mob/living/carbon/human/H in mobs)
+				if (isAlien(H))
+					if (H.stat != 2)
+						boutput(H, "<span class='game xenobold'>There is a new Queen.</span>")
 
 	else if (e == "Empress")
 
 		bioHolder.AddEffect("xempress")
 		if (devolution != -1 && devolution != -2 && !admintransed)
-			src.visible_message("<span style=\"color:red\"><B>[src]'s body contorts, changing into a new, more robust and even more massive form.</B></span>", "<span style=\"color:blue\"><B>You have evolved into an Empress.</B></span>")
+			src.visible_message("<span class='game xenobold'>[src]'s body contorts, changing into a new, more robust and even more massive form.</span>", "<span class='game xenobold'>You have evolved into an Empress.</span>")
+			for (var/mob/living/carbon/human/H in mobs)
+				if (isAlien(H))
+					if (H.stat != 2)
+						boutput(H, "<span class='game xenobold'>The Queen has become an Empress.</span>")
 
 	update_xeno_abilities()
 
 	if (admintransed)
-		boutput(src, "<span style=\"color:red\"><b>You are [e == "Queen" || e == "Empress" ? "the" : "an"] Xenomorph [e]. Your one duty is to [e == "Queen" || e == "Empress" ? "lead the hive to victory, and wipe out the survivors." : "serve the Queen."]</span></b>")
-		boutput(src, "<span style=\"color:red\"><b>You can talk to other Xenomorphs using :a.</span></b>")
+		boutput(src, "<span class='game xenobold'>You are [e == "Queen" || e == "Empress" ? "the" : "an"] Xenomorph [e]. Your one duty is to [e == "Queen" || e == "Empress" ? "lead the hive to victory, and wipe out the survivors." : "serve the Queen."]</span>")
+		boutput(src, "<span class='game xenobold'>You can talk to other Xenomorphs using :a.</span>")
 
 	if (devolution != -1 && devolution != -2)
 		src.full_heal()

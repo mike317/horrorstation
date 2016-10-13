@@ -215,6 +215,7 @@ mob/new_player
 		if(href_list["preferences"])
 			if (!ready)
 				client.preferences.process_link(src, href_list)
+
 		else if(!href_list["late_join"])
 			new_player_panel()
 

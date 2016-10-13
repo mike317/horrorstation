@@ -891,10 +891,16 @@ var/list/fun_images = list()
 	qdel(mymob)
 	H.Equip_Rank("Staff Assistant", 1)
 
-/client/proc/cmd_admin_humanize(var/mob/M in world)
+/client/proc/cmd_admin_humanize(var/mob/M)
 	set category = null
 	set name = "Humanize"
 	set popup_menu = 0
+
+	var/M_client = M.client
+	var/M_loc = M.loc
+
+	if (!M_client)
+		return
 
 	if (!ticker && holder.level < LEVEL_CODER)
 		spawn (0)
@@ -907,7 +913,21 @@ var/list/fun_images = list()
 		return
 */
 	// You now get to chose (mostly) if you want to send the target to the arrival shuttle (Convair880).
+
+	if (ishuman(M))
+		var/i = input("Really humanize this guy? He's already a [M:mutantrace ? "mutant" : "human"].") in list ("Yes", "No")
+		if (i == "No")
+			return
+		else
+			M.ghostize()
+			for (var/mob/dead/observer/x in M_loc)
+				if (x.client && x.client == M_client)
+					M = x
+					break
+
+
 	var/send_to_arrival_shuttle = 0
+
 	if (iswraith(M))
 		if (M.mind && M.mind.special_role == "wraith")
 			remove_antag(M, src, 0, 1) // Can't complete specialist objectives as a human. Also, the proc takes care of the rest.
@@ -942,10 +962,23 @@ var/list/fun_images = list()
 
 	if (send_to_arrival_shuttle == 1)
 		M.show_text("<h2><font color=red><B>You have been respawned as a human and send to the arrival shuttle. If this is an unexpected development, please inquire about it in adminhelp.</B></font></h2>", "red")
-		return M.humanize(1)
+		return M.humanize(1, 1, 1)
 	else
 		M.show_text("<h2><font color=red><B>You have been respawned as a human. If this is an unexpected development, please inquire about it in adminhelp.</B></font></h2>", "red")
-		return M.humanize(0)
+	//	return M.humanize(0, 1, 1)
+		var/mob/living/carbon/human/H = new/mob/living/carbon/human(M.loc)
+
+		if (H.gender == "female") // Randomize_look() seems to cause runtimes when called before organs are initialized.
+			H.real_name = pick(first_names_female)+" "+pick(last_names)
+		else
+			H.real_name = pick(first_names_male)+" "+pick(last_names)
+
+		if (M.mind)
+			M.mind.transfer_to(H)
+
+		H.Equip_Rank("Staff Assistant", 1)
+
+		qdel(M)
 
 /client/proc/cmd_admin_pop_off_all_the_limbs_oh_god()
 	set category = null

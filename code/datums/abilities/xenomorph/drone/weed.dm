@@ -22,11 +22,11 @@
 			return 0
 
 		if (C:mutantrace:plasma < 200)
-			boutput(C, "<span style = \"color:red\"><B>You need at least 200 plasma to do this.</span></B>")
+			boutput(C, "<span class='game xenobold'>You need at least 200 plasma to plant weeds.</span>")
 			return 0
 
 
-		boutput(C, "<span style = \"color:blue\"><B>You plant some weeds.</B></span")
+		boutput(C, "<span class='game xenobold'>You plant some weeds.</span")
 
 		C:mutantrace:plasma -= 200
 		new/obj/xeno/hive/weeds(C.loc, 1)

@@ -3,6 +3,8 @@
 /client
 	preload_rsc = 1
 
+	var/last_move_attempt = 0//set to world.time every movement
+
 	var/datum/admins/holder = null
 	var/time_since_last_hugger = -1
 	//var/datum/client_topic/c_holder = null
@@ -183,6 +185,7 @@ var/global/list/hellbans = null
 
 	if (join_motd)
 		boutput(src, "<div class=\"motd\">[join_motd]</div>")
+		lobby_music(src, 0)
 
 	src.authorize()
 
@@ -236,6 +239,7 @@ var/global/list/hellbans = null
 			preferences.savefile_load(src)
 			load_antag_tokens()
 			src.loadResources()
+
 
 		src.update_world()
 
@@ -564,6 +568,7 @@ var/global/curr_day = null
 */
 
 /client/Move(n, direct)
+	last_move_attempt = world.time
 	if(hellbanned && prob(move_drops))
 		if(prob(1) && prob(25)) fake_lagspike()
 		return

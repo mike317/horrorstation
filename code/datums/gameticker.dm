@@ -1,5 +1,7 @@
 
 
+client/var/sound/lobby_music
+
 var/global/datum/controller/gameticker/ticker
 /* -- moved to _setup.dm
 #define GAME_STATE_PREGAME		1
@@ -27,6 +29,19 @@ var/global/datum/controller/gameticker/ticker
 	var/datum/ai_laws/centralized_ai_laws
 
 	var/skull_key_assigned = 0
+
+proc/lobby_music(var/client/c, var/cancel = 0)
+	return
+	if (!cancel)
+		c.lobby_music = sound('sound/music/lobby.ogg', 0, 0, 0, 100)
+		c << c.lobby_music
+	else
+		if (c.lobby_music)
+			c.lobby_music = sound(null)
+			c << sound(null)
+		//c.lobby_music = null
+	//	c << c.lobby_music
+
 
 /datum/controller/gameticker/proc/pregame()
 	pregame_timeleft = 180 // raised from 120 to accomodate the v500 ads

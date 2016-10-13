@@ -12,8 +12,20 @@
 		..()
 		reagents = new/datum/reagents(500)
 
+	MouseDrop_T(var/mob/m, var/mob/user)
+		if (!ismob(m) || m.stat != 2)
+			return
+
+		visible_message("<span style = \"color:blue\">[user] starts covering [m] in salt...</span>")
+
+		spawn (10)
+
+			if (src)
+				visible_message("<span style = \"color:blue\">[user] finishes covering [m] in salt.</span>")
+				m.salted = 1
 
 	attackby(var/obj/item/o, var/mob/user)
+
 
 		if (istype(o, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 			if (reagents.get_reagent_amount("salt") < 10)

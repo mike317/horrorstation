@@ -19,13 +19,13 @@
 			return 0
 
 		if (!istype(C.equipped(), /obj/item/xeno/resin))
-			boutput(C, "<span style = \"color:red\"><B>You require resin in your active hand to build.</span></B>")
+			boutput(C, "<span class='game xeno'>You require resin in your active hand to build.</span>")
 			return 0
 
 		if (locate(/obj/xeno/hive) in C.loc)
 			for (var/obj/xeno/hive/h in C.loc)
 				if (h.density || istype(h, /obj/xeno/hive/resin_pile) || istype(h, /obj/xeno/hive/nest))
-					boutput(C, "<span style = \"color:red\"><B>There is already a resin object here.</span></B>")
+					boutput(C, "<span class='game xeno'>There is already a resin object here.</span>")
 					return 0
 
 		var/obj/xeno/hive/toBuild
@@ -55,7 +55,7 @@
 	//	if (!C.is_in_hands(/obj/item/xeno/resin))
 		if (!istype(C.equipped(), /obj/item/xeno/resin))
 			if (buildwhat != "Plasma Pool")
-				boutput(C, "<span style = \"color:red\"><B>You require resin in your active hand to build.</span></B>")
+				boutput(C, "<span class='game xeno'>You require resin in your active hand to build.</span>")
 				return 0
 
 		else
@@ -69,14 +69,14 @@
 
 		var/cloc = C.loc
 
-		boutput(C, "<span style=\"color:blue\"><B>You start building the [buildwhat]...</B></span>")
+		boutput(C, "<span class='game xeno'>You start building the [buildwhat]...</span>")
 
-		sleep(40 - (istype(C.mutantrace, /datum/mutantrace/xenomorph/drone) ? 25 : 0))
+		sleep(40 - (istype(C.mutantrace, /datum/mutantrace/xenomorph/drone) ? 25 : 0) - (istype(C.mutantrace, /datum/mutantrace/xenomorph/drone/queen/empress) ? 10 : 0))
 
 		if (cloc == C.loc)
 			new toBuild(C.loc)
 
-			boutput(C, "<span style=\"color:blue\"><B>You finish building the [buildwhat].</B></span>")
+			boutput(C, "<span class='game xeno'>You finish building the [buildwhat].</span>")
 
 	//	playsound(C.loc, 'vomitsound.ogg', 100, 1)
 		return 0

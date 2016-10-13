@@ -979,6 +979,8 @@
 				if ("Heal Sisters")
 					for (var/mob/living/carbon/human/h in range(10, src.mob))
 						if (isAlien(h))
+							if (h == src.mob)
+								continue
 							h.mutantrace:plasma += rand(10,20)
 							h.HealBleeding(100)
 							h.HealDamage("All", h.mutantrace:healrate, h.mutantrace:healrate, h.mutantrace:healrate)
@@ -1025,6 +1027,8 @@
 				if ("Heal Sisters")
 					for (var/mob/living/carbon/human/h in range(10, src.mob))
 						if (isAlien(h))
+							if (h == src.mob)
+								continue
 							h.mutantrace:plasma += rand(10,20)
 							h.HealBleeding(100)
 							h.HealDamage("All", h.mutantrace:healrate, h.mutantrace:healrate, h.mutantrace:healrate)
@@ -1036,6 +1040,11 @@
 							if (h.blood_volume > 500)
 								h.blood_volume = 500
 
+							if (prob(10))
+								h.weakened -= 1
+							if (prob(10))
+								h.stunned -= 1
+
 
 				if ("Weaken Hosts")
 					for (var/mob/living/carbon/human/h in range(10, src.mob))
@@ -1043,6 +1052,9 @@
 							h.slowed = 1
 							if (prob(5))
 								h.weakened += rand(4,5)
+							if (prob(3))
+								h.stunned += rand(2,3)
+
 				if ("Heal Hosts")
 					for (var/mob/living/carbon/human/h in range(10, src.mob))
 						if (!isAlien(h))
@@ -1072,7 +1084,17 @@
 				var/src_mob_area = src.mob.loc.loc
 				if (istype(src.mob.loc, /atom/movable))
 					src_mob_area = src.mob.loc.loc.loc
-				boutput(H, "<span style = \"color:red\"><b>Hivemind: [src.mob] has been slain at [src_mob_area].</span></b>")
+				if (!isAlienWarrior(src.mob) && !isAlienPraetorian(src.mob) && !isAlienQueen(src.mob))
+					if (isAlienHugger(src.mob))
+						boutput(H, "<span class='game xeno'>Hivemind: [src.mob] has been slain at [src_mob_area].</span>")
+					else
+						boutput(H, "<span class='game xenobold'>Hivemind: [src.mob] has been slain at [src_mob_area].</span>")
+				else
+					if (isAlienPraetorian(src.mob) || isAlienWarrior(src.mob))
+						boutput(H, "<span class='game xenobold'><font size = 3>Hivemind: [src.mob] has been slain at [src_mob_area].</span></font>")
+					else if (isAlienQueen(src.mob))
+						boutput(H, "<span class='game xenobold'><font size = 3>Hivemind: The Queen has been slain!</span></font>")
+
 		icon_state = "[base_icon_state]_dead"
 		var/mob/living/carbon/human/H  = src.mob
 		H.xeno_light.disable()
@@ -1086,7 +1108,7 @@
 				var/src_mob_area = src.mob.loc.loc
 				if (istype(src.mob.loc, /atom/movable))
 					src_mob_area = src.mob.loc.loc.loc
-				boutput(H, "<span style = \"color:red\"><b>Hivemind: [src.mob] has been revived at [src_mob_area].</span></b>")
+				boutput(H, "<span class='game xenobold'><font size = 3>Hivemind: [src.mob] has been revived at [src_mob_area].</span></font>")
 		var/mob/living/carbon/human/H = src.mob
 		if (xeno_light_on)
 			H.xeno_light.enable()
@@ -1108,7 +1130,7 @@
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
 
-					. = "<B>[mob]</B> hisses [pick("softly", "strangely", "menacingly", "eerily", "creepily", "scarily")]."
+					. = "<span class = 'game xenobold'><B>[mob]</B> hisses [pick("softly", "strangely", "menacingly", "eerily", "creepily", "scarily")]."
 					playsound(get_turf(mob), src.sound_alienhiss1, 80, 0, 0, mob.get_age_pitch())
 
 					spawn(50)
@@ -1120,7 +1142,7 @@
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
 
-					. = "<B>[mob]</B> roars!"
+					. = "<span class = 'game xenobold'><B>[mob]</B> roars!"
 					playsound(get_turf(mob), pick(src.sound_alienroar1, src.sound_alienroar2, src.sound_alienroar3), 80, 0, 0, mob.get_age_pitch())
 
 					spawn(50)
@@ -1132,7 +1154,7 @@
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
 
-					. = "<B>[mob]</B> snarls [pick("softly", "strangely", "menacingly", "eerily", "creepily", "scarily")]."
+					. = "<span class = 'game xenobold'><B>[mob]</B> snarls [pick("softly", "strangely", "menacingly", "eerily", "creepily", "scarily")]."
 					playsound(get_turf(mob), pick(src.sound_aliensnarl1, src.sound_aliensnarl2), 80, 0, 0, mob.get_age_pitch())
 
 					spawn(50)
@@ -1144,7 +1166,7 @@
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
 
-					. = "<B>[mob]</B> falls to the ground limply, uttering a final, gutteral screech from its mouth..."
+					. = "<span class = 'game xenobold'><B>[mob]</B> falls to the ground limply, uttering a final, gutteral screech from its mouth..."
 					playsound(get_turf(mob), src.sound_alienscream0, 80, 0, 0, mob.get_age_pitch())
 
 					spawn(50)
@@ -1447,7 +1469,10 @@
 					if(!(mob.client && mob.client.holder))
 						mob.emote_allowed = 0
 
-					. = "<B>[mob]</B> falls to the ground limply, uttering a final, gutteral screech from its mouth..."
+					if (!isAlienHugger(src.mob))
+						. = "<span class = 'game xenobold'>[mob] falls to the ground limply, uttering a final, gutteral screech from its mouth..."
+					else
+						. = "<span class = 'game xenobold'>[mob] curls up into a ball.</span>"
 					if (!isAlienHugger(src.mob))
 						playsound(get_turf(mob), src.sound_alienscream0, 80, 0, 0, mob.get_age_pitch())
 					else
@@ -1564,17 +1589,21 @@
 					return
 
 
+			target.emote("scream")
+
 			target.visible_message("<span style = \"color:red\"><b>[target] is facehugged by [src.mob]!</b></span>")
 
 			hugger_hug_sound(target)
 
 			for (var/mob/living/carbon/human/H in mobs)
 				if (H.stat == 0 && isAlien(H))
-					boutput(H, "<span style = \"color:red\"><b>Hivemind: [src.mob] has successfully facehugged a host at [target.loc.loc].</span></b>")
+					boutput(H, "<span class = 'game xenobold'>Hivemind: [src.mob] has successfully facehugged a host at [target.loc.loc].</span>")
 
-			target.force_equip(null, target.slot_wear_mask)
+			target.u_equip(target.slot_wear_mask)
+			target.u_equip(target.head)
+		//	target.force_equip(null, target.slot_wear_mask)
 			target.force_equip(new/obj/item/clothing/mask/alien, target.slot_wear_mask)
-			target.force_equip(null, target.head)
+	//		target.force_equip(null, target.head)
 		//	spawn(rand(100,200))
 			//	target.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)
 			target.contract_disease(/datum/ailment/parasite/alien_larva, null, null, 1)

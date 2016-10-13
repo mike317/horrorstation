@@ -28,6 +28,11 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 			boutput(H, "<span style = \"color:red\"><B>Only facehuggers can use this skill. How did you even get here?</span></B>")
 			return 0
 
+		for (var/obj/o in get_step(H, H.dir))
+			if (istype(o, /obj/grille) || istype(o, /obj/window) || istype(o, /obj/machinery/door) || istype(o, /obj/table) || istype(o, /obj/plasticflaps))
+				if (locate(/turf/space) in range(1, o))
+					return//no squeezing into space now
+
 		for (var/obj/grille/g in get_step(H, H.dir))
 			for (var/obj/o in g.loc)
 				if (!istype(o, /obj/window) && o.density && o != g)
