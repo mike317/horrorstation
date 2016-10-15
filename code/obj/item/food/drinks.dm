@@ -308,3 +308,17 @@
 /obj/item/reagent_containers/food/drinks/milk/soy
 	name = "Creaca's Space Soy Milk"
 	desc = "A bottle of fresh space soy milk from happy, free-roaming space soybean plants. The plant pots just float around untethered."
+
+/obj/item/reagent_containers/food/drinks/bottle/red/test
+	name = "Shitty Drink"
+	desc = "A test liquid with absolutely no refunds."
+	label = "robust"
+	heal_amt = 1
+	labeled = 1
+	initial_volume = 50
+
+	New()
+		..()
+		reagents.add_reagent("methamphetamine", 4)
+		reagents.add_reagent("toxin", 15)
+		reagents.add_reagent("ephedrine", 10)
