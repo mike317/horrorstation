@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
 LAST_COMPILE_TIME: 1476392702
-DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\xenomorph code\datums\chemistry code\datums\critter_mobs code\datums\critter_mobs\health code\datums\gamemodes code\datums\hud code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\obj code\obj\alien code\obj\item code\obj\item\food code\procs code\WorkInProgress code\WorkInProgress\Materials_Crafting icons icons\misc icons\mob icons\obj icons\obj\clothing icons\Testing icons\Testing\newicons maps 
+DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\xenomorph code\datums\chemistry code\datums\hud code\mob code\mob\living code\mob\living\carbon code\obj code\obj\alien code\obj\item code\obj\item\food code\procs 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\procs\jobprocs.dm;code\obj\item.dm;code\datums\hud\human.dm;code\mob\living\carbon\human.dm;code\datums\mutantraces.dm;code\mob\living.dm;code\mob_alienmode_verbs.dm;code\mob.dm;code\obj\alien\item.dm;code\sound.dm;code\datums\chemistry\Reagents-Base.dm;code\WorkInProgress\actuallyKeelinsStuff.dm;code\obj\item\food\snacks.dm;code\procs\basketball.dm;code\datums\abilities\xenomorph\hivemind.dm
-FILE: code\mob\living.dm
+WINDOW: code\procs\jobprocs.dm;code\obj\item.dm;code\datums\hud\human.dm;code\mob\living\carbon\human.dm;code\datums\mutantraces.dm;code\mob\living.dm;code\mob_alienmode_verbs.dm;code\mob.dm;code\obj\alien\item.dm;code\sound.dm;code\obj\laser.dm;code\obj\machinery.dm;code\obj\table.dm;code\obj\item\food\drinks.dm
+FILE: code\obj\item\food\drinks.dm
 */
 // END_INTERNALS
