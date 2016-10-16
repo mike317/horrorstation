@@ -211,11 +211,14 @@ a.popt {text-decoration: none;}
 .motd h1, .motd h2, .motd h3, .motd h4, .motd h5, .motd h6 {color: #638500; text-decoration: underline;}
 .motd a, .motd a:link, .motd a:visited, .motd a:active, .motd a:hover {color: #638500;}
 
+
+/* ADD HERE FOR BIG FONT */
+.xenoboldbig {font-size: 150%}
 /* ADD HERE FOR BOLD */
-.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc, .xenobold {font-weight: bold;}
+.bold, .name, .prefix, .ooc, .looc, .adminooc, .adminlooc, .admin, .gfartooc, .gfartlooc, .gfartadmin, .mentorooc, .mentorlooc, .medal, .coder, .coderooc, .coderlooc, .codermin, .cooderminooc, .coderminlooc, .donor1, .donor1ooc, .donor1looc, .xenobold, .xenoboldbig {font-weight: bold;}
 
 /* ADD HERE FOR ITALIC */
-.italic, .ghostdronesay.broadcast, .xeno {font-style: italic;}
+.italic, .ghostdronesay.broadcast, .xeno, .xenobold, .xenoboldbig {font-style: italic;}
 
 /* OUTPUT COLORS */
 .system {color: #ff0000;}
@@ -249,6 +252,7 @@ a.popt {text-decoration: none;}
 .alert {color: #ff0000;}
 .xenobold {color: #681758;}
 .xeno {color: #681758;}
+.xenoboldbig {color: #681758;}
 h1.alert, h2.alert {color: #000000;}
 .bigPM {font-size: 1.2em;}
 .adminHearing .name[data-ctx] {border-bottom: 1px dotted black;}
@@ -261,3 +265,4 @@ h1.alert, h2.alert {color: #000000;}
 /* HELPER CLASSES */
 .text-normal {font-weight: normal; font-style: normal;}
 .hidden {display: none; visibility: hidden;}
+

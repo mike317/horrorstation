@@ -239,6 +239,8 @@
 			sound('sound/ambience/ambigen12.ogg'),
 			sound('sound/ambience/ambigen14.ogg'))
 
+var/global/list/lobby_music = list(sound('sound/music/lobby.ogg'))
+
 /var/global/list/ambience_power = list(sound('sound/ambience/ambipower1.ogg'),sound('sound/ambience/ambipower2.ogg'))
 /var/global/list/ambience_computer = list(sound('sound/ambience/ambicomp1.ogg'),sound('sound/ambience/ambicomp2.ogg'),sound('sound/ambience/ambicomp3.ogg'))
 /var/global/list/ambience_atmospherics = list(sound('sound/ambience/ambiatm1.ogg'))

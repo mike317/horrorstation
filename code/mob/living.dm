@@ -673,6 +673,7 @@
 		processed = saylist(messages[2], heard_b, olocs, thickness, italics, processed, 1)
 
 	message = src.say_quote(messages[1])
+
 	if (italics)
 		message = "<i>[message]</i>"
 
@@ -680,9 +681,9 @@
 		rendered = "<span class='game say'>[src.get_heard_name()] <span class='message'>[message]</span></span>"
 	else
 		if (isAlienQueen(src) || isAlienPraetorian(src) || isAlienWarrior(src))
-			rendered = "<span class='game xeno'><font size = 3>[src.get_heard_name()] <span class='message'>[message]</span></font>"
+			rendered = "<span class='game xenoboldbig'>[src.get_heard_name()] <span class='game xenoboldbig'>[message]</span></font>"
 		else
-			rendered = "<span class='game xeno'>[src.get_heard_name()] <span class='message'>[message]</span></span>"
+			rendered = "<span class='game xeno'>[src.get_heard_name()] <span class='game xeno'>[message]</span></span>"
 
 	for (var/mob/M in mobs)
 		if (istype(M, /mob/new_player))

@@ -278,6 +278,12 @@
 	name = "Warehouse #3"
 /area/warehouse/warehouse_four
 	name = "Warehouse #4"
+/area/warehouse/warehouse_five
+	name = "Warehouse #5"
+/area/warehouse/warehouse_six
+	name = "Warehouse #6"
+/area/warehouse/warehouse_seven
+	name = "Warehouse #7"
 
 /area/build_zone // currently for z4 just so people don't teleport in there randomly
 	name = "Build Space"

@@ -21,14 +21,15 @@
 			boutput(C, "<span style = \"color:red\"><B>Your caste cannot plant weeds.</span></B>")
 			return 0
 
-		if (C:mutantrace:plasma < 200)
-			boutput(C, "<span class='game xenobold'>You need at least 200 plasma to plant weeds.</span>")
+		if (isAlienDrone(C) && C:mutantrace:plasma < 200 || isAlienPraetorian(C) && C:mutantrace:plasma < 100)
+			var/plasma_needed = isAlienDrone(C) ? 200 : 100
+			boutput(C, "<span class='game xenobold'>You need at least [plasma_needed] plasma to plant weeds.</span>")
 			return 0
 
 
 		boutput(C, "<span class='game xenobold'>You plant some weeds.</span")
 
-		C:mutantrace:plasma -= 200
+		C:mutantrace:plasma -= isAlienDrone(C) ? 200 : 100
 		new/obj/xeno/hive/weeds(C.loc, 1)
-	//	playsound(C.loc, 'vomitsound.ogg', 100, 1)
+		playsound(C.loc, 'sound/effects/splat.ogg', 100, 1)
 		return 0

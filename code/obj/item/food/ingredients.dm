@@ -56,7 +56,6 @@
 			for (var/v = 1, v <= max, v++)
 				var/b = new/obj/item/reagent_containers/food/snacks/ingredient/meat/bacon(src.loc)
 				b:spoiled = spoiled
-				b:update_spoiled_icon()
 			qdel(src)
 
 	New()
@@ -77,9 +76,10 @@
 			M.contract_disease(/datum/ailment/disease/food_poisoning, null, null, 1) // path, name, strain, bypass resist
 	*/
 	throw_impact(var/turf/T)
-		playsound(src.loc, "sound/effects/splat.ogg", 100, 1)
-		if (istype(T))
-			new /obj/decal/cleanable/blood(T)
+		if (cooked == COOKED_RAW)
+			playsound(src.loc, "sound/effects/splat.ogg", 100, 1)
+			if (istype(T))
+				new /obj/decal/cleanable/blood(T)
 		..()
 
 

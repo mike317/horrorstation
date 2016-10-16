@@ -1681,6 +1681,8 @@ var/global/client/ff_debugger = null
 /turf/simulated/floor/MouseDrop(mob/user as mob)
 	if (isAlien(user))
 		return
+	if (user.stat >= 1 || user.lying || user.stunned || user.weakened)
+		return
 	if (locate(/obj/workspot) in src)
 		return
 	if (world.time - user.client.last_move_attempt < 10)
@@ -1688,7 +1690,7 @@ var/global/client/ff_debugger = null
 
 	for (var/mob/living/carbon/human/H in view(user))
 		if (isAlien(H))
-			boutput(user, "<span style = \"color:red\">For some reason, you don't think that's a very good idea right now.</span>")
+		//	boutput(user, "<span style = \"color:red\">For some reason, you don't think that's a very good idea right now.</span>")
 			return
 
 	var/yes = input(user, "Start a crafting workplace here?") in list ("Yes", "No")

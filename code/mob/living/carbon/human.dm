@@ -2712,9 +2712,9 @@
 						if (src.mutantrace:evoProgress > src.mutantrace:maxEvoProgress)
 							src.mutantrace:evoProgress = src.mutantrace:maxEvoProgress
 						if (!isAlienWarrior(src) && !isAlienQueen(src) && !isAlienHugger(src))
-							boutput(src, "<span class='game xenobold'><font size = 3>Due to a[expediated_evolution == 1 ? "" : "n"] [expediated_evolution == 1 ? "" : "extreme"] lack of sisters, you find that your evolution is going [expediated_evolution == 1 ? "" : "much"] faster. The hive is currently weak, so be careful.</span></font>")
+							boutput(src, "<span class='game xenoboldbig'>Due to a[expediated_evolution == 1 ? "" : "n"] [expediated_evolution == 1 ? "" : "extreme"] lack of sisters, you find that your evolution is going [expediated_evolution == 1 ? "" : "much"] faster. The hive is currently weak, so be careful.</span>")
 						else
-							boutput(src, "<span class='game xenobold'><font size = 3>The hive is currently[expediated_evolution == 1 ? " weak" : " very weak"].</span></font>")
+							boutput(src, "<span class='game xenoboldbig'>The hive is currently[expediated_evolution == 1 ? " weak" : " very weak"].</span>")
 
 			var/potential_evolution_one = null
 			var/potential_evolution_two = null

@@ -52,11 +52,10 @@
 			if (prob(60))
 				reagents.add_reagent("e.coli", 20)
 
-
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/mysterymeat))
 				reagents.add_reagent("nutriment", rand(30,40))
-			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
+			else if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat/bacon))
 				reagents.add_reagent("nutriment", rand(15,25))//with an average of 4.5 slices of bacon per meat, that's 90 nutriment!
 			else
 				reagents.add_reagent("nutriment", rand(40,50))

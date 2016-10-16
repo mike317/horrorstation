@@ -1,6 +1,7 @@
 
 
-client/var/sound/lobby_music
+/client/var/sound/lobby_music = sound('sound/music/lobby.ogg', 0, 0, 0, 100)
+/client/var/playing_lobby_music = 0
 
 var/global/datum/controller/gameticker/ticker
 /* -- moved to _setup.dm
@@ -20,7 +21,7 @@ var/global/datum/controller/gameticker/ticker
 	var/list/datum/mind/minds = list()
 	var/last_readd_lost_minds_to_ticker = 1 // In relation to world time.
 
-	var/pregame_timeleft = -1//for the purpose of ticker checks in procs/ticker.dm
+	var/pregame_timeleft = -1//for the purpose of ticker checks in procs/ticker.dm, this is defaulted to -1 instead of 0
 
 	var/round_elapsed_ticks = 0
 
@@ -30,21 +31,49 @@ var/global/datum/controller/gameticker/ticker
 
 	var/skull_key_assigned = 0
 
-proc/lobby_music(var/client/c, var/cancel = 0)
-	return
-	if (!cancel)
-		c.lobby_music = sound('sound/music/lobby.ogg', 0, 0, 0, 100)
-		c << c.lobby_music
+/proc/lobby_music(var/client/c, var/cancel = 0)
+
+	if (cancel && c.playing_lobby_music)
+		if (c.mob)
+			c.mob << sound(null)
+		else
+			c << sound(null)
+
+		c.playing_lobby_music = 0
+
+		return
+
+	spawn (40)
+		if (!cancel)
+			if (c.mob)
+				c.mob << c.lobby_music
+			else
+				c << c.lobby_music
+
+			c.playing_lobby_music = 1
+/*
+			spawn (ticker ? ticker.pregame_timeleft : 1200)
+				c.lobby_music.volume = 0
+				if (c.mob)
+					c.mob << sound(null)
+				else
+					c << sound(null)
+
+				c.playing_lobby_music = 0
+				*/
+
+	/*
 	else
 		if (c.lobby_music)
 			c.lobby_music = sound(null)
 			c << sound(null)
+			(/
 		//c.lobby_music = null
 	//	c << c.lobby_music
-
+*/
 
 /datum/controller/gameticker/proc/pregame()
-	pregame_timeleft = 180 // raised from 120 to accomodate the v500 ads
+	pregame_timeleft = 120 // raised from 120 to accomodate the v500 ads
 	boutput(world, "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>")
 	boutput(world, "Please, setup your character and select ready. Game will start in [pregame_timeleft] seconds")
 
@@ -99,6 +128,8 @@ proc/lobby_music(var/client/c, var/cancel = 0)
 		ooc_allowed = 1
 		looc_allowed = 1
 
+		boutput(world, "<B>LOOC has been automatically enabled.</B>")
+
 	else
 		if (!istype(src.mode, /datum/game_mode/construction) && map_setting != "DESTINY")
 			ooc_allowed = 0
@@ -108,6 +139,8 @@ proc/lobby_music(var/client/c, var/cancel = 0)
 			looc_allowed = 1
 			boutput(world, "<B>LOOC has been automatically enabled.</B>")
 
+	for (var/client/c in clients)
+		lobby_music(c, 1)
 
 
 

@@ -1,1 +1,4 @@
 
+data_type=deaths&data_status=insert&data_timestamp=2016-10-16+01%3a35%3a31&mob_name=Alien+Sentinel+796&mob_job&mob_byond_key=Furry+Chicken&x=164&y=123&z=1&bruteloss=4.3&fireloss=0&toxloss=0&oxyloss=0&gibbed=0
+data_type=deaths&data_status=insert&data_timestamp=2016-10-16+01%3a37%3a13&mob_name=Alien+Queen&mob_job&mob_byond_key=Furry+Chicken&x=171&y=148&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=1
+data_type=deaths&data_status=insert&data_timestamp=2016-10-16+01%3a40%3a38&mob_name=Alien+Praetorian+386&mob_job&mob_byond_key=Furry+Chicken&x=201&y=152&z=1&bruteloss=0&fireloss=0&toxloss=0&oxyloss=0&gibbed=0

@@ -1,21 +1,11 @@
 // BEGIN_INTERNALS
 /*
-<<<<<<< HEAD
-LAST_COMPILE_TIME: 1476574911
-DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\critter code\datums\abilities\xenomorph code\datums\chemistry code\datums\controllers code\datums\controllers\process code\datums\genetics code\datums\genetics\bioEffects code\datums\hud code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\obj code\obj\alien code\obj\item code\obj\item\clothing code\obj\item\device code\procs code\WorkInProgress icons icons\mob icons\obj sound sound\vox 
+LAST_COMPILE_TIME: 1476599352
+DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\xenomorph code\datums\hud code\mob code\mob\living code\mob\living\carbon code\obj code\obj\item code\obj\item\food data data\resources data\resources\browserassets data\resources\browserassets\css icons icons\misc icons\misc\griffening icons\mob icons\turf maps sound sound\vox 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
 LAST_COMPILE_VERSION: 511.1360
-WINDOW: code\obj\alien\weeds.dm;code\datums\abilities\xenomorph\s-acid.dm;code\atom.dm;code\mob\living\carbon\human.dm;code\WorkInProgress\actuallyKeelinsStuff.dm;code\_setup.dm;code\_macros.dm;code\admin\admin_holder.dm;code\procs\mob_procs.dm;icons\creepy.png;code\mob\dead.dm;icons\AIobjective.jpg;icons\horrorstation_title.gif;icons\dice.png;code\datums\abilities\xenomorph\devour.dm;code\mob.dm;code\RobustLight2.dm;code\datums\mutantraces.dm;code\datums\controllers\process\items.dm;code\obj\item.dm;code\obj\item\tools.dm;code\obj\item\device\radio.dm;code\mob\living\carbon\human\gimmick.dm;code\mob\living\carbon\human\normal.dm;code\obj\item\clothing\gloves.dm;code\mob\living.dm;code\datums\abilities\xenomorph\hivemind.dm
-FILE: code\datums\abilities\xenomorph\hivemind.dm
-=======
-LAST_COMPILE_TIME: 1476392702
-DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\xenomorph code\datums\chemistry code\datums\hud code\mob code\mob\living code\mob\living\carbon code\obj code\obj\alien code\obj\item code\obj\item\food code\procs 
-AUTO_FILE_DIR: OFF
-MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\procs\jobprocs.dm;code\obj\item.dm;code\datums\hud\human.dm;code\mob\living\carbon\human.dm;code\datums\mutantraces.dm;code\mob\living.dm;code\mob_alienmode_verbs.dm;code\mob.dm;code\obj\alien\item.dm;code\sound.dm;code\obj\laser.dm;code\obj\machinery.dm;code\obj\table.dm;code\obj\item\food\drinks.dm
-FILE: code\obj\item\food\drinks.dm
->>>>>>> 657aed8822b0e092ddc11bf852a94946f7307da5
+WINDOW: code\obj\item\food\ingredients.dm;code\obj\item\food\food_parent.dm;code\datums\gameticker.dm;code\client.dm;code\datum.dm;code\datums\dynamicQueue.dm;code\datums\datumvars.dm;code\datums\banking.dm;code\style.dms;code\datums\abilities\xenomorph\hivemind.dm;code\datums\mutantraces.dm;code\mob\living.dm;code\mob\living\carbon\human.dm;code\mob\living\carbon\pixelhuman.dm;maps\chermap.dmm;code\obj\landmark.dm;code\area.dm;code\datums\ircbot.dm;code\mob\living\carbon.dm;code\mob\dead.dm
+FILE: code\mob\living.dm
 */
 // END_INTERNALS

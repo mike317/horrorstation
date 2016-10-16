@@ -765,6 +765,7 @@
 	slippery = 5
 	can_dry = 0
 	var/devour_health = 100
+	var/spoiled
 
 	attack_hand(var/mob/user as mob)
 		if (!isAlien(user))
@@ -825,6 +826,7 @@
 						b.blood_type = src.blood_type
 				if (step_to(src, get_step(src, direction), 0))
 					break
+
 
 /obj/decal/cleanable/blood/gibs/body
 	random_icon_states = list("gibhead", "gibtorso")

@@ -11,14 +11,13 @@
 		return
 
 	var/message_a = src.say_quote(message)
-	var/queentext = ""
-	var/queentextend = ""
+
+	var/rendered = "<span class='game xeno'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span>"
 
 	if (isAlienWarrior(src) || isAlienPraetorian(src) || isAlienQueen(src))
-		queentext = "<font size = 3>"
-		queentextend = "</font>"
 
-	var/rendered = "<i><span class='game xenobold'>[queentext]Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span></i>[queentextend]"
+		rendered = "<span class='game xenoboldbig'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span>"
+
 	for (var/mob/living/carbon/human/H in mobs)
 		if(!H.stat)
 			if(isAlien(H))

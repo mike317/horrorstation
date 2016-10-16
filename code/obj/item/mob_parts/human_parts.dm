@@ -13,6 +13,12 @@
 	module_research = list("medicine" = 1)
 	module_research_type = /obj/item/parts/human_parts
 
+	sever()
+		if (isAlien(holder))
+			return 0
+		..()
+
+
 	take_damage(brute, burn, tox, damage_type, disallow_limb_loss)
 		if (brute <= 0 && burn <= 0)// && tox <= 0)
 			return 0

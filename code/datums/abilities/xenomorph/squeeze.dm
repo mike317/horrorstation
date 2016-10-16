@@ -24,6 +24,9 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 		if (!H.loc)
 			return 0
 
+		if (!istype(H.loc, /turf/simulated/floor) || !H.loc)
+			return 0
+
 		if (!istype(H:mutantrace, /datum/mutantrace/xenomorph/larva/facehugger))
 			boutput(H, "<span style = \"color:red\"><B>Only facehuggers can use this skill. How did you even get here?</span></B>")
 			return 0

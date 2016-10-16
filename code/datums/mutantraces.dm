@@ -1091,9 +1091,9 @@
 						boutput(H, "<span class='game xenobold'>Hivemind: [src.mob] has been slain at [src_mob_area].</span>")
 				else
 					if (isAlienPraetorian(src.mob) || isAlienWarrior(src.mob))
-						boutput(H, "<span class='game xenobold'><font size = 3>Hivemind: [src.mob] has been slain at [src_mob_area].</span></font>")
+						boutput(H, "<span class='game xenoboldbig'>Hivemind: [src.mob] has been slain at [src_mob_area].</span>")
 					else if (isAlienQueen(src.mob))
-						boutput(H, "<span class='game xenobold'><font size = 3>Hivemind: The Queen has been slain!</span></font>")
+						boutput(H, "<span class='game xenoboldbig'>Hivemind: The Queen has been slain!</span>")
 
 		icon_state = "[base_icon_state]_dead"
 		var/mob/living/carbon/human/H  = src.mob
