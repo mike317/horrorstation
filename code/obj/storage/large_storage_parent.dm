@@ -53,7 +53,12 @@
 						O.set_loc(src)
 	bullet_act(var/obj/projectile/p)
 		if (p.proj_data && prob(p.proj_data.power*5) || p.proj_data.power >= 20)
-			qdel(src)
+			if (prob(40))
+				for (var/obj/o in contents)
+					o.loc = loc
+				qdel(src)
+			else
+				open()
 
 	proc/make_my_stuff() // use this rather than overriding the container's New()
 		if (!src.spawn_contents || !islist(src.spawn_contents) || !src.spawn_contents.len)

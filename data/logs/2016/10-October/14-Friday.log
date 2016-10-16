@@ -1,0 +1,81 @@
+
+
+Starting up. 16:30.57
+---------------------
+
+[16:31:03] ADMIN: Loading jobban_rank
+[16:31:03] ADMIN: Jobban_keylist was empty
+[16:31:03] ADMIN: Updating jobbanfile!
+[16:31:03] ADMIN: Loading oocban_rank
+[16:31:03] ADMIN: oocban_keylist was empty
+[16:31:03] ADMIN: Updating jobbanfile!
+ADMIN: furrychicken = Headmin
+ADMIN: cherkir = Headmin
+ADMIN: jasonvorheese = Primary Administrator
+ADMIN: REDACTEDminimeatwadREDACTED = Primary Administrator
+ADMIN: xenosandboxthesecond = Primary Administrator
+ADMIN: exbod = Primary Administrator
+ADMIN: zenek123 = Secondary Administrator
+ADMIN: silentsh00t = Administrator
+ADMIN: noobpwnt4lif3 = Codermin
+ADMIN: kimjuandong = Coder
+ADMIN: adolf12 = Iconner
+ADMIN: kamina321 = Moderator
+[16:31:32] ACCESS: Login: Furry Chicken from 
+[16:36:34] ADMIN: Furry Chicken [DEAD] has started the game.
+[16:36:34] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[16:36:46] SAY: Alien Queen (Furry Chicken) [TRAITOR] :  t
+[16:37:03] SAY: Shitty Bill (NPC) : What're you lookin' at, doofus?
+[16:37:23] SAY: Shitty Bill (NPC) : Got a light, buddy?
+[16:38:01] SAY: Shitty Bill (NPC) : Man, I sure don't miss bein' uploaded.
+[16:38:28] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[16:38:49] ADMIN: Alien Praetorian 429 (Furry Chicken) [TRAITOR] healed / revived Alien Praetorian 429 (Furry Chicken) [TRAITOR]
+[16:39:09] SAY: Shitty Bill (NPC) : You a narc?
+[16:39:17] SAY: Shitty Bill (NPC) : Got a light, spaceman?
+[16:39:48] SAY: Father Jack (NPC) : FECK!
+[16:40:49] SAY: Shitty Bill (NPC) : Got a light, 'Traser?
+[16:41:43] SAY: Shitty Bill (NPC) : Man, I sure don't miss that gross meat station place.
+[16:42:41] SAY: Shitty Bill (NPC) : The hell're you lookin' at, dweeb?
+[16:42:42] ACCESS: Login: Alien Praetorian 429 (Furry Chicken) [TRAITOR] from 
+[16:42:43] ADMIN: Alien Praetorian 429 (Furry Chicken) [TRAITOR] has made Alien Praetorian 429 (Furry Chicken) [TRAITOR] a human.
+[16:42:43] ACCESS: Login: Maynard Conrad (Furry Chicken) [TRAITOR] from 
+[16:43:21] SAY: Shitty Bill (NPC) : The hell you lookin' at, chief?
+[16:44:07] SAY: Shitty Bill (NPC) : You roll?
+[16:46:03] SAY: Father Jack (NPC) : DRINK!
+[16:46:27] SAY: Shitty Bill (NPC) : I think my bruds got eaten.
+[16:46:44] SAY: Shitty Bill (NPC) : What up Donald "Don" Glabs.
+[16:47:35] SAY: Shitty Bill (NPC) : I ever tell you 'bout the King in Yellow?
+[16:47:50] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] modified Maynard Conrad's will_starve_in_deciseconds to 500
+[16:47:58] SAY: Maynard Conrad (Furry Chicken) [TRAITOR] : *scream
+[16:48:04] SAY: Shitty Bill (NPC) : What you lookin' at, dork?
+[16:48:34] SAY: Shitty Bill (NPC) : Whoa, it's Donald "Don" Glabs.
+[16:48:55] SAY: Shitty Bill (NPC) : Nice pod, wirehead.
+[16:49:17] SAY: Shitty Bill (NPC) : Got a light, friend?
+[16:49:24] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] opened the create_object panel
+[16:49:41] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] created a /obj/item/craftedmelee/ghettotool/crowbar/electrobar
+[16:50:30] SAY: Shitty Bill (NPC) : Got any ciggs?
+[16:51:55] SAY: Shitty Bill (NPC) : Got any nog?
+[16:52:00] SAY: Father Jack (NPC) : ARSE!
+[16:52:05] SAY: Shitty Bill (NPC) : Nice treads, bud.
+[16:52:07] SAY: Shitty Bill (NPC) : Hey, it's Donald "Don" Glabs.
+[16:52:17] SAY: Shitty Bill (NPC) : What you lookin' at, flyboy?
+[16:52:33] SAY: Shitty Bill (NPC) : Got a light, pal?
+[16:53:14] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] healed / revived Maynard Conrad (Furry Chicken) [TRAITOR]
+[16:53:19] SAY: Father Jack (NPC) : DRINK!
+[16:53:26] SAY: Shitty Bill (NPC) : Got a light, Colonel?
+[16:54:20] SAY: Shitty Bill (NPC) : I ever tell you 'bout the time I found a crate fulla smokes?
+[16:54:39] SAY: Shitty Bill (NPC) : I ever tell you 'bout the weird place with all the monkeys?
+[16:55:17] SAY: Shitty Bill (NPC) : Sup Donald "Don" Glabs.
+[16:55:57] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] healed / revived Maynard Conrad (Furry Chicken) [TRAITOR]
+[16:56:55] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] opened the create_object panel
+[16:57:01] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] created a /obj/item/craftedmelee/ghettotool/wirecutters/electrocutters
+[16:57:18] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] opened the create_object panel
+[16:57:24] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] created a /obj/item/kitchen/utensil/knife
+[16:57:34] SAY: Shitty Bill (NPC) : Man, I sure miss Murray.
+[16:57:36] SAY: Shitty Bill (NPC) : You ride?
+[16:58:05] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] opened the create_object panel
+[16:58:10] ADMIN: Maynard Conrad (Furry Chicken) [TRAITOR] created a /obj/item/weldingtool
+[16:58:40] SAY: Maynard Conrad (Furry Chicken) [TRAITOR] : *scream
+[16:58:48] SAY: Shitty Bill (NPC) : Hey pal, gimme yer drugs.
+[16:59:11] ACCESS: Login: Furry Chicken [TRAITOR] from 
+[16:59:56] SAY: Shitty Bill (NPC) : What the hell are you lookin' at, buddy?

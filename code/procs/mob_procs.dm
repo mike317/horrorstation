@@ -1109,8 +1109,9 @@
 			return 1
 		if (S == "loudspeaker" && istype(target, /obj/loudspeaker))
 			var/obj/loudspeaker = target
+			robogibs(loudspeaker.loc)
 			qdel(loudspeaker)
-		if (S == "storage" && istype(target, /obj/item/storage) && src.a_intent == "harm")
+		if (S == "storage" && istype(target, /obj/item/storage) && src.a_intent in list("disarm", "harm"))
 			var/obj/item/storage/s = target
 			s.visible_message("<span style=\"color:red\"><b>[src] slashes [s] into pieces!</span></b>")
 			for (var/obj/o in s.contents)
@@ -1120,10 +1121,13 @@
 		else if (S == "storage" && istype(target, /obj/storage) && src.a_intent == "harm")
 			var/obj/storage/s = target
 			if (!s.open)
-				s.visible_message("<span style=\"color:red\"><b>[src] smashes [s] into pieces!</span></b>")
+				s.open()
+				s.visible_message("<span style=\"color:red\"><b>[src] smashes [s] open!</span></b>")
+				/*
 				for (var/obj/o in s.contents)
 					qdel(o)
 				qdel(s)
+				*/
 				return 1
 		if (S == "morgue" && istype(target, /obj/morgue))
 			var/obj/morgue/m = target
@@ -1267,7 +1271,8 @@
 
 			if (prob(25 + bonus_smash_chance))
 				src.visible_message("<span style=\"color:red\">[src] smashes [x] into pieces.</span>", "<span style=\"color:blue\">You smash [x] into pieces.</span>")
-				x.ex_act(1.0)
+				robogibs(x.loc)
+				qdel(x)
 			else
 				src.visible_message("<span style=\"color:red\">[src] smashes against [x].</span>", "<span style=\"color:blue\">You smash against [x].</span>")
 

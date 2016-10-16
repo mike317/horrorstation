@@ -126,6 +126,15 @@ var/list/BILL_emotes = strings("shittybill.txt", "emotes")
 var/list/BILL_deadguy = strings("shittybill.txt", "deadguy")
 var/list/BILL_murray = strings("shittybill.txt", "murraycompliment")
 
+
+/mob/living/carbon/human/thug
+	real_name = "Just Allah"
+	gender = MALE
+	var/talk_prob = 5
+	var/greeted_murray = 0
+	var/list/mob/alive_mobs = list()
+	var/list/mob/dead_mobs = list()
+
 /mob/living/carbon/human/biker
 	real_name = "Shitty Bill"
 	gender = MALE

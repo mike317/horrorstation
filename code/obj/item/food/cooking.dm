@@ -88,7 +88,10 @@
 
 		var/modifier = pick("chewy", "disgusting", "odd-looking", "weird")
 
-		s.name = "[modifier] cooked meat"
+		if (prob(70))
+			s.name = "cooked meat"//definitely not human meat!
+		else
+			s.name = "[modifier] cooked meat"
 		s.spoiled -= rand(1,2)
 		s.dysentery -= rand(5,10)//human meat is less safe than other meats
 	//	if (v:name == "steak")//retarded fix for a retarded bug where monkey meat was being named human meat

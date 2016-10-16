@@ -34,6 +34,8 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 					return//no squeezing into space now
 
 		for (var/obj/grille/g in get_step(H, H.dir))
+			if (!g.density)
+				continue
 			for (var/obj/o in g.loc)
 				if (!istype(o, /obj/window) && o.density && o != g)
 					return
@@ -43,6 +45,8 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 			break
 
 		for (var/obj/window/w in get_step(H, H.dir))
+			if (!w.density)
+				continue
 			for (var/obj/o in w.loc)
 				if (!istype(o, /obj/grille) && o.density && o != w)
 					return
@@ -53,13 +57,16 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 
 		for (var/obj/table/t in get_step(H, H.dir))
 			if (!t.density)
-				return
+				continue
 
 			H.squeeze(t.loc)
 			H.visible_message("<span style = \"color:red\">[H] squeezes under the table.</span>","<span style = \"color:red\">You squeeze under the table.</span>")
 			break
 
 		for (var/obj/plasticflaps/p in get_step(H, H.dir))
+			if (!p.density)
+				continue
+
 			for (var/obj/o in p.loc)
 				if (o.density && o != p)
 					return
@@ -69,6 +76,9 @@ mob/living/carbon/human/proc/squeeze(var/turf/location)
 			break
 
 		for (var/obj/machinery/door/d in get_step(H, H.dir))
+			if (!d.density)
+				continue
+
 			for (var/obj/o in d.loc)
 				if (o.density && o != d)
 					return

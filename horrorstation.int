@@ -1,11 +1,11 @@
 // BEGIN_INTERNALS
 /*
-LAST_COMPILE_TIME: 1476392702
-DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\xenomorph code\datums\chemistry code\datums\critter_mobs code\datums\critter_mobs\health code\datums\gamemodes code\datums\hud code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\obj code\obj\alien code\obj\item code\obj\item\food code\procs code\WorkInProgress code\WorkInProgress\Materials_Crafting icons icons\misc icons\mob icons\obj icons\obj\clothing icons\Testing icons\Testing\newicons maps 
+LAST_COMPILE_TIME: 1476574911
+DIR: browserassets browserassets\css browserassets\html browserassets\images browserassets\images\antagTips code code\admin code\chui code\datums code\datums\abilities code\datums\abilities\changeling code\datums\abilities\critter code\datums\abilities\xenomorph code\datums\chemistry code\datums\controllers code\datums\controllers\process code\datums\genetics code\datums\genetics\bioEffects code\datums\hud code\mob code\mob\living code\mob\living\carbon code\mob\living\carbon\human code\obj code\obj\alien code\obj\item code\obj\item\clothing code\obj\item\device code\procs code\WorkInProgress icons icons\mob icons\obj sound sound\vox 
 AUTO_FILE_DIR: OFF
 MAP_ICON_TYPE: 0
-LAST_COMPILE_VERSION: 510.1347
-WINDOW: code\procs\jobprocs.dm;code\obj\item.dm;code\datums\hud\human.dm;code\mob\living\carbon\human.dm;code\datums\mutantraces.dm;code\mob\living.dm;code\mob_alienmode_verbs.dm;code\mob.dm;code\obj\alien\item.dm;code\sound.dm;code\datums\chemistry\Reagents-Base.dm;code\WorkInProgress\actuallyKeelinsStuff.dm;code\obj\item\food\snacks.dm;code\procs\basketball.dm;code\datums\abilities\xenomorph\hivemind.dm
-FILE: code\mob\living.dm
+LAST_COMPILE_VERSION: 511.1360
+WINDOW: code\obj\alien\weeds.dm;code\datums\abilities\xenomorph\s-acid.dm;code\atom.dm;code\mob\living\carbon\human.dm;code\WorkInProgress\actuallyKeelinsStuff.dm;code\_setup.dm;code\_macros.dm;code\admin\admin_holder.dm;code\procs\mob_procs.dm;icons\creepy.png;code\mob\dead.dm;icons\AIobjective.jpg;icons\horrorstation_title.gif;icons\dice.png;code\datums\abilities\xenomorph\devour.dm;code\mob.dm;code\RobustLight2.dm;code\datums\mutantraces.dm;code\datums\controllers\process\items.dm;code\obj\item.dm;code\obj\item\tools.dm;code\obj\item\device\radio.dm;code\mob\living\carbon\human\gimmick.dm;code\mob\living\carbon\human\normal.dm;code\obj\item\clothing\gloves.dm;code\mob\living.dm;code\datums\abilities\xenomorph\hivemind.dm
+FILE: code\datums\abilities\xenomorph\hivemind.dm
 */
 // END_INTERNALS

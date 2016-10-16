@@ -41,6 +41,7 @@
 #define COOKED_COOKED 1
 #define COOKED_FERMENTED 2
 //end food
+
 #define isclient(x) istype(x, /client)
 #define ismob(x) istype(x, /mob)
 #define isobserver(x) istype(x, /mob/dead)

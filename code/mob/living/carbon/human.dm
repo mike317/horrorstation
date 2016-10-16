@@ -87,7 +87,7 @@
 	icon = 'icons/mob/mob.dmi'
 	icon_state = "blank"
 
-	var/recently_ingested_reagents[0]
+	var/recently_ingested_bad_reagents[0]
 
 	var/obj/human_light/my_light_obj = null
 
@@ -1588,7 +1588,9 @@
 						else if (t1 <= 10 && (!src.r_hand && !src.l_hand))
 							message = "<B>[src]</B> raises [t1] finger\s."
 				m_type = 1
-
+			if ("vomit")
+				playsound(src, 'sound/effects/splat.ogg', 100, 1)
+				new/obj/decal/cleanable/vomit(src.loc)
 			if ("wink")
 				for (var/obj/item/clothing/C in src.get_equipped_items())
 					if ((locate(/obj/item/gun/kinetic/derringer) in C) != null)
@@ -2729,6 +2731,10 @@
 
 			if (isAlienPraetorian(src))
 				potential_evolution_one = "Queen"
+
+			if (isAlienWarrior(src) || isAlienHugger(src) || isAlienQueen(src))
+				potential_evolution_one = ""
+				potential_evolution_two = ""
 
 			stat("Evolutionary Progress", round((src.mutantrace:evoProgress/src.mutantrace:maxEvoProgress) * 100))
 			stat("Possible Evolutions: [potential_evolution_one ? potential_evolution_one : "None"],[potential_evolution_two ? potential_evolution_two : ""]")
@@ -4634,16 +4640,33 @@
 				src.blood_volume ++ // maybe get a little blood back ^
 
 		if (src.bleeding)
-			var/fluff = pick("better", "like they're healing a bit", "a little better", "itchy", "less tender", "less painful", "like they're closing", "like they're closing up a bit", "like they're closing up a little")
-			if (src.bleeding <= 3 && prob(2)) // blood does clot and all, but we want bleeding to maybe not stop entirely on its own TOO easily
-				src.bleeding --
-				boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
-			else if (src.bleeding >= 4 && src.bleeding <= 7 && prob(5)) // higher bleeding gets a better chance to drop down
-				src.bleeding --
-				boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
-			else if (src.bleeding >= 8 && prob(2)) // but there's only so much clotting can do when all your blood is falling out at once
-				src.bleeding --
-				boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
+			if (isAlienHugger(src))
+				if (prob(10))
+					src.death()
+				return//huggers don't bleed, they just die.
+
+		if (src.bleeding)
+			if (!isAlien(src))
+				var/fluff = pick("better", "like they're healing a bit", "a little better", "itchy", "less tender", "less painful", "like they're closing", "like they're closing up a bit", "like they're closing up a little")
+				if (src.bleeding <= 3 && prob(2)) // blood does clot and all, but we want bleeding to maybe not stop entirely on its own TOO easily
+					src.bleeding --
+					boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
+				else if (src.bleeding >= 4 && src.bleeding <= 7 && prob(5)) // higher bleeding gets a better chance to drop down
+					src.bleeding --
+					boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
+				else if (src.bleeding >= 8 && prob(2)) // but there's only so much clotting can do when all your blood is falling out at once
+					src.bleeding --
+					boutput(src, "<span style=\"color:blue\">Your wounds feel [fluff].</span>")
+			else
+				if (src.bleeding <= 3 && prob(2)) // blood does clot and all, but we want bleeding to maybe not stop entirely on its own TOO easily
+					src.bleeding -= 2
+					boutput(src, "<span class='game xenobold'>Your wounds feel better.</span>")
+				else if (src.bleeding >= 4 && src.bleeding <= 7 && prob(5)) // higher bleeding gets a better chance to drop down
+					src.bleeding -= 2
+					boutput(src, "<span class='game xenobold'>Your wounds feel better.</span>")
+				else if (src.bleeding >= 8 && prob(2)) // but there's only so much clotting can do when all your blood is falling out at once
+					src.bleeding -= 2
+					boutput(src, "<span class='game xenobold'>Your wounds feel better.</span>")
 
 		if (!src.bleeding && src.get_surgery_status())
 			src.bleeding ++
@@ -4681,7 +4704,11 @@
 						src.emote(pick("faint", "collapse", "pale", "shudder", "shiver", "gasp", "moan"))
 					if (prob(18))
 						var/extreme = pick("", "really ", "very ", "extremely ", "terribly ", "insanely ")
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						else
+							boutput(src, "<span class='game xenobold'>You feel extremely weak. You have no blood.</span>")
+
 						src.weakened +=4
 					src.contract_disease(/datum/ailment/disease/shock, null, null, 1) // if you have no blood you're gunna be in shock
 
@@ -4696,7 +4723,10 @@
 						src.emote(pick("faint", "collapse", "pale", "shudder", "shiver", "gasp", "moan"))
 					if (prob(14))
 						var/extreme = pick("", "really ", "very ", "extremely ", "terribly ", "insanely ")
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						else
+							boutput(src, "<span class='game xenobold'>You feel very weak. You are almost out of blood.</span>")
 						src.weakened +=3
 					if (prob(25))
 						src.contract_disease(/datum/ailment/disease/shock, null, null, 1)
@@ -4709,7 +4739,14 @@
 						src.emote(pick("faint", "collapse", "pale", "shudder", "shiver"))
 					if (prob(10))
 						var/extreme = pick("", "really ", "very ", "extremely ", "terribly ", "insanely ")
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]terrible", "[extreme]awful", "like death", "like you're dying", "[extreme]tingly", "like you're going to pass out", "[extreme]faint")]!</b></span>")
+						else
+							if (bleeding)
+								boutput(src, "<span class='game xenobold'>You feel weak. You are losing blood quickly.</span>")
+							else
+								boutput(src, "<span class='game xenobold'>You feel weak. You have lost a lot of blood.</span>")
+
 						src.weakened +=2
 					if (prob(25))
 						src.contract_disease(/datum/ailment/disease/shock, null, null, 1)
@@ -4720,7 +4757,14 @@
 						src.emote(pick("pale", "shudder", "shiver"))
 					if (prob(7))
 						var/extreme = pick("", "really ", "very ", "quite ", "sorta ")
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]tingly", "[extreme]faint")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]tingly", "[extreme]faint")]!</b></span>")
+						else
+							if (bleeding)
+								boutput(src, "<span class='game xenobold'>You feel weak. You are losing blood quickly.</span>")
+							else
+								boutput(src, "<span class='game xenobold'>You feel weak. You have lost a lot of blood.</span>")
+
 						src.weakened +=1
 					if (prob(10))
 						src.contract_disease(/datum/ailment/disease/shock, null, null, 1)
@@ -4730,7 +4774,14 @@
 						src.emote(pick("pale", "shudder", "shiver"))
 					if (prob(5))
 						var/extreme = pick("", "kinda ", "a little ", "sorta ", "a bit ")
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]tingly", "[extreme]faint")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("[extreme]ill", "[extreme]sick", "[extreme]numb", "[extreme]cold", "[extreme]dizzy", "[extreme]out of it", "[extreme]confused", "[extreme]off-balance", "[extreme]tingly", "[extreme]faint")]!</b></span>")
+						else
+							if (bleeding)
+								boutput(src, "<span class='game xenobold'>You feel somewhat weak. You are losing blood.</span>")
+							else
+								boutput(src, "<span class='game xenobold'>You feel somewhat weak.</span>")
+
 					if (prob(5))
 						src.contract_disease(/datum/ailment/disease/shock, null, null, 1)
 
@@ -4958,7 +5009,11 @@
 						if (!src.reagents.has_reagent("inaprovaline"))
 							src.take_oxygen_deprivation(1)*/
 					if (prob(4))
-						boutput(src, "<span style=\"color:red\"><b>Your chest hurts...</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>Your chest hurts...</b></span>")
+					//	else
+					//		boutput(src, "<span class='game xenobold'>Your chest hurts.</span>")
+
 						src.paralysis++
 						src.contract_disease(/datum/ailment/disease/heartfailure,null,null,1)
 				if (-79 to -51)
@@ -4971,7 +5026,9 @@
 						src.contract_disease(/datum/ailment/disease/heartfailure,null,null,1)
 						//boutput(world, "\b LOG: ADDED HEART FAILURE TO [src].")
 					if (prob(6))
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("horrible pain", "awful", "like shit", "absolutely awful", "like death", "like you are dying", "nothing", "warm", "sweaty", "tingly", "really, really bad", "horrible")]</b>!</span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("horrible pain", "awful", "like shit", "absolutely awful", "like death", "like you are dying", "nothing", "warm", "sweaty", "tingly", "really, really bad", "horrible")]</b>!</span>")
+
 						src.weakened +=3
 					if (prob(3))
 						src.paralysis++
@@ -4984,7 +5041,8 @@
 						src.contract_disease(/datum/ailment/disease/shock,null,null,1)
 						//boutput(world, "\b LOG: ADDED SHOCK TO [src].")
 					if (prob(5))
-						boutput(src, "<span style=\"color:red\"><b>You feel [pick("terrible", "awful", "like shit", "sick", "numb", "cold", "sweaty", "tingly", "horrible")]!</b></span>")
+						if (!isAlien(src))
+							boutput(src, "<span style=\"color:red\"><b>You feel [pick("terrible", "awful", "like shit", "sick", "numb", "cold", "sweaty", "tingly", "horrible")]!</b></span>")
 						src.weakened +=3
 
 		parent.setLastTask("status_updates blindness checks", src)
@@ -5467,7 +5525,16 @@
 
 /mob/living/carbon/human/say(var/message)
 	if (isAlien(src))
-		voice_name = "Creature"
+		voice_name = real_name
+		//voice_name = "Creature"
+		/*
+		if (isAlienDrone(src))
+			voice_name = "Small Creature"
+		if (isAlienQueen(src))
+			voice_name = "Massive Creature"
+		if (isAlienPraetorian(src))
+			voice_name = "Massive
+			*/
 
 	var/message_check = message
 	for (var/v in prohibited_strings)
@@ -5509,7 +5576,7 @@
 				message = copytext(message, 3)
 				src.robot_talk(message)
 				return
-	if (src.mutantrace && istype(src.mutantrace, /datum/mutantrace/xenomorph))
+	if (isAlien(src))
 		if (length(message) >= 2)
 			if (copytext(lowertext(message), 1, 3) == ":a")
 				message = copytext(message, 3)

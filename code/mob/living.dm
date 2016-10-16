@@ -675,10 +675,14 @@
 	message = src.say_quote(messages[1])
 	if (italics)
 		message = "<i>[message]</i>"
+
 	if (!isAlien(src))
 		rendered = "<span class='game say'>[src.get_heard_name()] <span class='message'>[message]</span></span>"
 	else
-		rendered = "<span class='game xeno'>[src.get_heard_name()] <span class='message'>[message]</span></span>"
+		if (isAlienQueen(src) || isAlienPraetorian(src) || isAlienWarrior(src))
+			rendered = "<span class='game xeno'><font size = 3>[src.get_heard_name()] <span class='message'>[message]</span></font>"
+		else
+			rendered = "<span class='game xeno'>[src.get_heard_name()] <span class='message'>[message]</span></span>"
 
 	for (var/mob/M in mobs)
 		if (istype(M, /mob/new_player))

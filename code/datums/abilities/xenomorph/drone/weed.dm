@@ -17,7 +17,7 @@
 		if (!C.loc || !istype(C.loc, /turf/simulated/floor))
 			return 0
 
-		if (!istype(C:mutantrace, /datum/mutantrace/xenomorph/drone))
+		if (!istype(C:mutantrace, /datum/mutantrace/xenomorph/drone) && !istype(C:mutantrace, /datum/mutantrace/xenomorph/praetorian))
 			boutput(C, "<span style = \"color:red\"><B>Your caste cannot plant weeds.</span></B>")
 			return 0
 

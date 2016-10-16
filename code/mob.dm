@@ -1,4 +1,4 @@
-var/prohibited_strings = list("<", ">", "href", "</a>", "proc/", "verb/", "<html", "html>", "topic(", "?src=\ref", "byond://")
+var/prohibited_strings = list("<a", "<a>", "href", "</a>", "proc/", "verb/", "<html", "html>", "topic(", "?src=\ref", "byond://")
 
 
 //the above list doesn't need to be case-sensitive since we only use it with findtext, not findtextEx

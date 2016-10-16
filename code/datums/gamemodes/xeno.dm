@@ -58,6 +58,8 @@
 
 		return count
 
+
+
 /datum/game_mode/xeno/announce()
 	boutput(world, "<B>The current game mode is - <font color='red'>Alien Infestation</font>!</B>")
 	boutput(world, "<B>There is one or more highly dangerous Xenomorphs on the station. At least one survivor must survive the infestation for a whole two hours in order to have a human victory.</B>")

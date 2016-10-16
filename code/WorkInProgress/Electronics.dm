@@ -35,8 +35,9 @@
 	if (ishuman(user))
 		if (istype(W, /obj/item/cable_coil))
 			boutput(user, "You combine [W] and [src] to make a battery-cable assembly.")
-			qdel(src)
-			qdel(W)
+			spawn(0)
+				qdel(src)
+				qdel(W)
 
 			var/obj/item/electronics/batteryassembly/ba = new/obj/item/electronics/batteryassembly(user.loc)
 			if (ishuman(user))

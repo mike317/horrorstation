@@ -650,6 +650,15 @@
 		else
 			src.reagents.add_reagent("blood", 10)
 
+		if (!istype(src, /obj/decal/cleanable/blood/gibs))
+			spawn(rand(1000,2000))
+				if (locate(/obj/xeno/hive/weeds) in loc)
+					visible_message("[src] is dissolved by the weeds.")
+					for (var/obj/xeno/hive/weeds/w in loc)
+						w.expediated++
+					qdel(src)
+
+
 	Dry(var/time = rand(200,500))
 		if (!src.can_dry || src.dry)
 			return 0

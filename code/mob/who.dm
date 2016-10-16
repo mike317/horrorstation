@@ -51,6 +51,8 @@
 					clist += thisW
 
 			else //A lowly normal person is viewing, hide!
+				clist = whoNormies//should fix stealth codermins and such showing up in the wrong spot
+
 				if (M.client.alt_key)
 					thisW += "[M.client.fakekey]</span>"
 					clist += thisW

@@ -38,7 +38,10 @@
 						slice(user)
 					else
 						user.visible_message("<span style = \"color:red\">[user] accidentally cuts themselves!</span>", "<span style = \"color:red\">You accidentally cut yourself!</span>")
-						user.TakeDamage("All", rand(5,10), 0, 0, DAMAGE_CUT)
+						var/dmg = rand(1,10)
+						if (dmg > 5)
+							user.emote("scream")
+						user.TakeDamage("All", dmg, 0, 0, DAMAGE_CUT)
 		//	else
 		//		boutput(user, "<span style = \"color:red\">You can't make bacon with this! You need a knife.</span>")
 
@@ -51,7 +54,9 @@
 			user.visible_message("<span style = \"color:blue\">[user] slices the [src] into some pieces of bacon.</span>", "<span style = \"color:blue\">You slice the [src] into some pieces of bacon.</span>")
 			var/max = rand(3,6)
 			for (var/v = 1, v <= max, v++)
-				new/obj/item/reagent_containers/food/snacks/ingredient/meat/bacon(src.loc)
+				var/b = new/obj/item/reagent_containers/food/snacks/ingredient/meat/bacon(src.loc)
+				b:spoiled = spoiled
+				b:update_spoiled_icon()
 			qdel(src)
 
 	New()
@@ -64,6 +69,8 @@
 			boutput(M, "<span style=\"color:red\">Eating raw meat probably wasn't a good idea.</span>")
 			if (prob(66))
 				M.contract_disease(/datum/ailment/disease/food_poisoning/strong, null, null, 1)
+			else
+				M.contract_disease(/datum/ailment/disease/food_poisoning/med, null, null, 1)
 		/*
 		if (prob(33))
 			boutput(M, "<span style=\"color:red\">You briefly think you probably shouldn't be eating raw meat.</span>")

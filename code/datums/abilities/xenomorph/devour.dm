@@ -124,7 +124,7 @@
 				if (T && C)
 					T.visible_message("<span style=\"color:red\"><b><font size = 3>[T] is devoured by [C]!</span></b></font")
 					if (isAlien(C))
-						C:mutantrace:maxPlasma += rand(10,50)
+						C:mutantrace:maxPlasma += rand(10,20)//far worse than eating gibs
 						if (ishuman(T))
 							C:mutantrace:maxPlasma += rand(40,50)
 

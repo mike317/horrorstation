@@ -320,6 +320,10 @@ obj
 		else
 			return null
 
+/atom/var/survivor_desc = ""
+/atom/var/observer_desc = ""
+/atom/var/xenomorph_desc = ""
+
 /atom/proc/ex_act(var/severity=0,var/last_touched=0)
 	return
 
@@ -493,7 +497,14 @@ obj
 			output += "<br>[src.desc] It seems to be covered in blood."
 			//boutput(usr, "[src.desc] It seems to be covered in blood.")
 	else if (src.desc)
-		output += "<br>[src.desc]"
+		if (src.xenomorph_desc && isAlien(usr))
+			output += "<br>[src.xenomorph_desc]"
+		if (src.observer_desc && istype(usr, /mob/dead/observer))
+			output += "<br>[src.observer_desc]"
+		if (src.survivor_desc && !isAlien(usr))
+			output += "<br>[src.survivor_desc]"
+		else
+			output += "<br>[src.desc]"
 		/*boutput(usr, "This is \an [src.name].")
 		if (src.desc)
 			boutput(usr, src.desc)*/

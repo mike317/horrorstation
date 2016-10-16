@@ -18,7 +18,7 @@
 		queentext = "<font size = 3>"
 		queentextend = "</font>"
 
-	var/rendered = "<i>[queentext]<span class='game xenobold'>Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span>[queentextend]</i>"
+	var/rendered = "<i><span class='game xenobold'>[queentext]Hivemind, <span class='name' data-ctx='\ref[src.mind]'>[src.name]</span> <span class='message'>[message_a]</span></i>[queentextend]"
 	for (var/mob/living/carbon/human/H in mobs)
 		if(!H.stat)
 			if(isAlien(H))

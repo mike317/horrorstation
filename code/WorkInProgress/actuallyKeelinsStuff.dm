@@ -1,3 +1,12 @@
+#define NOT_SHARP 1
+#define SHARP 2
+#define REALLY_SHARP 3
+#define SUPER_SHARP 4
+
+#define NOT_HOT 1
+#define HOT 2
+#define REALLY_HOT 3
+#define SUPER_HOT 4
 //This file contains stuff that is still *mostly* my code.
 /*
 /atom/verb/textureTest()
@@ -121,32 +130,160 @@
 	throwforce = 5.0
 	hit_type = DAMAGE_BLUNT
 
+/obj/item/craftedmelee/ghettotool/proc/desharpen()
+	while (sharpened != NOT_SHARP)
+		sleep(rand(800,1000))
+		switch (sharpened)
+			if (SUPER_SHARP)
+				sharpened = REALLY_SHARP
+			if (REALLY_SHARP)
+				sharpened = SHARP
+			if (SHARP)
+				sharpened = NOT_SHARP
+
+		var/mob/living/carbon/human/holdermob
+		if (loc.loc)
+			for (var/mob/living/carbon/human/m in loc.loc)
+				if (ishuman(m))
+					holdermob = m
+					break
+
+		if (holdermob && holdermob.r_hand == src || holdermob && holdermob.l_hand == src)
+			boutput(holdermob, "<span style = \"color:red\">[src] appears to be a bit blunt.</span>")
+
+
+/obj/item/craftedmelee/ghettotool/proc/deheat()
+	while (heat != NOT_HOT)
+		sleep(rand(400,500))
+		switch (heat)
+			if (SUPER_HOT)
+				sharpened = REALLY_HOT
+			if (REALLY_HOT)
+				sharpened = HOT
+			if (HOT)
+				sharpened = NOT_HOT
+		if (prob(70))
+			visible_message("<span style = \"color:red\"><b>[src] releases some smoke. It appears to be cooling down.</span></b>")
+
 /obj/item/craftedmelee/ghettotool/attackby(obj/item/W as obj, mob/user as mob)
-	var/heat_delay = 100
+	var/heat_delay = rand(80,120)
 	var/sharpen_delay = 150
+
+	if (W.hit_type == DAMAGE_CUT)
+		sharpen_delay -= rand(10,20)
+	if (istype(W, /obj/item/knife_butcher))
+		sharpen_delay -= rand(10,20)
+	else if (istype(W, /obj/item/kitchen/utensil/knife))
+		sharpen_delay -= rand(10,20)
 
 	if (W.hit_type == DAMAGE_CUT)
 		if (sharpened == SUPER_SHARP)
 			return
+
 		switch (sharpened)
 			if (NOT_SHARP)
-				sharpened = SHARP
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to sharpen [src].</span>", "<span style = \"color:blue\">You start to sharpen [src].</span>")
+				spawn (sharpen_delay)
+					if (user.loc == user_loc)
+						sharpened = SHARP
+						user.visible_message("<span style = \"color:red\">[user] finishes sharpening [src].</span>", "<span style = \"color:blue\">You finish sharpening [src].</span>")
+						desharpen()
+						return
 			if (SHARP)
-				sharpened = REALLY_SHARP
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to sharpen [src].</span>", "<span style = \"color:blue\">You start to sharpen [src].</span>")
+				spawn (sharpen_delay)
+					if (user.loc == user_loc)
+						sharpened = REALLY_SHARP
+						user.visible_message("<span style = \"color:red\">[user] finishes sharpening [src].</span>", "<span style = \"color:blue\">You finish sharpening [src].</span>")
+						desharpen()
+						return
 			if (REALLY_SHARP)
-				sharpened = SUPER_SHARP
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to sharpen [src].</span>", "<span style = \"color:blue\">You start to sharpen [src].</span>")
+				spawn (sharpen_delay)
+					if (user.loc == user_loc)
+						sharpened = SUPER_SHARP
+						user.visible_message("<span style = \"color:red\">[user] finishes sharpening [src].</span>", "<span style = \"color:blue\">You finish sharpening [src].</span>")
+						desharpen()
+						return
 
-	if (heat == SUPER_HOT)
-		return
+	if (W.damtype == "fire")
+		if (heat == SUPER_HOT)
+			return
 
 	if (W.damtype == "fire")
 		switch (heat)
 			if (NOT_HOT)
-				heat = HOT
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to heat [src] with [W].</span>", "<span style = \"color:blue\">You start to heat [src] with [W].</span>")
+				spawn (heat_delay)
+					if (user.loc == user_loc)
+						heat = HOT
+						user.visible_message("<span style = \"color:red\">[user] finishes heating [src] with [W].</span>", "<span style = \"color:blue\">You finish heating [src] with [W].</span>")
+						deheat()
+						return
 			if (HOT)
-				heat = REALLY_HOT
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to heat [src] with [W].</span>", "<span style = \"color:blue\">You finish heating [src] with [W].</span>")
+				spawn (heat_delay)
+					if (user.loc == user_loc)
+						heat = REALLY_HOT
+						user.visible_message("<span style = \"color:red\">[user] finishes heating [src] with [W].</span>", "<span style = \"color:blue\">You finish heating [src] with [W].</span>")
+						deheat()
+						return
 			if (REALLY_HOT)
-				heat = SUPER_HOT
+				var/user_loc = user.loc
+				user.visible_message("<span style = \"color:red\">[user] starts to heat [src] with [W].</span>", "<span style = \"color:blue\">You start to heat [src] with [W].</span>")
+				spawn (heat_delay)
+					if (user.loc == user_loc)
+						heat = SUPER_HOT
+						user.visible_message("<span style = \"color:red\">[user] finishes heating [src] with [W].</span>", "<span style = \"color:blue\">You finish heating [src] with [W].</span>")
+						deheat()
+						return
+
+/obj/item/craftedmelee/ghettotool/proc/burn_a_motherfucker(var/mob/m as mob)
+	if (!m || !istype(m))
+		return 0
+
+	switch (heat)
+		if (NOT_HOT)
+			return 0
+		if (HOT)
+			m.visible_message("<span style = \"color:red\">[m] is signed by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are signed by [src]!</span></font>")
+			m.TakeDamage(pick("chest", "All"), 0, rand(1,2))
+		if (REALLY_HOT)
+			m.visible_message("<span style = \"color:red\">[m] is burned by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are burned by [src]!</span></font>")
+			m.TakeDamage(pick("chest", "All"), 0, rand(3,4))
+			if (prob(50))
+				m.emote("scream")
+		if (SUPER_HOT)
+			m.visible_message("<span style = \"color:red\">[m] is burned by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are burned by [src]! OH FUCK, IT BURNS!</span></font>")
+			m.TakeDamage(pick("chest", "All"), 0, rand(5,6))
+			if (prob(80))
+				m.emote("scream")
+
+/obj/item/craftedmelee/ghettotool/proc/slice_up_dat_nigga_like_u_got_no_chill(var/mob/m as mob)
+	if (!m || !istype(m))
+		return 0
+
+	switch (sharpened)
+		if (NOT_SHARP)
+			return 0
+		if (SHARP)
+			m.visible_message("<span style = \"color:red\">[m] is sliced by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are sliced by [src]!</span></font>")
+			m.TakeDamage(pick("chest", "All"), rand(1,2), 0, 0, DAMAGE_CUT)
+		if (REALLY_SHARP)
+			m.visible_message("<span style = \"color:red\">[m] is sliced by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are sliced by [src]!</span></font>")
+			m.TakeDamage(pick("chest", "All"), rand(3,4))
+			if (prob(50))
+				m.emote("scream")
+		if (SUPER_SHARP)
+			m.visible_message("<span style = \"color:red\">[m] is sliced by [src]!</span>", "<span style = \"color:red\"><font size = 3>You are sliced by [src]!</span></font>")
+			m.TakeDamage(pick("chest", "All"), rand(5,6))
+			if (prob(80))
+				m.emote("scream")
 
 /obj/item/craftedmelee/ghettotool/shank
 	icon = 'icons/Dizor/Dizor_CMspr.dmi'
@@ -163,6 +300,8 @@
 			M.emote("roar")
 		if (prob(50) && !isAlien(M))
 			M.emote("scream")
+		slice_up_dat_nigga_like_u_got_no_chill(M)
+		burn_a_motherfucker(M)
 		..()
 
 	glass
@@ -175,7 +314,6 @@
 		throwforce = 15.0
 		name = "metal shank"
 		icon_state = "shank_metal"
-
 
 
 /obj/item/craftedmelee/ghettotool/crowbar
@@ -207,6 +345,12 @@
 			if (on)
 				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40))
+					M.stunned += 2
+				if (prob(40))
+					M.jitteriness += 2
+				if (prob(40))
+					M.weakened += 2
 				if (prob(40) && isTrueAlien(M))
 					M.emote("roar")
 				if (prob(50) && !isAlien(M))
@@ -215,6 +359,9 @@
 					M.slowed = 1
 					spawn(5)
 						M.slowed = 0
+
+			slice_up_dat_nigga_like_u_got_no_chill(M)
+			burn_a_motherfucker(M)
 			..()
 
 	glassbar
@@ -233,6 +380,8 @@
 				M.emote("roar")
 			if (prob(50) && !isAlien(M))
 				M.emote("scream")
+			slice_up_dat_nigga_like_u_got_no_chill(M)
+			burn_a_motherfucker(M)
 			..()
 
 
@@ -252,7 +401,6 @@
 
 		hit_type = DAMAGE_BLUNT
 
-
 		attack_self(mob/user as mob)
 			if (on)
 				on = 0
@@ -268,6 +416,12 @@
 			if (on)
 				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40))
+					M.stunned += 2
+				if (prob(40))
+					M.jitteriness += 2
+				if (prob(40))
+					M.weakened += 2
 				if (prob(40) && isTrueAlien(M))
 					M.emote("roar")
 				if (prob(50) && !isAlien(M))
@@ -276,6 +430,8 @@
 					M.slowed = 1
 					spawn(5)
 						M.slowed = 0
+			slice_up_dat_nigga_like_u_got_no_chill(M)
+			burn_a_motherfucker(M)
 			..()
 
 /obj/item/craftedmelee/ghettotool/wirecutters
@@ -310,6 +466,12 @@
 			if (on)
 				playsound(user.loc, pick('sound/effects/sparks1.ogg', 'sound/effects/sparks2.ogg', 'sound/effects/sparks3.ogg'), 100, 1)
 				M.remove_stamina(rand(8,10))
+				if (prob(40))
+					M.stunned += 2
+				if (prob(40))
+					M.jitteriness += 2
+				if (prob(40))
+					M.weakened += 2
 				if (prob(40) && isTrueAlien(M))
 					M.emote("roar")
 				if (prob(50) && !isAlien(M))
@@ -318,6 +480,8 @@
 					M.slowed = 1
 					spawn(5)
 						M.slowed = 0
+			slice_up_dat_nigga_like_u_got_no_chill(M)
+			burn_a_motherfucker(M)
 			..()
 
 

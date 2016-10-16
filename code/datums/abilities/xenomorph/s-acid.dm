@@ -146,7 +146,7 @@
 			H.mutantrace:plasma -= 150
 
 
-		var/mob/living/list/l = H.find_xeno_target(1, 2)
+		var/mob/living/list/l = H.find_xeno_target(2, 2)
 
 		var/mob/living/first
 		var/mob/living/second
@@ -344,6 +344,8 @@
 				return
 			else
 				if (!ismob(a))
+					if (a.anchored && !a.density)
+						continue
 					H.visible_message("<span style = \"color:red\"><b>[H] slams its massive body into [a], knocking it away!</span></b>")
 					playsound(H.loc, 'sound/effects/bang.ogg', 100, 1)
 					step_away(a, H)
@@ -450,7 +452,7 @@
 
 
 		if (first)
-			if (prob(60) && !first.weakened)
+			if (prob(60) && !first.lying)
 				first.visible_message("<span style = \"color:red\">[first] narrowly dodges [H]'s tail attack!</span>")
 			else
 
@@ -521,6 +523,7 @@
 
 		if (l)
 			if (l.lying)
+				var/increment = 0
 				H.visible_message("<span style = \"color:red\"><b>[H] puts its massive claws on [l]'s chest, starting to crush them!</span></b>", "<span class='game xenobold'>You put your massive hands on [l]'s chest, starting to crush them!</span>")
 				for (var/v = 1, v <= 10, v++)
 					if (!l.lying)
@@ -529,6 +532,7 @@
 					if (H_loc != H.loc || l_loc != l.loc)
 						break
 
+					increment++
 					playsound(l.loc, 'sound/effects/gib.ogg', 100, 1)
 
 
@@ -538,9 +542,34 @@
 
 					l.TakeDamage("All", rand(20,30))
 
-					if (prob(4 + was_dead ? 10 : 0))
-						l.visible_message("<span style = \"color;red\"><font size = 3><b>[l] is crushed into gibs by [H]!</span></font></b>")
-						l.gib()
+					if (prob(4 + was_dead ? 20 : 0))
+						if (increment >= 7)
+							l.visible_message("<span style = \"color:red\"><font size = 3><b>[l] is crushed into gibs by [H]!</span></font></b>")
+							l.gib()
+						else
+							if (ishuman(l))
+								var/mob/living/carbon/human/h = l
+
+								var/available_limbs[0]
+
+								if (h.limbs.r_arm)
+									available_limbs+=h.limbs.r_arm
+								if (h.limbs.l_arm)
+									available_limbs+=h.limbs.l_arm
+								if (h.limbs.r_leg)
+									available_limbs+=h.limbs.r_leg
+								if (h.limbs.l_leg)
+									available_limbs+=h.limbs.l_leg
+
+								var/obj/item/parts/part = pick(available_limbs)
+
+								part.sever()
+
+								h.visible_message("<span style = \"color:red\"><font size = 3><b>[l]'s [part.name] is cut off!</span></font></b>")
+
+								if (!h.limbs.l_arm && !h.limbs.r_arm && !h.limbs.l_leg && !h.limbs.r_leg && !h.mutantrace)
+									h.visible_message("<span style = \"color:red\"><font size = 3><b>[l] is crushed into gibs by [H]!</span></font></b>")
+									h.gib()
 
 					if (l)
 
@@ -584,9 +613,9 @@
 		boutput(H, "<span class='game xeno'>You [H:mutantrace:xeno_light_on ? "toggle" : "detoggle"] your bioluminiscience.</span>")
 
 /datum/targetable/xenomorph/kamikaze
-	name = "Self-Explosion"
+	name = "Explode"
 	icon_state = "explosion"
-	desc = "Burst into a huge cloud of acid and take your enemies with you."
+	desc = "Burst into a huge cloud of acid and take your enemies with you. This will kill you."
 	cooldown = 25
 
 	cast(atom/target)

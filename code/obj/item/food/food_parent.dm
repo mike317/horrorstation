@@ -114,6 +114,11 @@
 			if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 				spoilage_probability = 100
 
+			if (src.cooked == COOKED_COOKED)
+				spoilage_probability = 10
+			else if (src.cooked == COOKED_FERMENTED)
+				spoilage_probability = 17
+
 			if (prob(spoilage_probability))
 				if (prob(base_probability_one) && prob(base_probability_two))
 					spoil()
@@ -158,7 +163,7 @@
 				src:dysentery += max(src.reagents.total_volume/5, 1)//between 1 and 20
 		else
 			if (spoiled > 1 || prob(50))
-				var/overlay = icon(icon, "spoiled")
+				var/overlay = icon(icon, "rancid")
 				var/icon/i = icon
 
 				i.Blend(overlay, ICON_MULTIPLY)
@@ -171,6 +176,11 @@
 		if (istype(src, /obj/item/reagent_containers/food/snacks/ingredient/meat))
 			if (spoiled > 1)
 				icon = spoiled_icon
+		else
+			var/overlay = icon(icon, "rancid")
+			var/icon/i = icon
+			i.Blend(overlay, ICON_MULTIPLY)
+			icon = i
 
 	proc/on_table()
 		if (!isturf(src.loc)) return 0

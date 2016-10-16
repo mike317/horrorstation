@@ -323,9 +323,19 @@
 				src.task = "chasing"
 				on_grump()
 		else
-			var/pet_verb = islist(src.pet_text) ? pick(src.pet_text) : src.pet_text
-			src.visible_message("<span style=\"color:blue\"><b>[user]</b> [pet_verb] [src]!</span>", 1)
-			on_pet()
+			if (user.a_intent != "grab")
+				var/pet_verb = islist(src.pet_text) ? pick(src.pet_text) : src.pet_text
+				src.visible_message("<span style=\"color:blue\"><b>[user]</b> [pet_verb] [src]!</span>", 1)
+				on_pet()
+			else
+				var/obj/item/grab/g = new()
+				g.assailant = user
+				g.affecting = src
+
+				user.put_in_hand(g)
+
+
+
 
 	proc/patrol_step()
 		if (!mobile)

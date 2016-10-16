@@ -312,9 +312,10 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		//if (H.mutantrace:bigXeno == 0)
 		//	X.addAbility(/datum/targetable/xenomorph/leap_toggle)
 
-		if (isAlienDrone(H))
+		if (isAlienDrone(H) || isAlienPraetorian(H))
 			X.addAbility(/datum/targetable/xenomorph/weed)
-			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
+			if (isAlienDrone(H))
+				X.addAbility(/datum/targetable/xenomorph/secrete_resin)
 
 
 		if (isAlienQueen(H))
@@ -334,6 +335,7 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		X.addAbility(/datum/targetable/xenomorph/kamikaze)
 		X.addAbility(/datum/targetable/xenomorph/secrete_acid_cloud)
 		X.addAbility(/datum/targetable/xenomorph/secrete_acid)
+
 		if (lowertext(caste) == "praetorian")
 			X.addAbility(/datum/targetable/xenomorph/rip_apart)
 			X.addAbility(/datum/targetable/xenomorph/slam)
@@ -509,8 +511,9 @@ mob/living/carbon/human/var/xeno_no_fullevo_change_flag = 0
 		X.addAbility(/datum/targetable/xenomorph/vent_crawl)
 
 	if (!isAlienHugger(src))
-		if (isAlienDrone(src))
-			X.addAbility(/datum/targetable/xenomorph/secrete_resin)
+		if (isAlienDrone(src) || isAlienPraetorian(src))
+			if (isAlienDrone(src))
+				X.addAbility(/datum/targetable/xenomorph/secrete_resin)
 			X.addAbility(/datum/targetable/xenomorph/weed)
 
 		if (isAlienQueen(src))

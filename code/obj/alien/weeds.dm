@@ -191,6 +191,13 @@
 					if (plantweederryday && p)
 						plantweederryday.visible_message("<span style = \"color:red\">[p] is overcome by the weeds.</span>")
 						qdel(p)
+			for (var/obj/decal/cleanable/blood/b in plantweederryday.loc)
+				spawn(rand(600, 900))
+					if (plantweederryday && b && !istype(b, /obj/decal/cleanable/blood/gibs))
+						visible_message("[b] is dissolved by the weeds.")
+						for (var/obj/xeno/hive/weeds/w in loc)
+							w.expediated++
+							qdel(b)
 	proc/Spread()
 		var/howmuchtofukkenspread = 5
 

@@ -124,9 +124,12 @@ proc/spawn_edible_critters()
 	if (prob(90) || reagents.has_reagent("nutriment"))
 		return
 
+		/* if you're hungry, now you can't cook. but even eating a bit of food will give you a mercy period
+
 	for (var/obj/item/reagent_containers/food/f in src)
 		if (f.cooking && prob(95))//this was buffed because now dehydration does the same thing
 			return//don't constantly drop shit when you're cooking
+			*/
 
 	if (mutantrace && !istype(mutantrace, /datum/mutantrace/dwarf))
 		return
@@ -206,6 +209,7 @@ proc/spawn_edible_critters()
 		src.take_toxin_damage(1)
 		starve_msg = "<span style = \"color:red\"><b>Your stomach hurts.</span></b>"
 
+
 	else if (will_starve_in_deciseconds < 1000 && prob(10))
 		if (prob(80))
 			src.take_toxin_damage(2)
@@ -217,6 +221,8 @@ proc/spawn_edible_critters()
 	if (will_starve_in_deciseconds < 1500)
 		if (!slowed)
 			slowed = 1//I think constantly setting slowed to 1 made people drop stuff?
+		if (prob(10))
+			emote(pick("groan", "sigh", "moan"))
 	else
 		slowed = 0
 
